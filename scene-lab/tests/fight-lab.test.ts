@@ -61,7 +61,7 @@ test('confirmed chains chase within a bounded distance at max jab range, mirrore
     advance(s, .12, { light: true }); assert.equal(s.hits, 1);
     advance(s, .02, { heavy: true }); advance(s, .29); assert.equal(s.hits, 2);
     assert.ok((s.player.action?.lunge ?? 0) <= 120);
-    advance(s, .02, { down: true, heavy: true }); advance(s, .34);
+    advance(s, .02, { attackPressed: 'upper' }); advance(s, .34);
     assert.equal(s.hits, 3); assert.equal(s.worker.hp, 78); assert.equal(s.training.gap, false);
     assert.ok(Math.abs(s.player.x - x) <= 240); assert.ok(Math.abs(s.player.x - s.worker.x) >= 140);
   }
@@ -101,9 +101,9 @@ test('CPU acts on a previous observation rather than the current attack and stay
   const mistake = ready(); mistake.training.enabled = false; mistake.aiWait = 999; mistake.worker.invulnerable = 99;
   Object.assign(mistake.brain, { timer: 0, decisions: 6, observedDistance: 200, observedAttack: 'heavy', recovering: false });
   mistake.player.action = { kind: 'heavy', time: .1, connected: false };
-  stepFight(mistake, idleInput(), 1/120); assert.equal(mistake.brain.intent, 'attack');
+  stepFight(mistake, idleInput(), 1/120); assert.equal(mistake.brain.intent, 'retreat');
   mistake.brain.timer = 0; stepFight(mistake, idleInput(), 1/120); assert.equal(mistake.brain.intent, 'guard');
-  assert.equal(createFight('warmup').brain.timer, .32); assert.equal(createFight().brain.timer, .18);
+  assert.equal(createFight('warmup').brain.timer, .24); assert.equal(createFight().brain.timer, .10);
 });
 
 test('training snapshots detach state, restore deterministic combat and discard held/queued input', () => {
