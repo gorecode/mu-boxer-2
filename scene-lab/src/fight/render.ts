@@ -1,4 +1,4 @@
-import { celAt } from './moves.ts';
+import { celAt, strikeAt } from './moves.ts';
 import { fighterGeometry } from './geometry.ts';
 import { endingTiming, moves, type Fight, type Fighter, type FightEvent } from './model.ts';
 
@@ -82,7 +82,13 @@ export class FightRenderer {
     if (f.reaction === 'guard') return worker ? 5 : f.crouch ? 5 : 4;
     if (f.reaction === 'down') return 11;
     if (f.reaction || f.hurt > 0) return 6;
-    if (f.action) return celAt(f.action.kind, f.action.time).cel.pose;
+    if (f.action) {
+      if (f.action.kind === 'spin') {
+        const t = (f.action.time - moves.spin.windup) / moves.spin.active;
+        if (t >= 0 && t < 1) return strikeAt('spin', f.action.time) >= 0 ? celAt('spin', f.action.time).cel.pose : 1;
+      }
+      return celAt(f.action.kind, f.action.time).cel.pose;
+    }
     if (f.dodge > 0) return 7;
     if (f.blocking) return worker ? 5 : f.crouch ? 5 : 4;
     if (f.crouch) return worker ? 7 : 5;
@@ -106,9 +112,9 @@ export class FightRenderer {
       c.drawImage(this.assets[key][index], -frame.anchorX, -frame.anchorY, frame.width, frame.height); c.restore();
     }
   }
-  private fighter(f: Fighter, worker: boolean, time: number, ending: Fight['ending']): void {
+  private fighter(f: Fighter, worker: boolean, time: number, ending: Fight['ending'], changing = false): void {
     if (f.hp === 0) { this.defeated(f, worker, ending); return; }
-    const c = this.ctx, key = worker ? 'worker' : 'boxer', index = this.pose(f, worker);
+    const c = this.ctx, key = worker ? 'worker' : 'boxer', index = changing && !f.reaction ? 5 : this.pose(f, worker);
     const frame = this.assets.manifest[key][index], image = this.assets[key][index];
     const facing = worker ? -f.facing : f.facing;
     const idle = !f.action && !f.reaction && f.stun <= 0 && f.y === 0 && !f.crouch;
@@ -117,6 +123,13 @@ export class FightRenderer {
     const ground = 820;
     c.translate(f.x, ground - f.y);
     c.scale(facing, 1);
+    if (worker && f.action?.kind === 'spin' && !this.reducedMotion) {
+      const t = (f.action.time - moves.spin.windup) / moves.spin.active;
+      if (t >= 0 && t < 1) {
+        const turn = Math.cos((t - .25) * Math.PI * 4);
+        c.scale(Math.sign(turn) * Math.max(.25, Math.abs(turn)), 1);
+      }
+    }
     if (!this.reducedMotion) {
       let offset = 0, tilt = 0;
       if (f.action) {
@@ -137,7 +150,7 @@ export class FightRenderer {
     c.restore();
     if (f.action && !this.reducedMotion) {
       const m = moves[f.action.kind], t = f.action.time;
-      if (t >= m.windup && t < m.windup + m.active) {
+      if (strikeAt(f.action.kind, t) >= 0) {
         c.save(); c.globalAlpha = .28 * (1 - (t - m.windup) / m.active);
         c.strokeStyle = '#ffd1aa'; c.lineWidth = worker ? 5 : 8;
         const y = ground - f.y - (m.level === 'low' ? 115 : 405);
@@ -146,6 +159,24 @@ export class FightRenderer {
         c.stroke(); c.restore();
       }
     }
+  }
+  private workerCue(s: Fight): void {
+    const f = s.worker, a = f.action, c = this.ctx;
+    if (!a || f.hp <= 0 || f.reaction) return;
+    const winding = a.time < moves[a.kind].windup;
+    if (!['thrust', 'sweep', 'spin', 'overhead'].includes(a.kind)) return;
+    c.save(); c.translate(f.x, 820 - f.y); c.scale(f.facing, 1);
+    const height = a.kind === 'sweep' ? -65 : a.kind === 'overhead' ? -525 : -330;
+    c.strokeStyle = winding ? '#ffe0a6' : '#edb892'; c.lineWidth = winding ? 4 : 3;
+    if (a.kind === 'spin') {
+      c.globalAlpha = winding ? .8 : .45;
+      for (const y of [height, -15]) {
+        c.beginPath(); c.ellipse(0, y, winding ? 150 : 270, winding ? 35 : 65, 0, .15, Math.PI * 1.8); c.stroke();
+      }
+    } else if (winding) {
+      c.beginPath(); c.moveTo(80, height); c.lineTo(130, height); c.lineTo(116, height - 12); c.moveTo(130, height); c.lineTo(116, height + 12); c.stroke();
+    }
+    c.restore();
   }
   private guard(f: Fighter): void {
     if (!f.blocking && f.reaction !== 'guard') return;
@@ -185,7 +216,8 @@ export class FightRenderer {
       shadow.addColorStop(0, '#160e22b8'); shadow.addColorStop(1, '#160e2200');
       c.fillStyle = shadow; c.globalAlpha = Math.max(.3, 1 - f.y / 300); c.beginPath(); c.arc(0, 0, 145, 0, Math.PI * 2); c.fill(); c.restore();
     }
-    this.fighter(s.worker, true, s.time, s.ending); this.fighter(s.player, false, s.time, s.ending);
+    if (s.phase === 'fighting') this.workerCue(s);
+    this.fighter(s.worker, true, s.time, s.ending, s.brain.stageTime > 0); this.fighter(s.player, false, s.time, s.ending);
     if (s.phase === 'fighting') { this.guard(s.worker); this.guard(s.player); }
     const glow = c.createRadialGradient(1295, 145, 10, 1295, 145, 160);
     glow.addColorStop(0, '#ffbc6c15'); glow.addColorStop(1, '#ffbc6c00');

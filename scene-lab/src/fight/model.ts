@@ -1,6 +1,6 @@
 import { fighterGeometry, overlaps } from './geometry.ts';
 
-import { moves, type Attack, type Move } from './moves.ts';
+import { moves, strikeAt, type Attack, type Move } from './moves.ts';
 export { moves, type Attack, type Move } from './moves.ts';
 export type Outcome = 'win' | 'loss' | 'draw';
 export type Phase = 'menu' | 'countdown' | 'fighting' | 'ending' | 'paused' | Outcome;
@@ -12,7 +12,7 @@ export const idleInput = (): Input => ({ left: false, right: false, down: false,
 export interface Fighter {
   x: number; y: number; vy: number; velocity: number; facing: 1 | -1;
   hp: number; maxHp: number; guard: number; crouch: boolean; blocking: boolean;
-  guardDelay: number; dodge: number; dodgeCooldown: number; dodgeDirection: number; stun: number; invulnerable: number; action: { kind: Attack; time: number; connected: boolean; result?: 'hit' | 'block'; chain?: number; lunge?: number } | null;
+  guardDelay: number; dodge: number; dodgeCooldown: number; dodgeDirection: number; stun: number; invulnerable: number; action: { kind: Attack; time: number; connected: boolean; contacts?: number[]; result?: 'hit' | 'block'; chain?: number; lunge?: number } | null;
   travel: number; hurt: number; stop: number; knockback: number; reaction: Move['reaction'] | 'guard' | null;
 }
 export interface FightEvent { type: 'hit' | 'block' | 'break' | 'miss' | 'jump' | 'land' | 'start' | 'finish'; target: 'player' | 'worker'; x: number; y: number; power: number; attack?: Attack; direction?: number }
@@ -22,7 +22,9 @@ export interface Fight {
   hitstop: number; aiWait: number; aiTurn: number; combo: number; comboTime: number;
   hits: number; blocked: number; events: FightEvent[];
   training: { enabled: boolean; dummy: 'idle' | 'guard' | 'after-hit' | 'cpu'; firstHit: boolean; gap: boolean };
-  brain: { timer: number; decisions: number; intent: 'approach' | 'retreat' | 'guard' | 'attack' | 'punish'; low: boolean; observedAttack: Attack | null; observedDistance: number; recovering: boolean };
+  brain: { timer: number; decisions: number; intent: 'approach' | 'retreat' | 'guard' | 'attack' | 'punish' | 'wait';
+    stage: 1 | 2 | 3; stageTime: number; pressure: number; crouching: number; waiting: number;
+    observedCrouch: boolean; observedClosing: boolean; observedIdle: boolean; response: 'thrust' | 'sweep' | 'spin' | null; low: boolean; observedAttack: Attack | null; observedDistance: number; recovering: boolean };
   held: Input; buffered: { kind: Attack | 'jump' | 'dodge'; remaining: number } | null; comboActive: boolean;
 }
 function fighter(x: number, hp: number, facing: 1 | -1): Fighter {
@@ -31,7 +33,7 @@ function fighter(x: number, hp: number, facing: 1 | -1): Fighter {
 }
 export function createFight(difficulty: Difficulty = 'street', training = false): Fight {
   return { phase: 'menu', resume: 'countdown', difficulty, ending: null, player: fighter(430, 100, 1), worker: fighter(1170, 120, -1),
-    time: 0, remaining: 90, countdown: 1.6, hitstop: 0, aiWait: .65, aiTurn: 0, combo: 0, comboTime: 0, hits: 0, blocked: 0, events: [], training: { enabled: training, dummy: 'idle', firstHit: false, gap: false }, brain: { timer: difficulty === 'warmup' ? .32 : .18, decisions: 0, intent: 'approach', low: false, observedAttack: null, observedDistance: 740, recovering: false }, held: idleInput(), buffered: null, comboActive: false };
+    time: 0, remaining: 90, countdown: 1.6, hitstop: 0, aiWait: .65, aiTurn: 0, combo: 0, comboTime: 0, hits: 0, blocked: 0, events: [], training: { enabled: training, dummy: 'idle', firstHit: false, gap: false }, brain: { timer: difficulty === 'warmup' ? .32 : .18, decisions: 0, intent: 'approach', stage: 1, stageTime: 0, pressure: 0, crouching: 0, waiting: 0, observedCrouch: false, observedClosing: false, observedIdle: false, response: null, low: false, observedAttack: null, observedDistance: 740, recovering: false }, held: idleInput(), buffered: null, comboActive: false };
 }
 export function startFight(fight: Fight): void { if (fight.phase === 'menu') fight.phase = 'countdown'; }
 export function pauseFight(fight: Fight): void {
@@ -135,34 +137,71 @@ function control(s: Fight, input: Input, dt: number): void {
 function ai(s: Fight, dt: number): void {
   const w = s.worker, p = s.player, brain = s.brain;
   w.blocking = false; w.crouch = false; w.velocity = 0;
-  if (w.action || w.stun > 0 || w.reaction) return;
+  if (w.action) {
+    if (w.action.kind === 'thrust') {
+      const t = w.action.time, end = moves.thrust.windup;
+      const travelTime = Math.max(0, Math.min(t, end) - Math.max(t - dt, end - .22));
+      if (travelTime > 0) move(w, w.facing * 500, travelTime);
+    }
+    if (w.action.kind === 'spin') {
+      const t = w.action.time, m = moves.spin;
+      const travelTime = Math.max(0, Math.min(t, m.windup + m.active) - Math.max(t - dt, m.windup));
+      if (travelTime > 0) move(w, w.facing * 560, travelTime);
+    }
+    return;
+  }
+  if (brain.stageTime > 0) { brain.stageTime = Math.max(0, brain.stageTime - dt); return; }
+  if (w.stun > 0 || w.reaction || w.y > 0) return;
   if (s.training.enabled && s.training.dummy !== 'cpu') {
     w.blocking = s.training.dummy === 'guard' || s.training.dummy === 'after-hit' && s.training.firstHit;
     w.crouch = w.blocking && p.action?.kind === 'low';
     return;
   }
+  const stage = w.hp <= w.maxHp / 3 ? 3 : w.hp <= w.maxHp * 2 / 3 ? 2 : 1;
+  if (stage > brain.stage) {
+    brain.stage = stage; brain.stageTime = 1; brain.response = null;
+    brain.pressure = 0; brain.crouching = 0; brain.waiting = 0;
+    s.aiWait = .35; return;
+  }
   s.aiWait -= dt; brain.timer -= dt;
   if (brain.timer <= 0) {
-    brain.timer = s.difficulty === 'warmup' ? .32 : .18;
-    brain.decisions++;
+    const interval = s.difficulty === 'warmup' ? .32 : .18;
+    brain.timer = interval; brain.decisions++;
     const distance = brain.observedDistance, recovering = brain.recovering;
+    const accumulate = (value: number, condition: boolean) => clamp(value + (condition ? interval : -interval * 2), 0, 2);
+    brain.pressure = accumulate(brain.pressure, brain.observedClosing && distance > 250 && distance < 650);
+    brain.crouching = accumulate(brain.crouching, brain.observedCrouch && distance <= 430);
+    brain.waiting = accumulate(brain.waiting, brain.observedIdle && distance > 440);
+    brain.response = brain.crouching >= .5 ? 'sweep' : brain.pressure >= .35 ? 'thrust' : brain.waiting >= 1 ? 'spin' : null;
     const mistake = brain.decisions % (s.difficulty === 'warmup' ? 3 : 7) === 0;
-    brain.intent = distance > 285 ? 'approach' : distance < 175 ? 'retreat'
+    brain.intent = distance > 440 && brain.observedIdle && distance <= 800 ? 'wait'
+      : distance > 320 ? 'approach' : distance < 175 ? 'retreat'
       : brain.observedAttack && !recovering && !mistake ? 'guard' : recovering && !mistake ? 'punish' : 'attack';
     brain.low = brain.observedAttack === 'low';
     const action = p.action;
     brain.observedDistance = Math.abs(p.x - w.x);
     brain.observedAttack = action && action.time >= .06 ? action.kind : null;
     brain.recovering = !!action && action.time > moves[action.kind].windup + moves[action.kind].active;
+    brain.observedCrouch = p.crouch;
+    brain.observedClosing = !p.reaction && p.stun <= 0 && p.velocity * Math.sign(w.x - p.x) > 50;
+    brain.observedIdle = Math.abs(p.velocity) < 20 && !p.action && !p.crouch && !p.reaction && p.stun <= 0;
   }
-  const sign = Math.sign(p.x - w.x);
-  if (brain.intent === 'approach' && Math.abs(p.x - w.x) > 280) move(w, sign * (s.difficulty === 'warmup' ? 115 : 160), dt);
-  else if (brain.intent === 'retreat' && Math.abs(p.x - w.x) < 210) move(w, -sign * 100, dt);
+  const distance = Math.abs(p.x - w.x), sign = Math.sign(p.x - w.x);
+  const response = brain.response;
+  const responseInRange = response === 'spin' ? distance > 360 && distance <= 800
+    : response === 'thrust' ? distance > 240 && distance <= 520 : response === 'sweep' && distance <= 345;
+  if (s.aiWait <= 0 && response && responseInRange) {
+    begin(w, response); brain.response = null; brain.pressure = 0; brain.crouching = 0; brain.waiting = 0;
+    s.aiTurn++; s.aiWait = brain.stage === 3 ? 1.2 : brain.stage === 2 ? .3 : .6;
+    return;
+  }
+  if (brain.intent === 'approach' && distance > 300) move(w, sign * (s.difficulty === 'warmup' ? 100 : 140), dt);
+  else if (brain.intent === 'retreat' && distance < 210) move(w, -sign * 100, dt);
   else if (brain.intent === 'guard') { w.blocking = true; w.crouch = brain.low; }
-  if (!w.blocking && s.aiWait <= 0 && Math.abs(p.x - w.x) <= 340) {
-    const pattern: Attack[] = ['poke', 'sweep', 'poke', 'overhead', 'sweep', 'overhead'];
+  if (!w.blocking && s.aiWait <= 0 && distance <= 320 && brain.decisions >= 4) {
+    const pattern: Attack[] = brain.stage === 2 ? ['poke', 'sweep', 'overhead', 'sweep'] : ['poke', 'overhead', 'poke', 'sweep'];
     begin(w, brain.intent === 'punish' ? 'poke' : pattern[s.aiTurn % pattern.length]); s.aiTurn++;
-    s.aiWait = s.difficulty === 'warmup' ? 1.2 : .46;
+    s.aiWait = s.difficulty === 'warmup' ? 1.2 : brain.stage === 3 ? 1.4 : brain.stage === 2 ? .3 : .7;
   }
 }
 export function copyTraining(s: Fight): Fight {
@@ -173,11 +212,13 @@ export function copyTraining(s: Fight): Fight {
 }
 interface Contact {
   from: 'player' | 'worker'; to: 'player' | 'worker'; kind: Attack; direction: 1 | -1;
-  defended: boolean; chain: number; continuing: boolean; x: number; y: number;
+  defended: boolean; strike: number; chain: number; continuing: boolean; x: number; y: number;
 }
 function contact(s: Fight, from: Contact['from'], to: Contact['to']): Contact | null {
   const a = s[from], b = s[to], attack = a.action;
-  if (!attack || attack.connected || a.stop > 0 || b.hp <= 0 || b.invulnerable > 0) return null;
+  if (!attack || (attack.connected && attack.kind !== 'spin') || a.stop > 0 || b.hp <= 0 || b.invulnerable > 0) return null;
+  const strike = strikeAt(attack.kind, attack.time);
+  if (strike < 0 || attack.contacts?.includes(strike)) return null;
   const geometry = fighterGeometry(a), target = fighterGeometry(b);
   const hit = geometry.hit.find(h => target.hurt.some(b => overlaps(h, b)));
   if (!hit) return null;
@@ -185,13 +226,13 @@ function contact(s: Fight, from: Contact['from'], to: Contact['to']): Contact | 
   const facingAttacker = (a.x - b.x) * b.facing > 0;
   const defended = b.blocking && facingAttacker && (m.level === 'low' ? b.crouch : m.level === 'overhead' ? !b.crouch : true);
   const hurt = target.hurt.find(b => overlaps(hit, b))!;
-  return { from, to, kind: attack.kind, direction: a.facing, defended, chain: attack.chain ?? 0,
+  return { from, to, kind: attack.kind, direction: a.facing, defended, strike, chain: attack.chain ?? 0,
     continuing: s.comboActive && b.stun > 0, x: (Math.max(hit.left, hurt.left) + Math.min(hit.right, hurt.right)) / 2,
     y: (Math.max(hit.bottom, hurt.bottom) + Math.min(hit.top, hurt.top)) / 2 };
 }
 function applyContact(s: Fight, c: Contact): void {
   const a = s[c.from], b = s[c.to], m = moves[c.kind];
-  if (a.action) { a.action.connected = true; a.action.result = c.defended ? 'block' : 'hit'; }
+  if (a.action) { (a.action.contacts ??= []).push(c.strike); a.action.connected = true; a.action.result = c.defended ? 'block' : 'hit'; }
   const event = (type: FightEvent['type'], power: number) => s.events.push({
     type, target: c.to, x: c.x, y: c.y, power, attack: c.kind, direction: c.direction,
   });

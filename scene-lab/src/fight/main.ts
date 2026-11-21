@@ -135,10 +135,24 @@ function update(): void {
   if (phase === 'countdown') callout = fight.countdown > .55 ? 'БОКСЁР ПРОТИВ РАБОЧЕГО' : 'БОЙ!';
   else if (phase === 'fighting' && fight.combo > 1 && fight.comboTime > 0) callout = `${fight.combo} УДАРА ПОДРЯД`;
   element('callout').textContent = callout;
-  const attack = fight.worker.action;
-  let hint = 'СОКРАТИ ДИСТАНЦИЮ. УДАРЬ ПОСЛЕ ПРОМАХА.';
-  if (attack && attack.time < .75) hint = attack.kind === 'sweep' ? 'ЛОПАТА НИЗКО — ПРЫГАЙ ИЛИ БЛОКИРУЙ СИДЯ' : attack.kind === 'overhead' ? 'УДАР СВЕРХУ — БЛОК СТОЯ ИЛИ ОТСТУПИ' : 'ТЫЧОК — ПРИСЯДЬ ИЛИ ПОСТАВЬ БЛОК';
+  const attack = fight.worker.action, brain = fight.brain;
+  const stageNames = { 1: 'ДЕРЖИТ ДИСТАНЦИЮ', 2: 'ИДЁТ В НАПОР', 3: 'ВЫДЫХАЕТСЯ' };
+  const workerStatus = element('worker-state');
+  const workerText = `РАБОЧИЙ · ${brain.stage}/3 · ${stageNames[brain.stage]}${brain.stageTime > 0 ? ' · МЕНЯЕТ ХВАТ' : ''}`;
+  if (workerStatus.textContent !== workerText) workerStatus.textContent = workerText;
+  canvas.dataset.workerStage = String(brain.stage); canvas.dataset.workerStageTime = String(brain.stageTime);
+  let hint = brain.stageTime > 0 ? 'МЕНЯЕТ ХВАТ — МОЖНО АТАКОВАТЬ' : 'ВЫМАНИ ВЫПАД. ВОЙДИ ПОСЛЕ ПРОМАХА.';
+  if (attack) {
+    const m = celAt(attack.kind, attack.time).cel.phase;
+    if (m === 'settle' || m === 'recovery') hint = 'ВОЗВРАЩАЕТ ЛОПАТУ — ОКНО ДЛЯ ОТВЕТА';
+    else hint = attack.kind === 'sweep' ? 'ЛОПАТА НИЗКО — НИЗКИЙ БЛОК ИЛИ ОТОЙДИ'
+      : attack.kind === 'overhead' ? 'УДАР СВЕРХУ — БЛОК СТОЯ ИЛИ ОТСТУПИ'
+      : attack.kind === 'spin' ? 'ВЕРТУШКА — ДВА УДАРА. БЛОК И ОТВЕТ ПОСЛЕ ОСТАНОВКИ'
+      : attack.kind === 'thrust' ? 'ДАЛЬНИЙ ВЫПАД — ОТСТУПИ ИЛИ ПОСТАВЬ БЛОК' : 'ТЫЧОК — ПРИСЯДЬ ИЛИ ПОСТАВЬ БЛОК';
+  }
   element('fight-hint').textContent = phase === 'ending' ? '' : hint;
+  element('worker-tell').textContent = phase === 'fighting' ? hint : phase === 'paused' ? 'БОЙ НА ПАУЗЕ' : '';
+  element('worker-tell').hidden = !['fighting', 'paused'].includes(phase);
   if (lastPhase !== phase) {
     const labels: Record<Phase, string> = { menu: 'Двор у участкового', countdown: 'Боксёр против Рабочего', fighting: 'Бой идёт', ending: 'Завершение боя', paused: 'Пауза', win: 'Победа Боксёра', loss: 'Победа Рабочего', draw: 'Ничья' };
     element('state-label').textContent = labels[phase];

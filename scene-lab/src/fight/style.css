@@ -124,3 +124,6 @@ footer { display: flex; justify-content: space-between; font-size: 8px; letter-s
 #guard-state { margin: 0; padding: 9px 12px; font-size: clamp(11px, 1vw, 14px); line-height: 1.4; color: #f0dece; background: #211621dd; border-left: 3px solid #b3a3bc; }
 #guard-state:is([data-state="high"], [data-state="low"], [data-state="impact"]) { border-color: #9df1ff; background: #153040e8; color: #c6f7ff; }
 #guard-state:is([data-state="broken"], [data-state="unavailable"]) { border-color: #ffc290; color: #ffe0bf; }
+
+#worker-state { margin: 0; padding: 8px 12px; border-left: 3px solid #ed9976; background: #2b1c24; color: #f0d3b5; font-size: clamp(10px, 1vw, 13px); line-height: 1.4; }
+#worker-tell { margin: 0; padding: 4px 12px 9px; border-left: 3px solid #ed9976; background: #2b1c24; color: #f0d3b5; font-size: clamp(10px, .9vw, 12px); line-height: 1.5; }

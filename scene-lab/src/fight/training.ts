@@ -17,7 +17,7 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
   let drag: { id: number; x: number; y: number; box: Box } | null = null;
   const kind = () => attack.value as Attack;
   const index = () => Number(phase.value);
-  const actor = () => ['poke', 'sweep', 'overhead'].includes(kind()) ? host.fight().worker : host.fight().player;
+  const actor = () => ['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind()) ? host.fight().worker : host.fight().player;
   const active = () => mode.checked && host.fight().phase === 'fighting';
   function fields(): void {
     const cel = moves[kind()].cels[index()];
@@ -46,7 +46,7 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
     for (const [i, f] of [s.player, s.worker].entries()) {
       Object.assign(f, { x: i ? 900 : 600, y: 0, vy: 0, facing: i ? -1 : 1, action: null, reaction: null, stun: 0, stop: 0, hurt: 0, invulnerable: 0, knockback: 0, velocity: 0, dodge: 0, blocking: false, crouch: false });
     }
-    actor().action = { kind: kind(), time: time + Math.min(1/120, m.cels[index()].duration / 2), connected: false };
+    actor().action = { kind: kind(), time: time + (kind() === 'spin' && index() === 1 ? m.active * .2 : Math.min(1/120, m.cels[index()].duration / 2)), connected: false };
     dummy.value = 'idle'; s.training.dummy = 'idle'; s.training.firstHit = false; s.training.gap = false;
     s.combo = 0; s.comboActive = false; s.hitstop = 0; s.events = [];
     get<HTMLInputElement>('hitboxes').checked = true;
