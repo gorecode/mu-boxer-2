@@ -130,6 +130,10 @@ export class FightRenderer {
         c.scale(Math.sign(turn) * Math.max(.25, Math.abs(turn)), 1);
       }
     }
+    if (!worker && f.action?.kind === 'backfist' && !this.reducedMotion && f.action.time < moves.backfist.windup) {
+      const turn = Math.cos(f.action.time / moves.backfist.windup * Math.PI * 2);
+      c.scale(Math.sign(turn) * Math.max(.3, Math.abs(turn)), 1);
+    }
     if (!this.reducedMotion) {
       let offset = 0, tilt = 0;
       if (f.action) {
@@ -137,6 +141,7 @@ export class FightRenderer {
         offset = t < m.windup ? -8 * Math.sin(t / m.windup * Math.PI / 2)
           : 10 * Math.max(0, 1 - (t - m.windup) / (m.active + m.recovery));
         tilt = offset * .002;
+        if (!worker && f.action.kind === 'overhand' && t >= m.windup) tilt += .35 * Math.max(0, 1 - (t - m.windup) / (m.active + m.recovery));
       } else if (f.reaction) {
         tilt = f.reaction === 'heavy' ? -.13 : f.reaction === 'launch' ? -.22 : f.reaction === 'guard' ? -.035 : -.06;
         offset = -Math.min(10, f.stun * 24);
@@ -155,7 +160,8 @@ export class FightRenderer {
         c.strokeStyle = '#ffd1aa'; c.lineWidth = worker ? 5 : 8;
         const y = ground - f.y - (m.level === 'low' ? 115 : 405);
         c.beginPath(); c.moveTo(f.x + f.facing * 90, y - 15);
-        c.quadraticCurveTo(f.x + f.facing * m.range * .8, y - 45, f.x + f.facing * m.range, y);
+        if (f.action.kind === 'overhand') c.quadraticCurveTo(f.x + f.facing * 200, y - 170, f.x + f.facing * m.range, y + 130);
+        else c.quadraticCurveTo(f.x + f.facing * m.range * .8, y - (f.action.kind === 'backfist' ? 95 : 45), f.x + f.facing * m.range, y);
         c.stroke(); c.restore();
       }
     }

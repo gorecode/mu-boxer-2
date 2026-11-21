@@ -7,7 +7,7 @@ export type Phase = 'menu' | 'countdown' | 'fighting' | 'ending' | 'paused' | Ou
 export const endingTiming = { fall: .7, ko: 1.1, fade: .55 } as const;
 export interface Ending { result: Outcome; reason: 'ko' | 'time'; stage: 'fall' | 'ko' | 'fade'; elapsed: number }
 export type Difficulty = 'warmup' | 'street';
-export interface Input { left: boolean; right: boolean; down: boolean; block: boolean; jump: boolean; light: boolean; heavy: boolean; dodge?: boolean; attackPressed?: 'jab' | 'heavy' | 'low' | 'upper' }
+export interface Input { left: boolean; right: boolean; down: boolean; block: boolean; jump: boolean; light: boolean; heavy: boolean; dodge?: boolean; long?: boolean; overhand?: boolean; backfist?: boolean; attackPressed?: 'jab' | 'heavy' | 'low' | 'upper' | 'long' | 'overhand' | 'backfist' }
 export const idleInput = (): Input => ({ left: false, right: false, down: false, block: false, jump: false, light: false, heavy: false });
 export interface Fighter {
   x: number; y: number; vy: number; velocity: number; facing: 1 | -1;
@@ -90,6 +90,7 @@ function readInput(s: Fight, input: Input, dt: number): void {
   const crouch = input.down && s.player.y === 0;
   if (input.light && !s.held.light) kind = crouch ? 'low' : 'jab';
   if (input.heavy && !s.held.heavy) kind = crouch ? 'upper' : 'heavy';
+  for (const move of ['long', 'overhand', 'backfist'] as const) if (input[move] && !s.held[move]) kind = move;
   if (input.attackPressed) kind = input.attackPressed;
   if (input.dodge && !s.held.dodge) kind = 'dodge';
   if (kind) s.buffered = { kind, remaining: BUFFER_TIME };
@@ -112,15 +113,17 @@ function control(s: Fight, input: Input, dt: number): void {
       if (p.y === 0 && !p.action) {
         p.vy = 950; p.y = .1; p.crouch = false; emit(s, 'jump', 'player'); s.buffered = null;
       }
-    } else {
+    } else if (p.y === 0 || !['long', 'overhand', 'backfist'].includes(requested)) {
       const a = p.action;
-      const allowed: Partial<Record<Attack, Attack[]>> = { jab: ['heavy'], heavy: ['upper'], low: ['upper'] };
+      const allowed: Partial<Record<Attack, Attack[]>> = { jab: ['heavy', 'backfist'], long: ['heavy'], heavy: ['upper'], low: ['upper'] };
       const cancel = a?.result === 'hit' && (a.chain ?? 0) < 2 &&
         a.time <= moves[a.kind].windup + moves[a.kind].active + .12 && allowed[a.kind]?.includes(requested);
       if (!a || cancel) {
         const chain = cancel && a ? (a.chain ?? 0) + 1 : 0;
         const lunge = cancel && p.y === 0 && s.worker.y === 0 && (s.worker.x - p.x) * p.facing > 0
           ? clamp(Math.abs(s.worker.x - p.x) + Math.abs(s.worker.knockback) / 12 - moves[requested].range + 20, 24, 120)
+          : requested === 'long' && p.y === 0 && (s.worker.x - p.x) * p.facing > 0
+            ? clamp(Math.abs(s.worker.x - p.x) - 220, 0, 110)
           : requested === 'upper' && p.y === 0 && (s.worker.x - p.x) * p.facing > 0
             ? clamp(Math.abs(s.worker.x - p.x) - moves.upper.range + 20, 0, 70) : 0;
         p.action = { kind: requested, time: 0, connected: false, chain, lunge };
@@ -129,7 +132,7 @@ function control(s: Fight, input: Input, dt: number): void {
     }
   }
   const direction = Number(input.right) - Number(input.left);
-  const stepTime = (p.action?.chain ?? 0) > 0 ? .08 : .12;
+  const stepTime = (p.action?.chain ?? 0) > 0 ? .08 : p.action?.kind === 'long' ? .16 : .12;
   const follow = p.action && (p.action.lunge ?? 0) > 0 && p.action.time < stepTime;
   move(p, follow ? p.facing * p.action!.lunge! / stepTime : p.action || p.blocking || p.crouch ? 0 : direction * (p.y > 0 ? 245 : 355),
     follow ? Math.min(dt, stepTime - p.action!.time) : dt);

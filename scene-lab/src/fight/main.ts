@@ -33,7 +33,7 @@ const keys = new Map<string, Button>();
 const pointers = new Map<number, Button>();
 const bindings: Record<string, Button> = {
   KeyA: 'left', ArrowLeft: 'left', KeyD: 'right', ArrowRight: 'right', KeyS: 'down', ArrowDown: 'down',
-  KeyW: 'jump', ArrowUp: 'jump', Space: 'jump', KeyJ: 'light', KeyK: 'heavy', KeyL: 'block', KeyU: 'dodge',
+  KeyW: 'jump', ArrowUp: 'jump', Space: 'jump', KeyJ: 'light', KeyK: 'heavy', KeyL: 'block', KeyU: 'dodge', KeyI: 'long', KeyO: 'overhand', KeyH: 'backfist',
 };
 function clearInput(): void {
   keys.clear(); pointers.clear(); pendingJump = false; pendingDodge = false; pendingAttack = undefined;
@@ -49,6 +49,7 @@ function input(): Input {
 }
 function queueAttack(action: Button): void {
   if (action === 'dodge') pendingDodge = true;
+  if (action === 'long' || action === 'overhand' || action === 'backfist') { pendingAttack = action; return; }
   if (action !== 'light' && action !== 'heavy') return;
   const down = fight.player.y === 0 && [...keys.values(), ...pointers.values()].includes('down');
   pendingAttack = action === 'heavy' ? down ? 'upper' : 'heavy' : down ? 'low' : 'jab';

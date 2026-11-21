@@ -127,3 +127,7 @@ footer { display: flex; justify-content: space-between; font-size: 8px; letter-s
 
 #worker-state { margin: 0; padding: 8px 12px; border-left: 3px solid #ed9976; background: #2b1c24; color: #f0d3b5; font-size: clamp(10px, 1vw, 13px); line-height: 1.4; }
 #worker-tell { margin: 0; padding: 4px 12px 9px; border-left: 3px solid #ed9976; background: #2b1c24; color: #f0d3b5; font-size: clamp(10px, .9vw, 12px); line-height: 1.5; }
+
+.technique-controls { display: flex; flex-wrap: wrap; flex-basis: 100%; justify-content: flex-end; gap: 6px; }
+.technique-controls button { width: auto; padding: 0 12px; font-size: 9px; }
+.control-group small { line-height: 1.7; }
