@@ -10,7 +10,7 @@ const cue = (id: string) => scene.cues.find((cue) => cue.id === id)!;
 test('MFC clue, destroyed office exit and Boxer-only introduction precede the leaflet offer', () => {
   assert.ok(scene);
   assert.equal(scenes[scenes.indexOf(scene) - 1].id, 'precinct');
-  assert.equal(scene.duration, 41600);
+  assert.equal(scene.duration, 42250);
   assert.equal(scene.opponent, 'Аниматора');
   assert.match(visualAt(scene, 0).image, /animator-exit-v2.webp$/);
   assert.equal(cueAt(scene, 4599).id, 'officer-aftermath');
@@ -68,10 +68,10 @@ test('unchanged offered leaflet and smile hold after the death line before the q
 
 test('thought and anger hold until final art, fight title and brief flash start together', () => {
   const thought = cue('raised-hand'), reaction = cue('reaction'), forced = cue('forced');
-  const normal = visualAt(scene, cue('gesture').start);
+  const normal = visualAt(scene, cue('mask-gesture').start);
   assert.equal(normal.camera.scale, 1);
   assert.match(normal.image, /animator-gesture-v2.webp$/);
-  for (const id of ['gesture', 'raised-hand']) {
+  for (const id of ['mask-gesture', 'raised-hand']) {
     const current = cue(id);
     assert.equal(visualAt(scene, current.start).image, normal.image);
     assert.deepEqual(visualAt(scene, current.start).camera, normal.camera);
@@ -89,7 +89,7 @@ test('thought and anger hold until final art, fight title and brief flash start 
   assert.equal(cueAt(scene, forced.end).id, 'settle');
   assert.match(visualAt(scene, forced.end).image, /animator-ready-v2.webp$/);
   const flash = cue('fight-flash'), fight = cue('fight');
-  assert.equal(flash.start, 39100);
+  assert.equal(flash.start, 39750);
   assert.match(visualAt(scene, flash.start - 1).image, /animator-ready-v2.webp$/);
   assert.match(visualAt(scene, flash.start).image, /animator-final-v2.webp$/);
   assert.equal(cueAt(scene, flash.start - 1).fight, undefined);
@@ -100,7 +100,7 @@ test('thought and anger hold until final art, fight title and brief flash start 
   assert.equal(cueAt(scene, flash.end - 1).flash, true);
   assert.equal(fight.flash, undefined);
   assert.equal(fight.fight, true);
-  assert.deepEqual(scene.events, [{ time: 4700, sound: 'paper' }, { time: 17100, sound: 'paper' }, { time: 39100, sound: 'impact' }]);
+  assert.deepEqual(scene.events, [{ time: 4700, sound: 'paper' }, { time: 17100, sound: 'paper' }, { time: 39750, sound: 'impact' }]);
   assert.equal(scene.cues.some((cue) => cue.id === 'brick'), false);
   assert.equal(scene.cues.at(-1)!.fight, true);
   assert.equal(scene.cues.filter((cue) => cue.fight).length, 2);

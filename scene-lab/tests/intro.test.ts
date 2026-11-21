@@ -16,7 +16,7 @@ test('the narrated intro opens by default and retains links to the other scenes'
   assert.equal(readSceneLink('#scene=intro&t=NaN', scenes).time, 0);
   assert.equal(readSceneLink('#scene=intro&t=999', scenes).time, intro.duration);
   assert.equal(readSceneLink(sceneLink(intro, 29000), scenes).time, 29000);
-  for (const [id, duration] of [['precinct', 31100], ['queue', 40000]] as const) {
+  for (const [id, duration] of [['precinct', 31100], ['queue', 40100]] as const) {
     const linked = readSceneLink(`#scene=${id}&t=2`, scenes);
     assert.equal(linked.scene.id, id);
     assert.equal(linked.scene.duration, duration);

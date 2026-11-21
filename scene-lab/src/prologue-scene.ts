@@ -48,9 +48,9 @@ export const prologue: Scene = {
         { at: 500, image: exit, imageAlt: 'Камера медленно приближается к выходящему из зала Боксёру.', camera: wide, cameraEnd: doorway },
         { at: 2200, image: exit, imageAlt: 'Силуэт Боксёра на пороге спортзала.', camera: doorway },
       ], sounds: [{ at: 100, sound: 'chair' }] },
-    { id: 'departure', label: 'Искать участкового', duration: 4200, speechDelay: 150,
+    { id: 'departure', label: 'На поиски', duration: 4200, speechDelay: 150,
       speaker: 'Боксёр · рассказ', voice: 'boxer', camera: doorway,
-      text: 'Я отправился искать участкового.', shots: [
+      text: 'Я отправился на поиски.', shots: [
         { at: 0, image: exit, imageAlt: 'Силуэт Боксёра на выходе: позади остаются груша и ринг.', camera: doorway },
         { at: 300, image: exit, imageAlt: 'Приближение к силуэту в дневном свете. Снаружи только свет.', camera: doorway, cameraEnd: threshold },
         { at: 2700, image: exit, imageAlt: 'Финальная выдержка на силуэте Боксёра, выходящего из спортзала.', camera: threshold },

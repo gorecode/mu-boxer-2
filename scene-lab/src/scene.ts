@@ -17,6 +17,7 @@ export interface Cue {
   text: string;
   voice?: Voice;
   speechDelay?: number;
+  speechRate?: number;
   image?: string;
   imageAlt?: string;
   camera: Camera;
@@ -75,7 +76,14 @@ export function compileScene(scene: Scene): CompiledScene {
     }
     const delay = cue.speechDelay ?? 0;
     if (!Number.isFinite(delay) || delay < 0 || delay >= cue.duration) throw new Error('Неверная задержка речи');
+    const rate = cue.speechRate ?? 1;
+    if (!Number.isFinite(rate) || rate < .5 || rate > 2) throw new Error('Неверный темп речи');
     const speech = planSpeech(cue.text, cue.voice);
+    if (rate !== 1) {
+      speech.duration /= rate;
+      speech.letters = speech.letters.map(letter => ({ ...letter, at: letter.at / rate }));
+      speech.syllables = speech.syllables.map(syllable => ({ ...syllable, at: syllable.at / rate, end: syllable.end / rate }));
+    }
     if (speech.duration > 0 && delay > 0) {
       speech.duration += delay;
       speech.letters = speech.letters.map((letter) => ({ ...letter, at: letter.at + delay }));

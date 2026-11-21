@@ -34,7 +34,7 @@ test('the leaflet is silent; nonreaction separates the first question from the m
   }
   for (const [id, image, text] of [
     ['friend', 'wide', 'Моего друга убили.'], ['smile', 'wide', ''], ['command', 'wide', 'Тебе смешно?'],
-    ['no-reaction', 'wide', ''], ['gesture', 'gesture', 'Я спросил: тебе смешно?'],
+    ['no-reaction', 'wide', ''], ['gesture', 'wide', 'Я спросил: тебе смешно?'], ['mask-gesture', 'gesture', ''],
     ['raised-hand', 'gesture', 'Но он уже поднял на меня руку.'],
     ['forced', 'ready', 'Чем вынудил меня защищаться.'],
   ]) {
@@ -63,14 +63,14 @@ test('a missing revised explanatory panel blocks start and repaired loading reco
 
 test('wide expression cut, direct links and narrow captions work with reduced motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('./#scene=animator&t=29');
+  await page.goto('./#scene=animator&t=32');
   await expect(page.locator('#start')).toBeEnabled();
   const wide = await page.locator('#art').getAttribute('style');
   await page.getByRole('button', { name: 'Ссылка на этот момент' }).click();
   await page.reload();
   await expect(page.locator('#start')).toBeEnabled();
   await expect(page.locator('#scene-select')).toHaveValue('animator');
-  await expect(page.locator('#scrub')).toHaveValue('29000');
+  await expect(page.locator('#scrub')).toHaveValue('32000');
   await expect(page.locator('#art')).toHaveAttribute('src', /animator-gesture-v2.webp$/);
   await page.locator('#scrub').fill(String(cue('reaction').start));
   await expect(page.locator('#art')).toHaveAttribute('src', /animator-ready-v2.webp$/);

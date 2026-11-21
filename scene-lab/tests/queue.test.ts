@@ -11,8 +11,8 @@ test('queue is a separate reviewable scene with its own introduction and inflect
   assert.equal(queue.title, 'Только через мой труп');
   assert.equal(queue.opponent, 'Бабки');
   assert.equal(queue.intro?.title, 'К другим сотрудникам.');
-  assert.equal(queue.duration, 40000);
-  assert.equal(queue.cues.length, 13);
+  assert.equal(queue.duration, 40100);
+  assert.equal(queue.cues.length, 14);
   assert.equal(sceneImages(queue).length, 8);
   assert.equal(scenes.find((scene) => scene.id === 'precinct')?.duration, 31100);
 });
@@ -26,8 +26,9 @@ test('approved dialogue progresses from an ordinary queue dispute to humane self
     ['Боксёр', 'Меня вызвали.'],
     ['Бабка', 'Я ещё до тебя занимала.'],
     ['Бабка', 'Мужчина. Только через мой труп.'],
-    ['Боксёр · про себя', 'Убивать эту женщину я не собирался.'],
-    ['Боксёр · про себя', 'Но она не оставила мне выбора.'],
+    ['Боксёр · про себя', 'Убивать я никого не собирался.'],
+    ['Боксёр · про себя', 'Но.'],
+    ['Боксёр · про себя', 'Она не оставила мне выбора.'],
   ]);
   for (const cue of queue.cues) assert.ok(cue.speech.duration <= cue.duration, cue.id);
   for (const cue of queue.cues.filter((cue) => cue.speaker === 'Бабка')) assert.equal(cue.voice, 'grandma');
@@ -48,8 +49,8 @@ test('ticket and called number precede the bag blockade; only the boxer initiate
   assert.equal(ultimatum.end, thinking.start);
   assert.ok(thinking.image?.endsWith('boxer-thinking.webp'));
   assert.ok(thinking.duration - thinking.speech.duration >= 1000);
-  assert.equal(thinking.end, forced.start);
-  assert.equal(cueAt(queue, forced.start - 1).id, 'thinking');
+  assert.equal(thinking.end, queue.cues.find(cue => cue.id === 'but')!.start);
+  assert.equal(cueAt(queue, forced.start - 1).id, 'but');
   assert.equal(cueAt(queue, forced.start).id, 'forced');
   assert.ok(forced.image?.endsWith('queue-boxer-ready.webp'));
   assert.equal(forced.voice, 'boxer');
@@ -60,7 +61,7 @@ test('ticket and called number precede the bag blockade; only the boxer initiate
 test('queue links round-trip and stay separate from precinct with identical cue ids', () => {
   const moment = queue.cues.find((cue) => cue.id === 'thinking')!.start;
   assert.deepEqual(readSceneLink(sceneLink(queue, moment), scenes), { scene: queue, time: moment });
-  assert.equal(readSceneLink('#scene=queue&t=999', scenes).time, 40000);
+  assert.equal(readSceneLink('#scene=queue&t=999', scenes).time, 40100);
   assert.equal(readSceneLink('#scene=queue&t=-1', scenes).time, 0);
   assert.equal(readSceneLink('#scene=queue&t=bad', scenes).time, 0);
   assert.equal(readSceneLink('#scene=unknown&t=10', scenes).scene.id, 'intro');
@@ -100,5 +101,5 @@ test('public entrance and terminal establish relief before the original queue, w
   assert.deepEqual(queue.events.filter(event => event.time < 14500), [
     { time: 11700, sound: 'paper' }, { time: 13100, sound: 'paper' },
   ]);
-  assert.equal(queue.duration - queue.cues[3].start, 27000);
+  assert.equal(queue.duration - queue.cues[3].start, 27100);
 });
