@@ -1,0 +1,7 @@
+# queue-entrance-v1
+
+Tool: built-in imagegen; transparent_background=false.
+
+References in order: service-building-v1.png, boxer-thinking-v1.png.
+
+Use case: illustration-story / identity-preserve. Input1 exact facade geography; input2 Boxer face. Single 4:3 comic illustration 1448x1086. Match references: coarse uneven black ink, very dense scratchy crosshatching, dusty salmon pink wash, dark coral shadows, thin irregular pale border. No speech bubbles, captions, extra panels. Serious deadpan crime comic. Reserve bottom 22% for subtitles (only floor/legs there); top 14% for interface, faces below that. Boxer is EXACT man from face reference: short spiky hair, angular narrow skull, long blunt crooked nose, heavy eyelids, protruding jaw, thin mouth, lean muscular body, pale short-sleeve tee, dark trousers and work boots. Do not beautify. Anatomically natural hands/head proportions. Same building, same viewpoint: solid STAFF door LEFT of central drainpipe, open glass public MFC door RIGHT, big МФЦ sign above RIGHT door, СЛУЖЕБНЫЙ ВХОД plaque beside LEFT door. Change action: Boxer has just exited the LEFT staff door (now ajar with visible dark dressing-room corridor), walking RIGHT across front toward open RIGHT MFC entrance. Exactly one Boxer, center x52% head y30%; torso turned right, right foot stepping toward right public door. His ENTIRE head visible, proportions match reference. Both doors visible simultaneously, no arrows. Keep all architecture positions and lettering. No other people, no Grandma, no new sign/joke. Calm resolved expression.

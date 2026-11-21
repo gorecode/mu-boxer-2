@@ -1,0 +1,69 @@
+name: LFS connectivity
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  connectivity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check TCP 443 reachability
+        run: |
+          python3 - <<'PYTHON'
+          import socket
+          with socket.create_connection(('lfs.77-42-113-122.nip.io', 443), timeout=15):
+              print('TCP 443 reachable')
+          PYTHON
+      - name: Check authenticated LFS download API with TLS validation
+        env:
+          LFS_USERNAME: ${{ secrets.LFS_USERNAME }}
+          LFS_PASSWORD: ${{ secrets.LFS_PASSWORD }}
+        run: |
+          python3 - <<'PY'
+          import base64, json, os, urllib.error, urllib.request
+          auth = base64.b64encode((os.environ['LFS_USERNAME'] + ':' + os.environ['LFS_PASSWORD']).encode()).decode()
+          request = urllib.request.Request(
+              'https://lfs.77-42-113-122.nip.io/api/gorecode/mu-boxer-2/objects/batch',
+              data=b'{"operation":"download","transfers":["basic"],"objects":[]}',
+              headers={'Content-Type': 'application/vnd.git-lfs+json', 'Authorization': 'Basic ' + auth},
+              method='POST',
+          )
+          for authorization in (None, 'Basic ' + base64.b64encode(b'invalid:invalid').decode()):
+              headers = {'Content-Type': 'application/vnd.git-lfs+json'}
+              if authorization:
+                  headers['Authorization'] = authorization
+              rejected = urllib.request.Request(request.full_url, data=request.data, headers=headers, method='POST')
+              try:
+                  urllib.request.urlopen(rejected, timeout=20)
+              except urllib.error.HTTPError as error:
+                  assert error.code == 401, error.code
+              else:
+                  raise AssertionError('Unauthenticated or invalid credentials accepted')
+          with urllib.request.urlopen(request, timeout=20) as response:
+              payload = json.load(response)
+              assert response.status == 200
+              assert payload.get('objects') == []
+          print('Authenticated LFS API and TLS validation passed')
+          PY
+      - name: Download a real LFS object and verify SHA-256
+        env:
+          LFS_USERNAME: ${{ secrets.LFS_USERNAME }}
+          LFS_PASSWORD: ${{ secrets.LFS_PASSWORD }}
+          GIT_TERMINAL_PROMPT: '0'
+        run: |
+          git lfs install --local
+          git config credential.helper ''
+          git config --add credential.helper '!f() { printf "username=%s\npassword=%s\n" "$LFS_USERNAME" "$LFS_PASSWORD"; }; f'
+          git config credential.useHttpPath true
+          git config lfs.https://lfs.77-42-113-122.nip.io/api/gorecode/mu-boxer-2.locksverify false
+          git lfs pull --include="assets/prototypes/gameplay/fight-ending-result-mobile.png" --exclude=""
+          printf '%s  %s\n' '0fb45d4804b0df66d0d456f0628f9c5812bc1bc383211c73d4a7b7b5a6e1b8c0' 'assets/prototypes/gameplay/fight-ending-result-mobile.png' | sha256sum --check

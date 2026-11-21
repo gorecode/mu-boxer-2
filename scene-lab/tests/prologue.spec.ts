@@ -1,0 +1,112 @@
+import { expect, test } from '@playwright/test';
+
+test('certificate prologue starts by gesture, pauses, completes on the silhouette and replays', async ({ page }) => {
+  await page.clock.install({ time: new Date('2026-01-01T08:00:00Z') });
+  await page.goto('./#scene=prologue&t=0');
+  await expect(page.locator('#scene-select')).toHaveValue('prologue');
+  await expect(page.locator('#story-intro')).toHaveText('Мне нужна справка');
+  await expect(page.locator('#story-duration')).toContainText('27.3 с');
+  await expect(page.locator('#start')).toBeEnabled();
+  await page.clock.pauseAt(new Date('2026-01-01T09:00:00Z'));
+  await page.clock.runFor(1000);
+  await expect(page.locator('#scrub')).toHaveValue('0');
+  await expect(page.locator('#subtitle')).toBeHidden();
+  await page.getByRole('button', { name: 'Выключить звук', exact: true }).click();
+  await page.locator('#start').click();
+  await page.clock.runFor(150);
+  await expect(page.locator('#subtitle')).toBeHidden();
+  await page.clock.runFor(700);
+  const partial = await page.locator('#caption-typed').textContent();
+  expect(partial!.length).toBeGreaterThan(0);
+  expect(partial!.length).toBeLessThan('Я готовился к районному турниру.'.length);
+  await page.getByRole('button', { name: 'Пауза', exact: true }).click();
+  const paused = await page.locator('#scrub').inputValue();
+  await page.clock.runFor(1000);
+  await expect(page.locator('#scrub')).toHaveValue(paused);
+  await expect(page.locator('#caption-typed')).toHaveText(partial!);
+  await page.getByRole('button', { name: 'Воспроизвести', exact: true }).click();
+  await page.clock.runFor(30000);
+  await expect(page.locator('#scrub')).toHaveValue('27300');
+  await expect(page.locator('#caption-typed')).toHaveText('Я отправился искать участкового.');
+  await expect(page.locator('#art')).toHaveAttribute('src', /prologue-exit-v1.webp$/);
+  await expect(page.locator('#fight')).toBeHidden();
+  await expect(page.locator('#title-card')).toBeHidden();
+  await page.getByRole('button', { name: 'Воспроизвести', exact: true }).click();
+  await page.clock.runFor(150);
+  await expect(page.locator('#subtitle')).toBeHidden();
+  await expect(page.locator('#art')).toHaveAttribute('src', /intro-gym-v4.webp$/);
+});
+
+test('seeking follows the notice, thinking portrait and uninterrupted silhouette hold', async ({ page }) => {
+  await page.goto('./#scene=prologue&t=0');
+  await expect(page.locator('#start')).toBeEnabled();
+  await page.locator('#scrub').fill('3800');
+  await expect(page.locator('#art')).toHaveAttribute('src', /prologue-notice-v1.webp$/);
+  const wide = await page.locator('#art').getAttribute('style');
+  await page.locator('#scrub').fill('5000');
+  expect(await page.locator('#art').getAttribute('style')).not.toBe(wide);
+  await page.locator('#scrub').fill('7000');
+  const tomorrow = await page.locator('#art').getAttribute('style');
+  await page.locator('#scrub').fill('7300');
+  await expect(page.locator('#art')).toHaveAttribute('style', tomorrow!);
+  await expect(page.locator('#subtitle')).toBeHidden();
+  await page.locator('#scrub').fill('8000');
+  expect(await page.locator('#art').getAttribute('style')).not.toBe(tomorrow);
+  await expect(page.locator('#caption-typed')).toContainText('Но');
+  await page.locator('#scrub').fill('13100');
+  await expect(page.locator('#caption-typed')).toHaveText('Но для участия мне нужна была справка об отсутствии судимости.');
+  await page.locator('#scrub').fill('14000');
+  await expect(page.locator('#art')).toHaveAttribute('src', /prologue-thinking-v1.webp$/);
+  await page.locator('#scrub').fill('20200');
+  await expect(page.locator('#art')).toHaveAttribute('src', /prologue-exit-v1.webp$/);
+  await page.locator('#scrub').fill('23099');
+  const doorway = await page.locator('#art').getAttribute('style');
+  await page.locator('#scrub').fill('23100');
+  await expect(page.locator('#art')).toHaveAttribute('style', doorway!);
+  await expect(page.locator('#caption-typed')).toHaveText('');
+  await page.locator('#scrub').fill('26300');
+  const final = await page.locator('#art').getAttribute('style');
+  await page.locator('#scrub').fill('27299');
+  await expect(page.locator('#art')).toHaveAttribute('style', final!);
+  await expect(page.locator('#caption-typed')).toHaveText('Я отправился искать участкового.');
+});
+
+test('a missing exit illustration blocks prologue playback and another scene recovers', async ({ page }) => {
+  await page.route('**/art/prologue-exit-v1.webp', (route) => route.abort());
+  await page.goto('./#scene=prologue&t=0');
+  await expect(page.locator('#status')).toContainText('Не удалось загрузить иллюстрацию');
+  await expect(page.locator('#start')).toBeDisabled();
+  await expect(page.locator('#play')).toBeDisabled();
+  await page.getByLabel('СЦЕНА', { exact: true }).selectOption('precinct');
+  await expect(page.locator('#start')).toBeEnabled();
+  await page.locator('[data-cue=report]').click();
+  await expect(page.locator('#art')).toHaveAttribute('src', /precinct.webp$/);
+});
+
+test('reduced motion, linked review positions and narrow screens preserve the prologue', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('./#scene=prologue&t=7.3');
+  await expect(page.locator('#start')).toBeEnabled();
+  const initial = await page.locator('#art').getAttribute('style');
+  await page.locator('#scrub').fill('8000');
+  await expect(page.locator('#art')).toHaveAttribute('style', initial!);
+  await page.locator('#scrub').fill('8700');
+  expect(await page.locator('#art').getAttribute('style')).not.toBe(initial);
+  await page.locator('#scrub').fill('24500');
+  const linked = await page.locator('#art').getAttribute('style');
+  await page.getByRole('button', { name: 'Ссылка на этот момент' }).click();
+  await page.reload();
+  await expect(page.locator('#start')).toBeEnabled();
+  await expect(page.locator('#scene-select')).toHaveValue('prologue');
+  await expect(page.locator('#art')).toHaveAttribute('style', linked!);
+  await expect(page.getByRole('button', { name: 'Воспроизвести', exact: true })).toBeVisible();
+  for (const width of [320, 360]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.locator('#scrub').fill('13100');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+    const stage = await page.locator('#stage').boundingBox();
+    const subtitle = await page.locator('#subtitle').boundingBox();
+    expect(subtitle!.x).toBeGreaterThanOrEqual(stage!.x);
+    expect(subtitle!.x + subtitle!.width).toBeLessThanOrEqual(stage!.x + stage!.width);
+  }
+});

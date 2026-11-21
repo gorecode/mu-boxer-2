@@ -1,0 +1,29 @@
+:root { color-scheme: dark; font-family: Arial, sans-serif; background: #191615; color: #e7dfd4; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+main { width: min(100% - 32px, 800px); margin: 24px auto 48px; }
+a { color: #eda58e; }
+h1 { font: 34px Georgia, serif; margin: 10px 0; }
+p { line-height: 1.5; }
+.eyebrow { color: #d88675; font-size: 11px; letter-spacing: 2px; margin-top: 32px; }
+#layer-stage { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid #84675e; background: #130d0c; }
+#city { position: absolute; width: 112%; height: 112%; inset: -6%; object-fit: cover; }
+#rail { position: absolute; inset: 75% -15% -12%; background: repeating-linear-gradient(95deg, transparent 0 15%, #110e0d 15% 18%, transparent 18% 30%); border-top: 12px solid #110e0d; transform: rotate(-4deg); }
+#paper { position: absolute; inset: 16% 22% 18%; background: #e6b8a2; color: #291a17; border: 3px solid #291a17; box-shadow: 10px 12px 0 #170e0c88; padding: 7%; text-align: center; transform: translateY(150%) rotate(-12deg); }
+#paper::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(11deg, transparent 0 7px, #57392b0b 7px 8px); pointer-events: none; }
+#paper small { font-size: clamp(6px, 1.2vw, 10px); }
+#paper h2 { font: bold clamp(18px, 4vw, 34px) Georgia, serif; margin: 24% 0 4%; }
+#paper p { font-size: clamp(7px, 1.6vw, 13px); }
+#paper hr { border: 0; border-top: 1px solid #715348; margin-top: 12%; }
+#stamp { display: block; position: absolute; bottom: 13%; left: 10%; right: 10%; border: 4px double #9c332c; color: #9c332c; font: bold clamp(24px, 6vw, 48px) Impact, sans-serif; letter-spacing: 3px; transform: rotate(-12deg); opacity: 0; }
+#black { position: absolute; inset: 0; background: #000; opacity: 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 16px; }
+label { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+button, select { font: inherit; padding: 8px; color: inherit; background: #332824; border: 1px solid #84675e; }
+button { cursor: pointer; min-width: 110px; }
+button:disabled { opacity: .45; }
+:focus-visible { outline: 2px solid #eda58e; outline-offset: 3px; }
+.seek { margin-top: 18px; }
+input { width: 100%; accent-color: #d88675; }
+.note, #status { color: #b9a298; font-size: 13px; }
+@media (max-width: 480px) { h1 { font-size: 26px; } #paper { padding: 5%; } }

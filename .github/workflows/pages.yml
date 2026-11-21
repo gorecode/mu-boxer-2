@@ -1,0 +1,88 @@
+name: Scene lab checks and Pages
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: scene-check-${{ github.ref }}
+      cancel-in-progress: true
+    defaults:
+      run:
+        working-directory: scene-lab
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Download runtime WebP assets from LFS
+        working-directory: .
+        env:
+          LFS_USERNAME: ${{ secrets.LFS_USERNAME }}
+          LFS_PASSWORD: ${{ secrets.LFS_PASSWORD }}
+          GIT_TERMINAL_PROMPT: '0'
+        run: |
+          git lfs install --local
+          git config credential.helper ''
+          git config --add credential.helper '!f() { printf "username=%s\npassword=%s\n" "$LFS_USERNAME" "$LFS_PASSWORD"; }; f'
+          git config credential.useHttpPath true
+          git config lfs.https://lfs.77-42-113-122.nip.io/api/gorecode/mu-boxer-2.locksverify false
+          git lfs pull --include="*.webp" --exclude=""
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          images = list(Path('scene-lab/public').rglob('*.webp'))
+          assert images, 'No runtime WebP assets found'
+          for image in images:
+              header = image.read_bytes()[:12]
+              assert header[:4] == b'RIFF' and header[8:12] == b'WEBP', f'LFS asset not hydrated: {image}'
+          print(f'Validated {len(images)} runtime WebP assets')
+          PYTHON
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: scene-lab/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - name: Prepare browser
+        run: |
+          if [ -x /usr/bin/google-chrome ]; then
+            /usr/bin/google-chrome --version
+          else
+            npx playwright install --with-deps chromium
+          fi
+      - run: npm run test:browser
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-results
+          path: scene-lab/test-results
+      - if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: scene-lab/dist
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

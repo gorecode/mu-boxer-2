@@ -1,0 +1,6 @@
+interface:
+  display_name: "Месть Боксёра: нарратив и кат-сцены"
+  short_description: "Канон, постановка и реализация сцен Мести Боксёра"
+  default_prompt: "Используй $mu-boxer-cutscenes для планирования и реализации сцены Мести Боксёра 2 с учётом замечаний автора."
+policy:
+  allow_implicit_invocation: true

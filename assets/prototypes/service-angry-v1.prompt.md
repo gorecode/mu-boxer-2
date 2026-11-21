@@ -1,0 +1,5 @@
+Use case identity-preserve. Edit FIRST reference with ONE change ONLY: Boxer's facial expression on LEFT becomes ANGRY: brows tighten, eyes narrow, slight clenched uneven teeth. Keep exact same face geometry from reference2, normal head proportions, high short spiky hair. Do NOT change ANY poses, camera, body size, location or clothing. Boxer's arms MUST remain fully DOWN as in first image; absolutely NO raised fist or guard yet. Woman RIGHT unchanged bored businesslike face, SAME closed belted leopard bathrobe, leggings, slippers and big updo. Her RIGHT hand on viewer-left holds one ring of keys down; her LEFT palm on viewer-right remains low open invitation toward mirror. One cigarette lies in ashtray on right table, never in hand. Keep rail/clothes, mirror, door and all other details identical. Preserve rough black ink/salmon wash 4:3.
+
+
+References in order: `service-invite-v1.png`, `boxer-thinking-v1.png`.
+Tool: built-in image_gen, transparent_background=false. Runtime encoding only: RGB WebP, quality=88, method=6.

@@ -1,0 +1,7 @@
+# bandit-queue-v1
+
+Tool: built-in imagegen; transparent_background=false.
+
+References in order: queue-wide-v1.png, boxer-thinking-v1.png.
+
+Use case: illustration-story, identity-preserve. One single 4:3 illustration, 1448x1086. Exact established crime-comic style: coarse uneven black ink, very dense irregular crosshatching, dusty pink/salmon wash and dark coral shadows, thin uneven pale frame. No captions, speech bubbles, panel subdivisions, logos. Upper15% and bottom25% leave background-only or nonessential legs/floor, for interface. Heads fully visible from hair to chin with natural anatomy. Boxer identity from reference: ugly angular narrow head, blunt crooked long nose, protruding square jaw, heavy eyelids, thin lips, spiky short hair, lean muscular build, worn pale tee/dark trousers/workboots. Do NOT beautify or add new clothes. SAME MFC waiting room as reference1 AFTER implied fight. Boxer stands LEFT, head x25% y26%, calm hands down and ticket still in one lowered hand. Grandma recognizable same beret/glasses/worn coat lies bruised alive on floor RIGHT at x65% y62%, plaid wheeled bag beside her, no gore. Her face and entire bag are above y73%. Service WINDOW on right back wall same as reference1, now opaque closed shutter and large plaque with exact Russian word ОБЕД centered x80% y33%. Display111 remains above window. Head-only crop of left40% must hide defeated Grandma. Show the full-room aftermath with a clear floor, no bystanders. Preserve Boxer face. This is the first reveal of closed window, no office/Bandit yet.

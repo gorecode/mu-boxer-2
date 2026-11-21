@@ -1,0 +1,30 @@
+import { expect, test } from '@playwright/test';
+
+test('reduced motion keeps the ordered knockout and restart cancels the entire ending', async ({ page }) => {
+  test.setTimeout(60_000);
+  const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.clock.install({ time: new Date('2026-11-21T09:00:00Z') });
+  await page.goto('./fight.html'); await expect(page.locator('#start')).toHaveText('НАЧАТЬ БОЙ →');
+  await page.clock.pauseAt(new Date('2026-11-21T10:00:00Z'));
+  await page.locator('#start').click(); await page.clock.runFor(1800);
+  const arena = page.locator('#arena'), title = page.locator('#ko-callout'), fade = page.locator('#finish-fade');
+  for (let i = 0; i < 120 && await arena.getAttribute('data-phase') === 'fighting'; i++) await page.clock.runFor(200);
+  await expect(arena).toHaveAttribute('data-phase', 'ending'); await expect(arena).toHaveAttribute('data-ending', 'fall');
+  await expect(page.locator('#player-hp')).toHaveText('0 / 100'); await expect(page.locator('#result-card')).toBeHidden(); await expect(title).toBeHidden();
+  await page.keyboard.press('j'); await page.keyboard.press('u');
+  for (let i = 0; i < 40 && await arena.getAttribute('data-ending') === 'fall'; i++) await page.clock.runFor(50);
+  await expect(arena).toHaveAttribute('data-ending', 'ko'); await expect(title).toHaveText('K.O.'); await expect(title).toBeVisible();
+  const matrix = await title.evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).a); expect(matrix).toBe(1);
+  await page.clock.runFor(150); expect(await title.evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).a)).toBe(1);
+  await expect(page.locator('#result-card')).toBeHidden(); await expect(fade).toHaveCSS('opacity', '0');
+  for (let i = 0; i < 60 && await arena.getAttribute('data-ending') === 'ko'; i++) await page.clock.runFor(20);
+  await expect(arena).toHaveAttribute('data-ending', 'fade'); await page.clock.runFor(200);
+  expect(Number(await fade.evaluate(el => getComputedStyle(el).opacity))).toBeGreaterThan(.2);
+  await page.keyboard.press('r');
+  await expect(arena).toHaveAttribute('data-phase', 'countdown'); await expect(arena).toHaveAttribute('data-ending', '');
+  await expect(title).toBeHidden(); await expect(fade).toHaveCSS('opacity', '0'); await expect(page.locator('#player-hp')).toHaveText('100 / 100');
+  await page.clock.runFor(2500); await expect(arena).toHaveAttribute('data-phase', 'fighting'); await expect(page.locator('#result-card')).toBeHidden();
+  await expect(arena).toHaveAttribute('data-player-action', ''); await expect(arena).toHaveAttribute('data-buffered', '');
+  expect(errors).toEqual([]);
+});
