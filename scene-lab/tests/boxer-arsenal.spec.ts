@@ -14,11 +14,11 @@ async function position(page: Page, ms: number): Promise<void> {
 
 async function command(page: Page, kind: string): Promise<void> {
   if (kind === 'long') { await page.keyboard.press('d'); await page.keyboard.down('d'); }
-  if (kind === 'overhand') await page.keyboard.down('s');
+  if (kind === 'overhand') await page.keyboard.down('w');
   if (kind === 'backfist') await page.keyboard.down('a');
   await page.keyboard.down('k');
 }
-async function release(page: Page): Promise<void> { for (const key of ['k', 'd', 's', 'a']) await page.keyboard.up(key); }
+async function release(page: Page): Promise<void> { for (const key of ['k', 'd', 's', 'a', 'w']) await page.keyboard.up(key); }
 
 test('MK commands perform distinct grounded attacks, long reaches with its real step and holding never repeats', async ({ page }, info) => {
   await page.emulateMedia({ reducedMotion: 'reduce' }); await begin(page); const arena = page.locator('#arena');
@@ -31,7 +31,7 @@ test('MK commands perform distinct grounded attacks, long reaches with its real 
     await page.locator('.arena-shell').screenshot({ path: info.outputPath(`${kind}.png`) });
     await page.clock.runFor(1000); await expect(page.locator('#worker-hp')).toHaveText(hp); await expect(arena).toHaveAttribute('data-player-action', ''); await release(page);
   }
-  await position(page, 880); await page.keyboard.press('w'); await page.clock.runFor(50);
+  await position(page, 880); await page.keyboard.press('Space'); await page.clock.runFor(50);
   await command(page, 'long'); await release(page); await page.clock.runFor(150); await expect(arena).toHaveAttribute('data-player-action', '');
   await page.clock.runFor(1100); await expect(arena).toHaveAttribute('data-player-action', '');
   await command(page, 'overhand'); await release(page); await page.clock.runFor(30); await expect(arena).toHaveAttribute('data-player-action', 'overhand');
@@ -72,7 +72,7 @@ test('new touch commands and editor poses/hitboxes work, with a visible backfist
 test('direction buttons compose MK chords and consecutive light presses use different hands', async ({ page }, info) => {
   if (info.project.name === 'desktop') await page.setViewportSize({ width: 800, height: 900 });
   await begin(page); const arena = page.locator('#arena');
-  for (const [kind, direction] of [['long', 'right'], ['overhand', 'down'], ['backfist', 'left']] as const) {
+  for (const [kind, direction] of [['long', 'right'], ['overhand', 'up'], ['backfist', 'left']] as const) {
     await position(page, 1500);
     const button = page.locator(`[data-input=${direction}]`);
     await button.scrollIntoViewIfNeeded();

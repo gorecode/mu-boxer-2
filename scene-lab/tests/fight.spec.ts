@@ -23,7 +23,7 @@ test('standalone fight loads real art and supports keyboard, jump, crouch, pause
   await begin(page);
   await page.keyboard.down('d'); await page.clock.runFor(500); await page.keyboard.up('d');
   expect(await number(page, 'player-x')).toBeGreaterThan(570);
-  await page.keyboard.press('w'); await page.clock.runFor(200); expect(await number(page, 'player-y')).toBeGreaterThan(70);
+  await page.keyboard.press('Space'); await page.clock.runFor(200); expect(await number(page, 'player-y')).toBeGreaterThan(70);
   await page.clock.runFor(900); expect(await number(page, 'player-y')).toBe(0);
   await page.keyboard.down('s'); await page.keyboard.down('j'); await page.clock.runFor(30);
   await expect(page.locator('#arena')).toHaveAttribute('data-player-action', 'low');
@@ -202,7 +202,7 @@ test('real keyboard and touch presses chain confirmed hits into a launching uppe
   else await page.keyboard.press('k');
   await page.clock.runFor(310);
   await expect(page.locator('#arena')).toHaveAttribute('data-combo', '2');
-  await page.keyboard.press('s'); await page.keyboard.down('s');
+  await page.keyboard.down('s');
   if (info.project.name === 'mobile') await page.locator('[data-input=heavy]').tap();
   else await page.keyboard.press('k');
   await page.clock.runFor(340); await page.keyboard.up('s');
@@ -215,11 +215,20 @@ test('real keyboard and touch presses chain confirmed hits into a launching uppe
 test('short attack chords preserve the modifier at press time after every key is released', async ({ page }) => {
   await load(page); await begin(page);
   await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(30);
-  await expect(page.locator('#arena')).toHaveAttribute('data-player-action', 'overhand');
+  await expect(page.locator('#arena')).toHaveAttribute('data-player-action', 'upper');
   await page.keyboard.press('r'); await page.clock.runFor(1800);
   await page.keyboard.press('k'); await page.keyboard.down('s'); await page.clock.runFor(30);
   await expect(page.locator('#arena')).toHaveAttribute('data-player-action', 'heavy');
   await page.keyboard.up('s');
+  for (const up of ['w', 'ArrowUp']) {
+    await page.keyboard.press('r'); await page.clock.runFor(1800);
+    await page.keyboard.down(up); await page.clock.runFor(150);
+    expect(await number(page, 'player-y')).toBe(0);
+    await expect(page.locator('#arena')).toHaveAttribute('data-player-action', '');
+    await page.keyboard.press('k'); await page.keyboard.up(up); await page.clock.runFor(30);
+    await expect(page.locator('#arena')).toHaveAttribute('data-player-action', 'overhand');
+    expect(await number(page, 'player-y')).toBe(0);
+  }
 });
 
 test('autorepeat after pause cannot create an attack until the held key is released and pressed again', async ({ page }) => {

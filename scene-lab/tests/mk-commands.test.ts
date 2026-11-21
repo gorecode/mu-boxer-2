@@ -29,12 +29,17 @@ test('MK directions mirror with facing; double taps expire and cannot be reused 
     assert.equal(state.forwardDouble, -Infinity);
   }
 });
-test('single down chord is overhand, double down is upper; pause clears directional history', () => {
-  const single = ready(); advance(single, dt, { down: true, heavy: true }); assert.equal(single.player.action?.kind, 'overhand');
-  const double = ready(); advance(double, dt, { down: true }); advance(double, dt);
-  advance(double, dt, { down: true, heavy: true }); assert.equal(double.player.action?.kind, 'upper');
-  const paused = ready(); advance(paused, dt, { down: true }); pauseFight(paused); resumeFight(paused);
-  advance(paused, dt, { down: true, heavy: true }); assert.equal(paused.player.action?.kind, 'overhand');
+test('single down is uppercut, up is grounded overhand and pause clears forward history', () => {
+  for (const facing of [1, -1] as const) {
+    const single = ready(facing); advance(single, dt, { down: true, heavy: true }); assert.equal(single.player.action?.kind, 'upper');
+    const up = ready(facing); advance(up, dt, { up: true }); advance(up, dt, { up: true, heavy: true });
+    assert.equal(up.player.action?.kind, 'overhand'); assert.equal(up.player.y, 0); assert.equal(up.player.vy, 0);
+    const airborne = ready(facing); airborne.player.y = 100; airborne.player.vy = 100;
+    advance(airborne, .2, { up: true, heavy: true }); assert.equal(airborne.player.action, null);
+    const toward = facing === 1 ? { right: true } : { left: true };
+    const paused = ready(facing); advance(paused, dt, toward); pauseFight(paused); resumeFight(paused);
+    advance(paused, dt, { ...toward, heavy: true }); assert.equal(paused.player.action?.kind, 'heavy');
+  }
 });
 test('light presses alternate hands, hit-confirm into the second hand, and cannot loop cancels', () => {
   for (const facing of [1, -1] as const) {

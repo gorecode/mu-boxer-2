@@ -13,14 +13,14 @@ test('standalone uppercut closes normal spacing with a real step, launches once 
   await page.keyboard.down('d'); await page.clock.runFor(1200); await page.keyboard.up('d');
   const x = await num(page, 'player-x'), distance = await num(page, 'worker-x') - x;
   expect(distance).toBeGreaterThan(300); expect(distance).toBeLessThan(320);
-  await page.keyboard.press('s'); await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(150);
+  await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(150);
   await expect(arena).toHaveAttribute('data-player-action', 'upper'); await expect(page.locator('#worker-hp')).toHaveText('120 / 120');
   expect(await num(page, 'player-x') - x).toBeCloseTo(70, 1);
   await page.clock.runFor(220); await expect(page.locator('#worker-hp')).toHaveText('97 / 120'); expect(await num(page, 'worker-y')).toBeGreaterThan(0);
   await page.locator('.arena-shell').screenshot({ path: info.outputPath('uppercut-step.png') });
   await page.clock.runFor(700); await expect(page.locator('#worker-hp')).toHaveText('97 / 120');
   await page.keyboard.press('r'); await page.clock.runFor(1800);
-  const farX = await num(page, 'player-x'); await page.keyboard.press('s'); await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(850);
+  const farX = await num(page, 'player-x'); await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(850);
   expect(await num(page, 'player-x') - farX).toBeCloseTo(70, 1); await expect(page.locator('#worker-hp')).toHaveText('120 / 120');
 });
 
@@ -46,7 +46,7 @@ test('held high and low guard visibly match real blocks, explain unavailable sta
   await arena.focus(); await page.keyboard.down('l'); await page.clock.runFor(40);
   await expect(status).toHaveAttribute('data-state', 'high'); await expect(status).toContainText('БЛОК СТОЯ');
   expect(await page.evaluate(() => (window as Window & { guardShapes?: string[] }).guardShapes)).toContain('-365:65:110');
-  await page.keyboard.press('s'); await page.keyboard.down('s'); await page.clock.runFor(40); await expect(status).toHaveAttribute('data-state', 'low');
+  await page.keyboard.down('s'); await page.clock.runFor(40); await expect(status).toHaveAttribute('data-state', 'low');
   expect(await page.evaluate(() => (window as Window & { guardShapes?: string[] }).guardShapes)).toContain('-150:65:75');
   await proof('guard-low.png');
   await page.keyboard.up('s'); await page.keyboard.up('l'); await page.clock.runFor(40); await expect(status).toHaveAttribute('data-state', 'idle');
@@ -54,7 +54,7 @@ test('held high and low guard visibly match real blocks, explain unavailable sta
   await page.keyboard.down('l'); await page.clock.runFor(50);
   await expect(status).toHaveAttribute('data-state', 'unavailable'); await expect(status).toContainText('ЗАВЕРШЕНИЯ УДАРА');
   await page.clock.runFor(700); await expect(status).toHaveAttribute('data-state', 'high');
-  await page.keyboard.up('l'); await page.keyboard.press('w'); await page.clock.runFor(30); expect(await num(page, 'player-y')).toBeGreaterThan(0);
+  await page.keyboard.up('l'); await page.keyboard.press('Space'); await page.clock.runFor(30); expect(await num(page, 'player-y')).toBeGreaterThan(0);
   await page.keyboard.down('l'); await page.clock.runFor(100);
   await expect(status).toHaveAttribute('data-state', 'unavailable'); await expect(status).toContainText('В ВОЗДУХЕ');
   await page.clock.runFor(1100); await expect(status).toHaveAttribute('data-state', 'high'); await page.keyboard.up('l');
