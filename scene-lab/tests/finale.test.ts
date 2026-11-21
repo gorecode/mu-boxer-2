@@ -13,14 +13,14 @@ const ending = (id: string) => epilogue.cues.find(cue => cue.id === id)!;
 
 test('lunch explains the trip to the chief with separate readable thoughts and a real pause', () => {
   assert.deepEqual(scenes.slice(-3).map(scene => scene.id), ['queue', 'bandit', 'epilogue']);
-  assert.equal(bandit.duration, 32150);
-  assert.equal(epilogue.duration, 53650);
+  assert.equal(bandit.duration, 34500);
+  assert.equal(epilogue.duration, 54350);
   assert.equal(bandit.opponent, 'Бандита');
   assert.equal(sceneImages(bandit).length, 6);
-  assert.equal(sceneImages(epilogue).length, 13);
+  assert.equal(sceneImages(epilogue).length, 14);
   assert.deepEqual(bandit.cues.filter(cue => cue.text).map(cue => cue.text), [
     'Наконец-то я добрался до окошка.', 'Но оно уже было закрыто.', 'Поэтому.', 'Я пошёл к начальнику.',
-    'Ты?! Как ты здесь…', 'На этот раз ты сядешь надолго.', 'Там не ответят.', 'Тогда я разберусь с тобой по-своему.',
+    'Ты?!?', 'Как ты здесь?', 'На этот раз ты сядешь надолго.', 'Там не ответят.', 'Тогда я разберусь с тобой по-своему.',
   ]);
   for (const scene of [bandit, epilogue]) for (const spoken of scene.cues.filter(cue => cue.text)) {
     assert.ok(spoken.duration - spoken.speech.duration >= 400, spoken.id);
@@ -43,18 +43,20 @@ test('unanswered calls precede the knowing reply and the receiver returns before
     { time: cue('unanswered').start + 1150, sound: 'ringback' },
   ]);
   assert.equal(bandit.events.some(event => event.sound === 'ring'), false);
-  assert.match(visualAt(bandit, cue('unanswered').start).image, /bandit-phone-v1.webp$/);
-  assert.match(visualAt(bandit, cue('no-answer').end - 1).image, /bandit-phone-v1.webp$/);
+  assert.match(visualAt(bandit, cue('unanswered').start).image, /bandit-phone-v2.webp$/);
+  assert.match(visualAt(bandit, cue('no-answer').end - 1).image, /bandit-phone-v2.webp$/);
   assert.match(visualAt(bandit, cue('hang-up').start).image, /bandit-office-v2.webp$/);
   assert.equal(cue('hang-up').speech.duration, 0);
   assert.ok(cue('hang-up').duration >= 500);
   assert.equal(cue('personal').start, cue('hang-up').end);
 });
 
-test('Boxer anger then Bandit anger precede the synchronized flash and wide fight title', () => {
-  assert.equal(cue('processing').end, cue('anger').start);
-  assert.equal(cue('anger').end, cue('chief-anger').start);
-  assert.equal(cue('chief-anger').end, cue('fight-flash').start);
+test('Bandit anger then Boxer anger and a wide hold precede the fade and synchronized title', () => {
+  assert.equal(cue('processing').end, cue('chief-anger').start);
+  assert.equal(cue('chief-anger').end, cue('anger').start);
+  assert.equal(cue('anger').end, cue('face-off').start);
+  assert.equal(cue('face-off').end, cue('fight-fade').start);
+  assert.equal(cue('fight-fade').end, cue('fight-flash').start);
   assert.ok(cue('chief-anger').duration >= 800);
   assert.match(visualAt(bandit, cue('anger').start).image, /angry-v1.webp$/);
   assert.ok(visualAt(bandit, cue('chief-anger').start).camera.scale > 2);
@@ -67,7 +69,7 @@ test('Boxer anger then Bandit anger precede the synchronized flash and wide figh
   assert.deepEqual(flash.sounds, [{ at: 0, sound: 'impact' }]);
   for (const id of ['question', 'prison', 'personal', 'processing', 'anger', 'chief-anger']) {
     const bounds = id === 'chief-anger' ? [.67, .78, .20, .34] :
-      ['prison', 'personal'].includes(id) ? [.66, .76, .23, .37] : [.16, .25, .19, .35];
+      ['prison', 'personal', 'processing'].includes(id) ? [.66, .76, .23, .37] : [.16, .25, .19, .35];
     const { scale, x, y } = cue(id).camera;
     assert.ok(bounds[0] * scale - x / 100 * (scale - 1) >= .02, id);
     assert.ok(bounds[1] * scale - x / 100 * (scale - 1) <= .98, id);
@@ -90,14 +92,14 @@ test('the epilogue reveals the winner from the defeated chief and preserves one 
 
 test('the city and the extra accusation have their own panels before the paper is discarded', () => {
   assert.deepEqual(epilogue.cues.filter(cue => cue.text).map(cue => cue.text), [
-    'Сегодня свой турнир по боксу я выиграл.', 'И завтра выиграю районный.', 'Но…',
-    'Этот город прогнил насквозь.', 'Все эти люди.', 'Продажные чиновники.', 'Судьи.', 'Бандиты.',
-    'Дьяволопоклонники.', 'Этому городу нужен новый герой.', 'Который научит ценить и уважать закон…',
+    'Сегодня свой турнир по боксу я выиграл.', 'И завтра меня ждёт районный.', 'Но…',
+    'Этот город…', 'Прогнил насквозь.', 'Эти забулдыги.', 'Продажные.', 'Судьи.', 'Бандиты.',
+    'Дьяволопоклонники.', 'Нуждаются в новом герое.', 'Который научит ценить и уважать закон…',
     'И порядок.', 'Этот город ещё скажет мне спасибо.', 'За ВСЁ.',
   ]);
-  for (const [id, image] of [['city', 'epilogue-city-v1'], ['people', 'worker-wide-v2'], ['officials', 'precinct-idle'],
+  for (const [id, image] of [['rotten', 'epilogue-city-v1'], ['people', 'worker-wide-v2'], ['officials', 'precinct-idle'],
     ['judges', 'intro-court-v2'], ['bandits', 'animator-wide-v2'], ['devil-worshippers', 'slider-dialogue-v1'],
-    ['hero', 'epilogue-doorway-v3'], ['law', 'epilogue-crumple-v2'], ['discard', 'epilogue-discard-v2']]) {
+    ['hero', 'epilogue-doorway-tense-v1'], ['law', 'epilogue-crumple-v2'], ['discard', 'epilogue-discard-v2']]) {
     const current = ending(id);
     assert.match(visualAt(epilogue, current.start).image, new RegExp(`${image}.webp$`));
     assert.equal(current.flash, undefined);

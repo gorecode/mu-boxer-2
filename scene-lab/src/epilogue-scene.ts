@@ -4,6 +4,7 @@ const art = (name: string): string => `${import.meta.env?.BASE_URL ?? './'}art/$
 const wide = { scale: 1, x: 0, y: 15 };
 const aftermath = art('epilogue-aftermath-v1');
 const doorway = art('epilogue-doorway-v3');
+const tense = art('epilogue-doorway-tense-v1');
 const crumpled = art('epilogue-crumple-v2');
 const discarded = art('epilogue-discard-v2');
 const exit = art('epilogue-exit-v2');
@@ -21,18 +22,25 @@ export const epilogueScene: Scene = {
         { at: 2800, image: aftermath, imageAlt: 'Последствия последнего боя раскрыты. Боксёр спокойно держит бланк, Бандит лежит. Выдержка.', camera: wide },
       ] },
     { id: 'tomorrow', label: 'Районный завтра', duration: 3500, speechDelay: 100,
-      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'И завтра выиграю районный.', camera: wide },
+      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'И завтра меня ждёт районный.', camera: wide, image: doorway,
+      imageAlt: 'После рассказа о победе новый кадр у выхода: Боксёр спокойно держит справку.' },
     { id: 'but', label: 'Но…', duration: 1700, speechDelay: 200,
-      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Но…', camera: wide, image: doorway,
-      imageAlt: 'Герой остановился у публичного выхода МФЦ с целым бланком в левой руке. Он задумался.' },
-    { id: 'city', label: 'Город прогнил', duration: 3800, speechDelay: 100,
-      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Этот город прогнил насквозь.', camera: wide, image: art('epilogue-city-v1'),
-      imageAlt: 'Грязный промышленный город: панельные дома, заводские трубы, провода, лужи и мусор.' },
-    { id: 'people', label: 'Все эти люди', duration: 2400, speechDelay: 150,
-      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Все эти люди.', camera: wide, image: art('worker-wide-v2'),
+      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Но…', camera: wide, image: tense,
+      imageAlt: 'Герой остановился у публичного выхода МФЦ с целым бланком в левой руке. Брови нахмурились, пальцы чуть сжали лист; бумага ещё не скомкана.' },
+    { id: 'city', label: 'Этот город…', duration: 2100, speechDelay: 100,
+      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Этот город…', camera: wide,
+      shots: [
+        { at: 0, image: tense, imageAlt: 'Боксёр со слегка сжатой справкой произносит Этот город. Город ещё за кадром.', camera: wide },
+        { at: 1400, image: art('epilogue-city-v1'), imageAlt: 'После слова город раскрывается грязный промышленный пейзаж: панельные дома, трубы, провода, лужи и мусор.', camera: wide },
+      ] },
+    { id: 'rotten', label: 'Прогнил насквозь', duration: 2400, speechDelay: 100,
+      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Прогнил насквозь.', camera: wide, image: art('epilogue-city-v1'),
+      imageAlt: 'Выдержка на грязном промышленном городе.' },
+    { id: 'people', label: 'Эти забулдыги', duration: 2400, speechDelay: 150,
+      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Эти забулдыги.', camera: wide, image: art('worker-wide-v2'),
       imageAlt: 'Воспоминание: обычный Рабочий с лопатой у ленты. Для Боксёра он часть прогнившего города.' },
-    { id: 'officials', label: 'Продажные чиновники', duration: 2600, speechDelay: 150,
-      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Продажные чиновники.', camera: wide, image: art('precinct-idle'),
+    { id: 'officials', label: 'Продажные', duration: 2600, speechDelay: 150,
+      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Продажные.', camera: wide, image: art('precinct-idle'),
       imageAlt: 'Воспоминание: Участковый в кабинете до звонка. Никакой взятки на рисунке нет.' },
     { id: 'judges', label: 'Судьи', duration: 1800, speechDelay: 150,
       speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Судьи.', camera: wide, image: art('intro-court-v2'),
@@ -44,10 +52,10 @@ export const epilogueScene: Scene = {
       speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Дьяволопоклонники.', camera: wide, image: art('slider-dialogue-v1'),
       imageAlt: 'Неформал в гриме и его снимающий друг. Ярлык существует только в рассказе Боксёра.' },
     { id: 'hero', label: 'Новый герой', duration: 4200, speechDelay: 150,
-      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Этому городу нужен новый герой.', camera: wide,
+      speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Нуждаются в новом герое.', camera: wide,
       shots: [
-        { at: 0, image: doorway, imageAlt: 'Боксёр у выхода принял решение, бланк ещё целый в левой руке.', camera: wide, cameraEnd: { scale: 1.18, x: 0, y: 15 } },
-        { at: 2800, image: doorway, imageAlt: 'Герой решителен. Небольшой наезд окончен; бумага пока в руке, ведро рядом.', camera: { scale: 1.18, x: 0, y: 15 } },
+        { at: 0, image: tense, imageAlt: 'Боксёр у выхода принял решение, бланк ещё целый в левой руке.', camera: wide, cameraEnd: { scale: 1.18, x: 0, y: 15 } },
+        { at: 2800, image: tense, imageAlt: 'Герой решителен. Небольшой наезд окончен; бумага пока в руке, ведро рядом.', camera: { scale: 1.18, x: 0, y: 15 } },
       ] },
     { id: 'law', label: 'Уважать закон', duration: 5300, speechDelay: 100,
       speaker: 'Боксёр · рассказ', voice: 'boxer', text: 'Который научит ценить и уважать закон…', camera: wide, image: crumpled,

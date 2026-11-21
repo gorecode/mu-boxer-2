@@ -27,7 +27,7 @@ test('certificate prologue starts by gesture, pauses, completes on the silhouett
   await page.getByRole('button', { name: 'Воспроизвести', exact: true }).click();
   await page.clock.runFor(30000);
   await expect(page.locator('#scrub')).toHaveValue('27300');
-  await expect(page.locator('#caption-typed')).toHaveText('Я отправился искать участкового.');
+  await expect(page.locator('#caption-typed')).toHaveText('Я отправился на поиски.');
   await expect(page.locator('#art')).toHaveAttribute('src', /prologue-exit-v1.webp$/);
   await expect(page.locator('#fight')).toBeHidden();
   await expect(page.locator('#title-card')).toBeHidden();
@@ -68,7 +68,7 @@ test('seeking follows the notice, thinking portrait and uninterrupted silhouette
   const final = await page.locator('#art').getAttribute('style');
   await page.locator('#scrub').fill('27299');
   await expect(page.locator('#art')).toHaveAttribute('style', final!);
-  await expect(page.locator('#caption-typed')).toHaveText('Я отправился искать участкового.');
+  await expect(page.locator('#caption-typed')).toHaveText('Я отправился на поиски.');
 });
 
 test('a missing exit illustration blocks prologue playback and another scene recovers', async ({ page }) => {

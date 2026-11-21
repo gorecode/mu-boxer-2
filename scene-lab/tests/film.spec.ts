@@ -57,7 +57,7 @@ test('mode and chapter selectors preserve speed, pause audio and share global po
   await expect(page.locator('#scrub')).toHaveValue(String(chapter.start));
   await page.locator('#scrub').fill(String(chapter.start + chapter.scene.cues.find(cue => cue.id === 'no-answer')!.end - 1));
   await expect(page.locator('#caption-typed')).toHaveText('Там не ответят.');
-  await expect(page.locator('#art')).toHaveAttribute('src', /bandit-phone-v1.webp$/);
+  await expect(page.locator('#art')).toHaveAttribute('src', /bandit-phone-v2.webp$/);
   await page.locator('#share').click();
   expect(page.url()).toContain('#scene=film&t=');
   const url = page.url();

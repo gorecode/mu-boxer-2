@@ -12,24 +12,24 @@ test('lunch, causal pause, recognition, phone and two angry faces retain separat
   for (const [id, image, text] of [
     ['queue-aftermath', 'queue-v2', 'Наконец-то я добрался до окошка.'],
     ['lunch', 'queue-v2', 'Но оно уже было закрыто.'], ['therefore', 'queue-v2', 'Поэтому.'],
-    ['chief-door', 'door-v1', 'Я пошёл к начальнику.'], ['question', 'office-v2', 'Ты?! Как ты здесь…'],
-    ['prison', 'office-v2', 'На этот раз ты сядешь надолго.'], ['unanswered', 'phone-v1', ''],
-    ['no-answer', 'phone-v1', 'Там не ответят.'], ['personal', 'office-v2', 'Тогда я разберусь с тобой по-своему.'],
-    ['anger', 'angry-v1', ''], ['chief-anger', 'final-v1', ''],
+    ['chief-door', 'door-v1', 'Я пошёл к начальнику.'], ['question', 'office-v2', 'Ты?!?'], ['how', 'office-v2', 'Как ты здесь?'],
+    ['prison', 'office-v2', 'На этот раз ты сядешь надолго.'], ['unanswered', 'phone-v2', ''],
+    ['no-answer', 'phone-v2', 'Там не ответят.'], ['personal', 'office-v2', 'Тогда я разберусь с тобой по-своему.'],
+    ['chief-anger', 'final-v1', ''], ['anger', 'angry-v1', ''], ['face-off', 'final-v1', ''],
   ]) {
     await page.locator('#scrub').fill(String(cue(id).end - 1));
     await expect(page.locator('#art')).toHaveAttribute('src', new RegExp(`bandit-${image}.webp$`));
     await expect(page.locator('#caption-typed')).toHaveText(text);
     await expect(page.locator('#fight')).toBeHidden();
   }
-  expect(await page.locator('#art').evaluate(el => el.style.transform)).toBe('scale(3.4)');
+  expect(await page.locator('#art').evaluate(el => el.style.transform)).toBe('scale(1)');
   await page.locator('#scrub').fill(String(cue('fight-flash').start));
   await expect(page.locator('#fight')).toBeVisible();
   expect(await page.locator('#art').evaluate(el => el.style.transform)).toBe('scale(1)');
   await expect(page.locator('#opponent')).toHaveText('БАНДИТА');
 });
 
-test('the Bandit closeup cuts to the title through a playing-only flash', async ({ page }) => {
+test('the wide confrontation fades before cutting to the title through a playing-only flash', async ({ page }) => {
   await page.clock.install({ time: new Date('2026-01-01T08:00:00Z') });
   await page.goto(`./#scene=bandit&t=${(cue('fight-flash').start - 100) / 1000}`);
   await expect(page.locator('#start')).toBeEnabled();
@@ -38,7 +38,7 @@ test('the Bandit closeup cuts to the title through a playing-only flash', async 
   await page.locator('#start').click();
   await page.clock.runFor(50);
   await expect(page.locator('#fight')).toBeHidden();
-  expect(await page.locator('#art').evaluate(el => el.style.transform)).toBe('scale(3.4)');
+  expect(await page.locator('#art').evaluate(el => el.style.transform)).toBe('scale(1)');
   await page.clock.runFor(100);
   await expect(page.locator('#fight')).toBeVisible();
   await expect(page.locator('#scene-flash')).toBeVisible();
@@ -56,9 +56,12 @@ test('epilogue panels preserve accusations, paper states and gratitude before th
   expect(await page.locator('#art').evaluate(el => el.style.transformOrigin)).toBe('100% 65%');
   for (const [id, image, text] of [
     ['won', 'epilogue-aftermath-v1', 'Сегодня свой турнир по боксу я выиграл.'],
-    ['city', 'epilogue-city-v1', 'Этот город прогнил насквозь.'],
+    ['tomorrow', 'epilogue-doorway-v3', 'И завтра меня ждёт районный.'],
+    ['but', 'epilogue-doorway-tense-v1', 'Но…'],
+    ['city', 'epilogue-city-v1', 'Этот город…'], ['rotten', 'epilogue-city-v1', 'Прогнил насквозь.'],
+    ['people', 'worker-wide-v2', 'Эти забулдыги.'], ['officials', 'precinct-idle', 'Продажные.'],
     ['bandits', 'animator-wide-v2', 'Бандиты.'], ['devil-worshippers', 'slider-dialogue-v1', 'Дьяволопоклонники.'],
-    ['hero', 'epilogue-doorway-v3', 'Этому городу нужен новый герой.'],
+    ['hero', 'epilogue-doorway-tense-v1', 'Нуждаются в новом герое.'],
     ['law', 'epilogue-crumple-v2', 'Который научит ценить и уважать закон…'],
     ['discard', 'epilogue-discard-v2', ''], ['order', 'epilogue-exit-v2', 'И порядок.'],
     ['thanks', 'epilogue-vow-v1', 'Этот город ещё скажет мне спасибо.'],
