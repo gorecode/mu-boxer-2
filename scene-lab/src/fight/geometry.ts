@@ -1,4 +1,4 @@
-import { celAt, crouching, standing, type Box } from './moves.ts';
+import { celAt, strikeAt, crouching, standing, type Box } from './moves.ts';
 import type { Fighter } from './model.ts';
 export type { Box } from './moves.ts';
 export interface Geometry { hurt: Box[]; hit: Box[] }
@@ -14,5 +14,5 @@ export function fighterGeometry(f: Fighter): Geometry {
     left: f.x + (f.facing === 1 ? b.left : -b.right), right: f.x + (f.facing === 1 ? b.right : -b.left),
     bottom: f.y + b.bottom, top: f.y + b.top,
   });
-  return { hurt: hurt.map(world), hit: (cel?.hit ?? []).map(world) };
+  return { hurt: hurt.map(world), hit: (f.action && strikeAt(f.action.kind, f.action.time) >= 0 ? cel?.hit ?? [] : []).map(world) };
 }
