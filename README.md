@@ -1,5 +1,7 @@
 # Месть Боксёра 2
 
+[Открыть сборку в GitHub Pages](https://gorecode.github.io/mu-boxer-2/)
+
 Свежая копия `gorecode/mu-boxer`, ветка `main`, снимок
 `89478438de3e9f4b80afb41c0f0473a4556320f3`. История старого репозитория не переносилась.
 
