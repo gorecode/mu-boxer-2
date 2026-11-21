@@ -16,7 +16,7 @@ function ready(distance = 300, facing: 1 | -1 = 1, wall = false): Fight {
 test('standalone uppercut steps into normal fighting distance before contact in either facing and at walls', () => {
   for (const facing of [1, -1] as const) for (const wall of [false, true]) for (const distance of [280, 300, 320]) {
     const s = ready(distance, facing, wall), x = s.player.x;
-    stepFight(s, { ...idleInput(), down: true, heavy: true }, dt); advance(s, .15, { down: true });
+    stepFight(s, { ...idleInput(), attackPressed: 'upper' }, dt); advance(s, .15, { down: true });
     assert.equal(s.player.action?.kind, 'upper'); assert.equal(s.worker.hp, 120, 'startup must remain harmless');
     const travel = (s.player.x - x) * facing;
     assert.ok(travel >= 49.99 && travel <= 70.001, `step=${travel}, distance=${distance}`);

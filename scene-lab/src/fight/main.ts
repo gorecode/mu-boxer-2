@@ -1,3 +1,4 @@
+import { commandState, observeDirections, heavyCommand } from './commands.ts';
 import './style.css';
 import { mountTraining } from './training.ts';
 import { celAt } from './moves.ts';
@@ -29,14 +30,15 @@ let pendingJump = false;
 let pendingDodge = false;
 let pendingAttack: Input['attackPressed'];
 let lastDrawPhase: Phase | undefined;
+let commands = commandState();
 const keys = new Map<string, Button>();
 const pointers = new Map<number, Button>();
 const bindings: Record<string, Button> = {
   KeyA: 'left', ArrowLeft: 'left', KeyD: 'right', ArrowRight: 'right', KeyS: 'down', ArrowDown: 'down',
-  KeyW: 'jump', ArrowUp: 'jump', Space: 'jump', KeyJ: 'light', KeyK: 'heavy', KeyL: 'block', KeyU: 'dodge', KeyI: 'long', KeyO: 'overhand', KeyH: 'backfist',
+  KeyW: 'jump', ArrowUp: 'jump', Space: 'jump', KeyJ: 'light', KeyK: 'heavy', KeyL: 'block', KeyU: 'dodge',
 };
 function clearInput(): void {
-  keys.clear(); pointers.clear(); pendingJump = false; pendingDodge = false; pendingAttack = undefined;
+  commands = commandState(); keys.clear(); pointers.clear(); pendingJump = false; pendingDodge = false; pendingAttack = undefined;
   document.querySelectorAll('.touch-controls .active').forEach(button => button.classList.remove('active'));
 }
 function input(): Input {
@@ -47,12 +49,20 @@ function input(): Input {
   current.attackPressed = pendingAttack; pendingAttack = undefined;
   return current;
 }
+function heldInput(): Input {
+  const held = idleInput();
+  for (const key of [...keys.values(), ...pointers.values()]) held[key] = true;
+  return held;
+}
+function directions(): void { observeDirections(commands, heldInput(), fight.player.facing, performance.now() / 1000); }
 function queueAttack(action: Button): void {
+  directions();
   if (action === 'dodge') pendingDodge = true;
   if (action === 'long' || action === 'overhand' || action === 'backfist') { pendingAttack = action; return; }
   if (action !== 'light' && action !== 'heavy') return;
-  const down = fight.player.y === 0 && [...keys.values(), ...pointers.values()].includes('down');
-  pendingAttack = action === 'heavy' ? down ? 'upper' : 'heavy' : down ? 'low' : 'jab';
+  const held = heldInput();
+  pendingAttack = action === 'heavy' ? heavyCommand(commands, { ...held, down: held.down && fight.player.y === 0 }, fight.player.facing, performance.now() / 1000)
+    : held.down && fight.player.y === 0 ? 'low' : fight.lightHand;
 }
 function reset(play = true): void {
   const chosen = difficulty.value === 'warmup' ? 'warmup' : 'street';
@@ -107,7 +117,7 @@ function update(): void {
   }
   guardStatus.dataset.state = guardState;
   if (guardStatus.textContent !== guardText) guardStatus.textContent = guardText;
-  canvas.dataset.playerBlock = guardState;
+  canvas.dataset.playerBlock = guardState; canvas.dataset.workerBlock = String(fight.worker.blocking);
   element('timer').textContent = String(Math.ceil(fight.remaining)).padStart(2, '0');
   canvas.dataset.training = String(fight.training.enabled); canvas.dataset.frozen = String(training.frozen());
   canvas.dataset.time = String(fight.time); canvas.dataset.aiIntent = fight.brain.intent; canvas.dataset.gap = String(fight.training.gap);
@@ -221,11 +231,11 @@ document.addEventListener('keydown', event => {
   event.preventDefault();
   if (event.repeat) return;
   if (action === 'jump' && !event.repeat && ![...keys.values()].includes('jump')) pendingJump = true;
-  queueAttack(action);
   keys.set(event.code, action);
+  queueAttack(action);
 });
 document.addEventListener('keyup', event => {
-  keys.delete(event.code);
+  keys.delete(event.code); directions();
 });
 for (const button of document.querySelectorAll<HTMLButtonElement>('[data-input]')) {
   const action = button.dataset.input as Button;
@@ -235,14 +245,13 @@ for (const button of document.querySelectorAll<HTMLButtonElement>('[data-input]'
     event.preventDefault(); event.stopPropagation();
     if (event.repeat) return;
     if (action === 'jump' && !event.repeat) pendingJump = true;
-    queueAttack(action);
-    keys.set(key, action); button.classList.add('active');
+    keys.set(key, action); queueAttack(action); button.classList.add('active');
   });
   button.addEventListener('keyup', event => {
     if (!['Space', 'Enter'].includes(event.code)) return;
-    event.preventDefault(); keys.delete(key); button.classList.remove('active');
+    event.preventDefault(); keys.delete(key); directions(); button.classList.remove('active');
   });
-  button.addEventListener('blur', () => { keys.delete(key); button.classList.remove('active'); });
+  button.addEventListener('blur', () => { keys.delete(key); directions(); button.classList.remove('active'); });
   button.addEventListener('pointerdown', event => {
     if (fight.phase !== 'fighting' && fight.phase !== 'countdown') return;
     event.preventDefault();
@@ -252,7 +261,7 @@ for (const button of document.querySelectorAll<HTMLButtonElement>('[data-input]'
     button.classList.add('active');
   });
   const release = (event: PointerEvent) => {
-    pointers.delete(event.pointerId);
+    pointers.delete(event.pointerId); directions();
     button.classList.toggle('active', [...pointers.values()].includes(button.dataset.input as Button));
   };
   for (const name of ['pointerup', 'pointercancel', 'lostpointercapture'] as const) button.addEventListener(name, release);

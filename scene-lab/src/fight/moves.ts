@@ -1,4 +1,4 @@
-export type Attack = 'jab' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist';
+export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist';
 export interface Box { left: number; bottom: number; right: number; top: number }
 export type CelPhase = 'windup' | 'active' | 'settle' | 'recovery';
 export interface Cel { phase: CelPhase; duration: number; pose: number; hurt: Box[]; hit: Box[] }
@@ -15,16 +15,17 @@ function move(timing: number[], poses: number[], height: number[], low: boolean,
 }
 export const moves: Record<Attack, Move> = {
   jab: move([.1, .09, .09, 0.09], [0, 2, 2, 0], [430, 500], false, { range: 320, damage: 8, level: 'mid', push: 18, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
+  cross: move([.14, .09, .08, .12], [4, 3, 3, 0], [380, 480], false, { range: 320, damage: 9, level: 'mid', push: 22, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
   heavy: move([.25, .12, .09, .19], [4, 3, 3, 0], [260, 370], false, { range: 250, damage: 20, level: 'mid', push: 60, hitstun: .42, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
   low: move([.17, .1, .09, .15], [5, 8, 8, 0], [15, 110], true, { range: 235, damage: 10, level: 'low', push: 25, hitstun: .38, stop: [.04, .065], reaction: 'light', lift: 0 }),
-  upper: move([.2, .12, .09, 0.31], [5, 9, 9, 0], [210, 455], true, { range: 250, damage: 23, level: 'overhead', push: 55, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
+  upper: move([.2, .12, .09, 0.31], [5, 9, 9, 0], [210, 455], true, { range: 250, damage: 23, level: 'overhead', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
   long: move([.23, .09, .1, .27], [1, 2, 2, 0], [380, 485], false, { range: 320, damage: 14, level: 'mid', push: 45, hitstun: .36, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
   overhand: move([.38, .12, .12, .34], [9, 3, 3, 0], [205, 490], false, { range: 255, damage: 22, level: 'overhead', push: 45, hitstun: .65, stop: [.075, .10], reaction: 'down', lift: 0 }),
   backfist: move([.2, .1, .1, .32], [4, 3, 3, 0], [340, 470], false, { range: 300, damage: 18, level: 'high', push: 85, hitstun: .4, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
-  poke: move([.3, .12, .09, .21], [1, 2, 2, 7], [330, 410], false, { range: 320, damage: 12, level: 'high', push: 38, hitstun: .36, stop: [.045, .07], reaction: 'light', lift: 0 }),
+  poke: move([.22, .12, .09, .21], [1, 2, 2, 7], [330, 410], false, { range: 320, damage: 12, level: 'high', push: 38, hitstun: .36, stop: [.045, .07], reaction: 'light', lift: 0 }),
   sweep: move([.5, .14, .09, .37], [7, 9, 9, 7], [0, 65], false, { range: 345, damage: 17, level: 'low', push: 65, hitstun: .65, stop: [.055, .085], reaction: 'down', lift: 0 }),
   thrust: move([.42, .13, .12, .65], [1, 2, 2, 7], [290, 420], false, { range: 340, damage: 14, level: 'mid', push: 55, hitstun: .38, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
-  spin: move([.65, .9, .16, .65], [3, 4, 1, 7], [210, 400], false, { range: 320, damage: 10, level: 'mid', push: 35, hitstun: .25, stop: [.035, .055], reaction: 'light', lift: 0 }),
+  spin: move([.65, .9, .16, .65], [3, 4, 1, 7], [210, 400], false, { range: 320, damage: 16, level: 'mid', push: 35, hitstun: .25, stop: [.035, .055], reaction: 'light', lift: 0 }),
   overhead: move([.6, .12, .09, .41], [3, 8, 8, 7], [240, 490], false, { range: 280, damage: 22, level: 'overhead', push: 65, hitstun: .5, stop: [.075, .1], reaction: 'heavy', lift: 0 }),
 };
 export function strikeAt(kind: Attack, time: number): number {

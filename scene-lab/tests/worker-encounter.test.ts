@@ -23,7 +23,7 @@ test('sustained approach and crouch provoke delayed responses; brief input does 
     until(s, () => s.worker.action?.kind === 'thrust', toward, 1.3);
     assert.equal(s.player.hp, 100); assert.equal(s.worker.action!.time, 0); assert.ok(s.time >= .5);
     const low = ready(330, facing); advance(low, .05, { down: true }); assert.equal(low.worker.action, null);
-    until(low, () => low.worker.action?.kind === 'sweep', { down: true }, 1.6); assert.equal(low.player.hp, 100); assert.ok(low.time >= .7);
+    until(low, () => low.worker.action?.kind === 'sweep', { down: true }, 1.6); assert.equal(low.player.hp, 100); assert.ok(low.time >= .6);
     const tap = ready(600, facing); advance(tap, .05, { down: true }); advance(tap, .6);
     assert.notEqual(tap.worker.action?.kind, 'sweep'); assert.notEqual(tap.worker.action?.kind, 'spin');
   }
@@ -45,7 +45,7 @@ test('spin has two separated contact windows and blocks twice, never once per fr
     for (let i = 0; i < 300; i++) {
       stepFight(s, { ...idleInput(), block: true }, dt); blocks += s.events.filter(e => e.type === 'block').length;
     }
-    assert.equal(blocks, 2); assert.equal(s.player.hp, 100); assert.equal(s.player.guard, 54); assert.equal(s.worker.action, null);
+    assert.equal(blocks, 2); assert.equal(s.player.hp, 100); assert.equal(s.player.guard, 42); assert.equal(s.worker.action, null);
     const f = ready(200, facing, false).worker; f.action = { kind: 'spin', time: moves.spin.windup - .01, connected: false };
     assert.equal(fighterGeometry(f).hit.length, 0);
     for (const [fraction, count] of [[.15, 1], [.5, 0], [.75, 1], [1.01, 0]] as const) {
@@ -57,8 +57,8 @@ test('spin has two separated contact windows and blocks twice, never once per fr
 test('spin travel is bounded, mirrored, wall-clamped, hitstop-frozen and interruptible', () => {
   for (const facing of [1, -1] as const) {
     const s = ready(700, facing, false); s.worker.action = { kind: 'spin', time: 0, connected: false };
-    const x = s.worker.x; s.player.invulnerable = 5; advance(s, 2.5);
-    assert.ok(Math.abs((s.worker.x - x) * -facing - 504) < 5);
+    const x = s.worker.x; s.player.invulnerable = 5; s.player.y = 1000; s.player.stop = 5; advance(s, 2.5);
+    assert.ok(Math.abs((s.worker.x - x) * -facing - 648) < 5);
     const wall = ready(200, facing, false); wall.worker.x = facing === 1 ? 220 : 1380; wall.player.x = facing === 1 ? 500 : 1100;
     wall.player.invulnerable = 5; wall.worker.action = { kind: 'spin', time: moves.spin.windup + .02, connected: false };
     wall.worker.facing = facing === 1 ? -1 : 1; advance(wall, 1.5); assert.equal(wall.worker.x, facing === 1 ? 215 : 1385);
@@ -121,9 +121,9 @@ test('phase-two pressure shortens pauses, fatigue lengthens them, without changi
 
 test('spin snapshot after first contact preserves per-turn contacts and the second hit really lands', () => {
   const s = ready(200, 1, false); s.worker.action = { kind: 'spin', time: 0, connected: false };
-  until(s, () => s.player.hp === 90); assert.deepEqual(s.worker.action!.contacts, [0]);
+  until(s, () => s.player.hp === 84); assert.deepEqual(s.worker.action!.contacts, [0]);
   const copy = copyTraining(s); advance(s, 2); advance(copy, 2);
-  assert.equal(s.player.hp, 80); assert.deepEqual(s, copy);
+  assert.equal(s.player.hp, 68); assert.deepEqual(s, copy);
 });
 
 test('worker closes every idle boundary near shovel range and finishes an undefended match', () => {

@@ -61,7 +61,7 @@ test('heavy and low recover sooner after a whiff, with an actual follow-up input
 
 test('worker attacks retain distinct telegraphs and bounded recovery after actual contact', () => {
   for (const [kind, earliest, latest, end] of [
-    ['poke', .275, .325, .80], ['sweep', .475, .525, 1.20], ['overhead', .575, .625, 1.35],
+    ['poke', .20, .25, .72], ['sweep', .475, .525, 1.20], ['overhead', .575, .625, 1.35],
   ] as const) {
     const s = ready(); s.worker.action = { kind, time: 0, connected: false };
     let contactTime = -1;

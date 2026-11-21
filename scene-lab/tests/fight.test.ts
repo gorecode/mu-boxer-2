@@ -53,7 +53,7 @@ test('jab has startup, range, facing, recovery and one contact per swing', () =>
 
 test('heavy and crouching attacks have distinct damage and recovery contracts', () => {
   for (const [input, damage, kind] of [
-    [{ heavy: true }, 20, 'heavy'], [{ down: true, light: true }, 10, 'low'], [{ down: true, heavy: true }, 23, 'upper'],
+    [{ heavy: true }, 20, 'heavy'], [{ down: true, light: true }, 10, 'low'], [{ attackPressed: 'upper' }, 23, 'upper'],
   ] as const) {
     const s = duel(); advance(s, .35, input); assert.equal(s.worker.hp, 120 - damage, kind); assert.equal(s.player.action?.kind, kind);
   }
@@ -129,7 +129,7 @@ test('simulation rejects invalid time and a zero step changes no combat state', 
 });
 
 test('attacks use press edges; holding produces one swing and re-press produces another', () => {
-  const s = duel(); advance(s, 1.1, { light: true }); assert.equal(s.hits, 1); assert.equal(s.player.action, null);
+  const s = duel(); s.training.enabled = true; advance(s, 1.1, { light: true }); assert.equal(s.hits, 1); assert.equal(s.player.action, null);
   s.worker.x = s.player.x + 200; advance(s, .02); advance(s, .2, { light: true }); assert.equal(s.hits, 2);
 });
 
@@ -163,7 +163,7 @@ test('hit-only cancels form a real jab-heavy-upper combo with scaling, lunge and
   advance(s, .02, { heavy: true }); assert.equal(s.buffered?.kind, 'heavy');
   advance(s, .29); assert.equal(s.player.action?.kind, 'heavy'); assert.equal(s.hits, 2); assert.equal(s.combo, 2);
   assert.equal(s.worker.hp, 95);
-  advance(s, .02, { down: true, heavy: true }); advance(s, .34);
+  advance(s, .02, { attackPressed: 'upper' }); advance(s, .34);
   assert.equal(s.player.action?.kind, 'upper'); assert.equal(s.combo, 3); assert.equal(s.hits, 3);
   assert.equal(s.worker.hp, 78); assert.equal(s.worker.reaction, 'launch'); assert.ok(s.worker.y > 0);
   assert.ok(s.player.x > 630);
@@ -175,16 +175,16 @@ test('whiff and block cannot cancel; unsupported and repeated chain moves cannot
   advance(miss, .14); assert.equal(miss.player.action?.kind, 'jab'); advance(miss, .15); assert.equal(miss.player.action, null);
   const block = duel(); block.player.action = { kind: 'jab', time: .11, connected: true, result: 'block' };
   advance(block, .02, { heavy: true }); assert.equal(block.player.action?.kind, 'jab');
-  for (const requested of [{ light: true }, { down: true, light: true }, { down: true, heavy: true }]) {
+  for (const requested of [{ light: true }, { down: true, light: true }, { attackPressed: 'upper' }] as const) {
     const s = duel(); s.player.action = { kind: 'jab', time: .11, connected: true, result: 'hit' };
     advance(s, .02, requested); assert.equal(s.player.action?.kind, 'jab');
   }
   const capped = duel(); capped.player.action = { kind: 'heavy', time: .26, connected: true, result: 'hit', chain: 2 };
-  advance(capped, .02, { down: true, heavy: true }); assert.equal(capped.player.action?.kind, 'heavy');
+  advance(capped, .02, { attackPressed: 'upper' }); assert.equal(capped.player.action?.kind, 'heavy');
 });
 
 test('separate hits after recovery start a new combo', () => {
-  const s = duel(); advance(s, .13, { light: true }); advance(s, .7);
+  const s = duel(); s.training.enabled = true; advance(s, .13, { light: true }); advance(s, .7);
   assert.equal(s.comboActive, false); s.worker.x = s.player.x + 200;
   advance(s, .16, { light: true }); assert.equal(s.hits, 2); assert.equal(s.combo, 1);
 });
