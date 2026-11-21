@@ -94,7 +94,7 @@ test('after-hit dummy accepts a distant true combo, blocks a gap, and backdash w
   await page.keyboard.press('j'); await page.clock.runFor(130); await expect(page.locator('#worker-hp')).toHaveText('112 / 120');
   await page.locator('#training-save').click();
   await page.keyboard.press('k'); await page.clock.runFor(310); await expect(arena).toHaveAttribute('data-combo', '2');
-  await page.keyboard.press('s'); await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(340);
+  await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(340);
   await expect(arena).toHaveAttribute('data-combo', '3'); await expect(page.locator('#worker-hp')).toHaveText('78 / 120'); await expect(arena).toHaveAttribute('data-gap', 'false');
   await page.locator('#training-load').click(); await page.locator('#training-freeze').click(); await page.clock.runFor(900);
   await page.keyboard.down('d');

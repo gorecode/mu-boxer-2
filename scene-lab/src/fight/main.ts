@@ -35,7 +35,7 @@ const keys = new Map<string, Button>();
 const pointers = new Map<number, Button>();
 const bindings: Record<string, Button> = {
   KeyA: 'left', ArrowLeft: 'left', KeyD: 'right', ArrowRight: 'right', KeyS: 'down', ArrowDown: 'down',
-  KeyW: 'jump', ArrowUp: 'jump', Space: 'jump', KeyJ: 'light', KeyK: 'heavy', KeyL: 'block', KeyU: 'dodge',
+  KeyW: 'up', ArrowUp: 'up', Space: 'jump', KeyJ: 'light', KeyK: 'heavy', KeyL: 'block', KeyU: 'dodge',
 };
 function clearInput(): void {
   commands = commandState(); keys.clear(); pointers.clear(); pendingJump = false; pendingDodge = false; pendingAttack = undefined;
