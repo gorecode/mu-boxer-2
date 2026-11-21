@@ -1,3 +1,4 @@
+import { boxerPose } from './boxer-animation.ts';
 import { celAt, strikeAt } from './moves.ts';
 import { fighterGeometry } from './geometry.ts';
 import { endingTiming, moves, type Fight, type Fighter, type FightEvent } from './model.ts';
@@ -78,6 +79,7 @@ export class FightRenderer {
     this.tags = this.tags.filter(tag => tag.life > 0);
   }
   private pose(f: Fighter, worker: boolean): number {
+    if (!worker) return boxerPose(f);
     if (f.hp === 0) return 11;
     if (f.reaction === 'guard') return worker ? 5 : f.crouch ? 5 : 4;
     if (f.reaction === 'down') return 11;
@@ -118,7 +120,7 @@ export class FightRenderer {
     const frame = this.assets.manifest[key][index], image = this.assets[key][index];
     const facing = worker ? -f.facing : f.facing;
     const idle = !f.action && !f.reaction && f.stun <= 0 && f.y === 0 && !f.crouch;
-    const breath = this.reducedMotion ? 0 : idle ? Math.sin(time * 3.7 + (worker ? 2 : 0)) * 2 : 0;
+    const breath = this.reducedMotion || !worker ? 0 : idle ? Math.sin(time * 3.7 + (worker ? 2 : 0)) * 2 : 0;
     c.save();
     const ground = 820;
     c.translate(f.x, ground - f.y);
@@ -130,18 +132,13 @@ export class FightRenderer {
         c.scale(Math.sign(turn) * Math.max(.25, Math.abs(turn)), 1);
       }
     }
-    if (!worker && f.action?.kind === 'backfist' && !this.reducedMotion && f.action.time < moves.backfist.windup) {
-      const turn = Math.cos(f.action.time / moves.backfist.windup * Math.PI * 2);
-      c.scale(Math.sign(turn) * Math.max(.3, Math.abs(turn)), 1);
-    }
     if (!this.reducedMotion) {
       let offset = 0, tilt = 0;
-      if (f.action) {
+      if (worker && f.action) {
         const m = moves[f.action.kind], t = f.action.time;
         offset = t < m.windup ? -8 * Math.sin(t / m.windup * Math.PI / 2)
           : 10 * Math.max(0, 1 - (t - m.windup) / (m.active + m.recovery));
         tilt = offset * .002;
-        if (!worker && f.action.kind === 'overhand' && t >= m.windup) tilt += .35 * Math.max(0, 1 - (t - m.windup) / (m.active + m.recovery));
       } else if (f.reaction) {
         tilt = f.reaction === 'heavy' ? -.13 : f.reaction === 'launch' ? -.22 : f.reaction === 'guard' ? -.035 : -.06;
         offset = -Math.min(10, f.stun * 24);

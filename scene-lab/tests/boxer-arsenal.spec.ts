@@ -39,7 +39,7 @@ test('MK commands perform distinct grounded attacks, long reaches with its real 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
-test('new touch commands and editor poses/hitboxes work, with a visible backfist turn and overhand lean', async ({ page }, info) => {
+test('new touch commands and editor poses/hitboxes work, without mirrored flattening or whole-body attack tilt', async ({ page }, info) => {
   await page.addInitScript(() => {
     const seen = { turns: 0, leans: 0, hits: 0 }; (window as Window & { arsenalDraws?: typeof seen }).arsenalDraws = seen;
     CanvasRenderingContext2D.prototype.scale = new Proxy(CanvasRenderingContext2D.prototype.scale, {
@@ -65,7 +65,7 @@ test('new touch commands and editor poses/hitboxes work, with a visible backfist
     await expect(arena).toHaveAttribute('data-player-action', kind); await expect(arena).toHaveAttribute('data-worker-action', ''); await expect(arena).toHaveAttribute('data-player-cel', 'active');
   }
   const seen = await page.evaluate(() => (window as Window & { arsenalDraws?: { turns: number; leans: number; hits: number } }).arsenalDraws!);
-  expect(seen.turns).toBeGreaterThan(0); expect(seen.leans).toBeGreaterThan(0); expect(seen.hits).toBeGreaterThan(0);
+  expect(seen.turns).toBe(0); expect(seen.leans).toBe(0); expect(seen.hits).toBeGreaterThan(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true); expect(errors).toEqual([]);
 });
 
