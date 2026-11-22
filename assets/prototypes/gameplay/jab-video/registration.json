@@ -1,0 +1,267 @@
+{
+  "legacy_anchors": [
+    [
+      0,
+      492
+    ],
+    [
+      279,
+      484
+    ],
+    [
+      179.0,
+      1
+    ]
+  ],
+  "target_clip_anchors": [
+    [
+      71.0,
+      420.0
+    ],
+    [
+      285.2,
+      413.85806451612905
+    ],
+    [
+      208.42580645161289,
+      43.03870967741938
+    ]
+  ],
+  "frame": {
+    "width": 450,
+    "height": 436,
+    "anchorX": 196.90967741935484,
+    "anchorY": 422.3032258064516,
+    "scale": 1.55
+  },
+  "registration": {
+    "x": [
+      0.9228162211304684,
+      -0.026659174432826005,
+      16.676901561523675
+    ],
+    "y": [
+      -0.009338640085523625,
+      0.9938427460073501,
+      3.249090122985116
+    ]
+  },
+  "frames": [
+    {
+      "frame": 0,
+      "source_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          303,
+          416
+        ]
+      ],
+      "registered_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          285,
+          414
+        ]
+      ],
+      "ground_error_world_pixels": [
+        0.0,
+        0.3801315561749361
+      ]
+    },
+    {
+      "frame": 1,
+      "source_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          303,
+          416
+        ]
+      ],
+      "registered_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          285,
+          414
+        ]
+      ],
+      "ground_error_world_pixels": [
+        0.0,
+        0.3801315561749361
+      ]
+    },
+    {
+      "frame": 2,
+      "source_foot_anchors": [
+        [
+          73,
+          419
+        ],
+        [
+          304,
+          416
+        ]
+      ],
+      "registered_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          285,
+          414
+        ]
+      ],
+      "ground_error_world_pixels": [
+        0.0,
+        0.3801315561749361
+      ]
+    },
+    {
+      "frame": 3,
+      "source_foot_anchors": [
+        [
+          73,
+          420
+        ],
+        [
+          304,
+          415
+        ]
+      ],
+      "registered_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          285,
+          414
+        ]
+      ],
+      "ground_error_world_pixels": [
+        0.0,
+        0.3801315561749361
+      ]
+    },
+    {
+      "frame": 4,
+      "source_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          303,
+          416
+        ]
+      ],
+      "registered_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          285,
+          414
+        ]
+      ],
+      "ground_error_world_pixels": [
+        0.0,
+        0.3801315561749361
+      ]
+    },
+    {
+      "frame": 5,
+      "source_foot_anchors": [
+        [
+          72,
+          420
+        ],
+        [
+          303,
+          416
+        ]
+      ],
+      "registered_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          285,
+          414
+        ]
+      ],
+      "ground_error_world_pixels": [
+        0.0,
+        0.3801315561749361
+      ]
+    },
+    {
+      "frame": 6,
+      "source_foot_anchors": [
+        [
+          73,
+          420
+        ],
+        [
+          304,
+          416
+        ]
+      ],
+      "registered_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          285,
+          414
+        ]
+      ],
+      "ground_error_world_pixels": [
+        0.0,
+        0.3801315561749361
+      ]
+    },
+    {
+      "frame": 7,
+      "source_foot_anchors": [
+        [
+          73,
+          420
+        ],
+        [
+          305,
+          416
+        ]
+      ],
+      "registered_foot_anchors": [
+        [
+          71,
+          420
+        ],
+        [
+          285,
+          414
+        ]
+      ],
+      "ground_error_world_pixels": [
+        0.0,
+        0.3801315561749361
+      ]
+    }
+  ]
+}
