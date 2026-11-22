@@ -24,8 +24,8 @@ test('MK directions mirror with facing; double taps expire and cannot be reused 
     observeDirections(state, idleInput(), facing, .3); observeDirections(state, forward, facing, .6);
     assert.equal(heavyCommand(state, forward, facing, .6), 'heavy');
     observeDirections(state, idleInput(), facing, .65); observeDirections(state, forward, facing, .7);
-    assert.equal(heavyCommand(state, forward, facing, .87), 'heavy');
-    observeDirections(state, forward, -facing, .88);
+    assert.equal(heavyCommand(state, forward, facing, .96), 'heavy');
+    observeDirections(state, forward, -facing, .97);
     assert.equal(state.forwardDouble, -Infinity);
   }
 });

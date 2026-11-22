@@ -160,7 +160,7 @@ test('jump buffers before landing; pause and a fresh match discard pending attac
 
 test('hit-only cancels form a real jab-heavy-upper combo with scaling, lunge and launch', () => {
   const s = duel(); advance(s, .12, { light: true }); assert.equal(s.hits, 1);
-  advance(s, .02, { heavy: true }); assert.equal(s.buffered?.kind, 'heavy');
+  advance(s, .02, { heavy: true }); assert.deepEqual(s.comboQueue, ['heavy']);
   advance(s, .29); assert.equal(s.player.action?.kind, 'heavy'); assert.equal(s.hits, 2); assert.equal(s.combo, 2);
   assert.equal(s.worker.hp, 95);
   advance(s, .02, { attackPressed: 'upper' }); advance(s, .34);

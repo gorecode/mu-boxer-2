@@ -131,3 +131,5 @@ footer { display: flex; justify-content: space-between; font-size: 8px; letter-s
 .technique-controls { display: flex; flex-wrap: wrap; flex-basis: 100%; justify-content: flex-end; gap: 6px; }
 .technique-controls button { width: auto; padding: 0 12px; font-size: 9px; }
 .control-group small { line-height: 1.7; }
+
+.player-technique { margin: 0; padding: 6px 0; color: #efd1b6; font-size: 11px; letter-spacing: .06em; overflow-wrap: anywhere; }
