@@ -1,0 +1,20 @@
+{
+  "comparison.gif": {
+    "size": [
+      1500,
+      600
+    ],
+    "decoded_frames": 82,
+    "duration_ms": 2720,
+    "bytes": 9529900
+  },
+  "comparison-slow.gif": {
+    "size": [
+      1500,
+      600
+    ],
+    "decoded_frames": 82,
+    "duration_ms": 10880,
+    "bytes": 9529900
+  }
+}
