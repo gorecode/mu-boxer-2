@@ -14,7 +14,7 @@ test('every hero strike extends 12–24 world pixels beyond the measured fist, w
     const m = moves[c.kind], hit = m.cels[1].hit[0];
     assert.ok(hit.right - c.visibleRight >= 12 && hit.right - c.visibleRight <= 24, c.kind);
     assert.ok(hit.bottom <= c.visibleBottom && hit.top >= c.visibleTop, `${c.kind} must cover the fist vertically`);
-    const arm = c.kind === 'jab' ? jabHurtByFrame[3].at(-1)! : m.cels[1].hurt.at(-1)!;
+    const arm = c.kind === 'jab' ? jabHurtByFrame[4].at(-1)! : m.cels[1].hurt.at(-1)!;
     assert.ok(arm.right <= c.visibleRight - 8, `${c.kind} arm must not become vulnerable in empty space`);
   }
 });
@@ -41,12 +41,13 @@ test('all thirteen attacks have valid phase boxes, no contacts outside active fr
   }
 });
 
-test('all eight grounded jab frames track the vulnerable arm and never keep an active box on recoil', () => {
-  for (const facing of [1, -1] as const) for (const [time, frame] of [[0, 0], [.03, 1], [.06, 2], [.10, 3], [.17, 4], [.21, 5], [.25, 6], [.3, 7]]) {
+test('all eighteen grounded jab frames track the vulnerable arm and never keep an active box on recoil', () => {
+  for (const facing of [1, -1] as const) for (let frame = 0; frame < 18; frame++) {
+    const time = frame * .02;
     const f = createFight().player; f.x = 700; f.facing = facing as 1 | -1; f.action = { kind: 'jab', time, connected: false };
     const g = fighterGeometry(f), arm = g.hurt.at(-1)!, expected = jabHurtByFrame[frame].at(-1)!;
-    assert.equal(facing === 1 ? arm.right - f.x : f.x - arm.left, expected.right);
-    assert.equal(g.hit.length, frame === 3 ? 1 : 0);
+    assert.ok(Math.abs((facing === 1 ? arm.right - f.x : f.x - arm.left) - expected.right) < 1e-9);
+    assert.equal(g.hit.length, frame >= 4 && frame < 8 ? 1 : 0);
   }
   const f = createFight().player; f.crouch = true; f.action = { kind: 'jab', time: .3, connected: false };
   assert.equal(Math.max(...fighterGeometry(f).hurt.map(b => b.top)), 265);
@@ -79,4 +80,19 @@ test('worker tool tips stay outside vulnerable limbs and crouched sweep no longe
   assert.ok(Math.max(...moves.sweep.cels[1].hurt.map(b => b.top)) <= 335);
   assert.ok(Math.max(...moves.thrust.cels[1].hurt.map(b => b.right)) < 180);
   assert.equal(moves.spin.cels[1].hit[0].bottom, 125);
+});
+
+test('jab arm boxes follow the reference elbow and retract on the same clock as the drawings', () => {
+  const metadata = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/jab-reference-animation/metadata.json', import.meta.url), 'utf8'));
+  const tips = [108.29, 126.14, 184.45, 223.72, 247.52, 247.52, 247.52, 247.52, 246.33, 239.19, 227.29, 201.11, 164.22, 145.18, 129.71, 119, 113.05, 108.29];
+  assert.equal(jabHurtByFrame.length, metadata.samples.length);
+  for (let i = 0; i < tips.length; i++) {
+    const arm = jabHurtByFrame[i].at(-1)!;
+    const [x, y] = metadata.samples[i].joints.e;
+    assert.ok(Math.abs(arm.right - (tips[i] - 12)) < .01);
+    assert.ok(arm.left <= (x - 164) * 1.19 && arm.right >= (x - 164) * 1.19);
+    assert.ok(arm.bottom <= (495 - y) * 1.19 && arm.top >= (495 - y) * 1.19);
+    assert.deepEqual(jabHurtByFrame[i].slice(0, 5), jabHurtByFrame[0].slice(0, 5));
+  }
+  assert.deepEqual(jabHurtByFrame[0], jabHurtByFrame[17]);
 });

@@ -30,7 +30,7 @@ test('boxer keeps his ground anchor and facing through attacks, walk, recovery a
     for (const phase of ['0', '1', '2', '3']) {
       await page.locator('#edit-phase').selectOption(phase);
       const frame = await sample();
-      expect(frame.a).toBeCloseTo(kind === 'jab' ? 0.5265107913669065 : scales[frame.pose], 6); expect(frame.a).toBe(frame.d);
+      expect(frame.a).toBeCloseTo(kind === 'jab' ? 1.19 : scales[frame.pose], 6); expect(frame.a).toBe(frame.d);
       expect(frame.b).toBe(0); expect(frame.c).toBe(0);
       expect(frame.x).toBeCloseTo(Number(await arena.getAttribute('data-player-x')), 1);
       expect(frame.y).toBeCloseTo(820 - Number(await arena.getAttribute('data-player-y')), 1);

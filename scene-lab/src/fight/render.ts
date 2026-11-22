@@ -20,13 +20,13 @@ export async function loadAssets(): Promise<Assets> {
   if (!response.ok) throw new Error('Не загрузился список рисунков.');
   const manifest = await response.json() as Assets['manifest'];
   for (const name of ['boxer', 'worker', 'jab'] as const) {
-    if (!Array.isArray(manifest[name]) || manifest[name].length !== (name === 'jab' ? 8 : 12) || manifest[name].some(f =>
+    if (!Array.isArray(manifest[name]) || manifest[name].length !== (name === 'jab' ? 18 : 12) || manifest[name].some(f =>
       ![f.width, f.height, f.anchorX, f.anchorY, f.scale].every(Number.isFinite) || f.width <= 0 || f.height <= 0 || f.scale <= 0 || f.scale > 3)) {
       throw new Error('Повреждён список поз бойцов.');
     }
   }
   const images = await Promise.all(['arena.webp', ...Array.from({ length: 12 }, (_, i) => `boxer-${i}.webp`),
-    ...Array.from({ length: 12 }, (_, i) => `worker-${i}.webp`), ...Array.from({ length: 8 }, (_, i) => `jab/jab-${i}.webp`)].map(path => loadImage(assetBase + path)));
+    ...Array.from({ length: 12 }, (_, i) => `worker-${i}.webp`), ...Array.from({ length: 18 }, (_, i) => `jab/jab-${i}.webp`)].map(path => loadImage(assetBase + path)));
   return { arena: images[0], boxer: images.slice(1, 13), worker: images.slice(13, 25), jab: images.slice(25), manifest };
 }
 export class FightRenderer {

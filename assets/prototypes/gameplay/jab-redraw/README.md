@@ -1,20 +1,20 @@
 # Redrawn jab and key-pose collision audit
 
-Approved high-resolution redraw, integrated 2026-11-22. `pose-01.png` through `pose-08.png` are registered transparent source frames (1254×1254). Frame 08 repeats frame 01 exactly. The original master style reference is `../fight-boxer-source.png`; the spoiled video-derived animation was used only as a movement reference. Prompts: `PROMPTS.md`. No new video extraction is used at runtime.
+Archived high-resolution redraw, tried in gameplay on 2026-11-22 and subsequently rejected by the author for style drift and excessive arm length. Current jab: [original-texture animation](../jab-reference-animation/README.md). This folder retains that experiment and the current shared contact audit. `pose-01.png` through `pose-08.png` are registered transparent source frames (1254×1254). Frame 08 repeats frame 01 exactly. The original master style reference is `../fight-boxer-source.png`; the spoiled video-derived animation was used only as a movement reference. Prompts: `PROMPTS.md`. No new video extraction is used at runtime.
 
-The runtime WebPs are lossless exports after the common affine transform in `registration.json`. It registers the master feet and head against the original idle drawing, then applies exactly the same transform to every frame. All source frames share an identical lower body below source row 610. Render scale 0.5265107913669065 keeps the original body size while downsampling the new drawing.
+The archived runtime WebPs were lossless exports after the common affine transform in `registration.json`. It registers the master feet and head against the original idle drawing, then applies exactly the same transform to every frame. All source frames share an identical lower body below source row 610. Render scale 0.5265107913669065 keeps the original body size while downsampling the new drawing.
 
 Timing: startup 80 ms (three drawings), contact 80 ms (full extension), settle 80 ms (two drawings), final recovery 100 ms (two drawings). Total 340 ms before contact hitstop. Hitstop freezes the contact drawing. Confirmed follow-ups can cancel recovery; a miss cannot.
 
 ## Collision policy
 
-Hero contact tips lead the visible fist by roughly 18 world pixels (accepted band 12–24). Hurt boxes sit inside the visible arm, and follow each of the eight jab frames and the other attack key poses. Boxes are gameplay approximations, not per-pixel masks. Uppercuts and overhead attacks sweep a vertical arc; their contact rectangle intentionally includes the travel between drawn poses. Worker blades receive a small inset instead of the hero bonus. The shovel never becomes a vulnerable limb. Its sweep has a low body/head profile; overhead follows the forward leaning body.
+Hero contact tips lead the visible fist by roughly 18 world pixels (accepted band 12–24). Hurt boxes sit inside the visible arm, and follow each of the eighteen current jab frames and the other attack key poses. Boxes are gameplay approximations, not per-pixel masks. Uppercuts and overhead attacks sweep a vertical arc; their contact rectangle intentionally includes the travel between drawn poses. Worker blades receive a small inset instead of the hero bonus. The shovel never becomes a vulnerable limb. Its sweep has a low body/head profile; overhead follows the forward leaning body.
 
 The table measures opaque pixels (alpha ≥128) in actual runtime textures. `contact-audit.json` contains measurement regions, runtime asset hashes and full vertical bounds. Heights exclude legs/torso when selecting the forward fist. Browser tests independently decode the images and check all thirteen active overlays; model tests check mirrored contacts, exact reach boundaries, recovery and editor reset.
 
 | Attack | Visible forward tip | Hit tip | Margin |
 | --- | ---: | ---: | ---: |
-| jab | 297.1 | 315 | +17.9 |
+| jab | 247.5 | 266 | +18.5 |
 | cross | 227.3 | 245 | +17.7 |
 | heavy | 227.3 | 245 | +17.7 |
 | low | 320.3 | 338 | +17.7 |
