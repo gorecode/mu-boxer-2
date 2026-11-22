@@ -5,7 +5,7 @@ import { celAt } from './moves.ts';
 import { createFight, endingTiming, idleInput, pauseFight, resumeFight, startFight, stepFight, type Input, type Phase } from './model.ts';
 import { FightAudio, FightRenderer, loadAssets } from './render.ts';
 
-type Button = Exclude<keyof Input, 'attackPressed'>;
+type Button = Exclude<keyof Input, 'attackPressed' | 'attackPresses'>;
 
 function element<T extends HTMLElement = HTMLElement>(id: string): T {
   const result = document.getElementById(id);
@@ -28,7 +28,7 @@ let lastFrame = 0;
 let loading = false;
 let pendingJump = false;
 let pendingDodge = false;
-let pendingAttack: Input['attackPressed'];
+let pendingAttacks: NonNullable<Input['attackPresses']> = [];
 let lastDrawPhase: Phase | undefined;
 let commands = commandState();
 const keys = new Map<string, Button>();
@@ -38,7 +38,7 @@ const bindings: Record<string, Button> = {
   KeyW: 'up', ArrowUp: 'up', Space: 'jump', KeyJ: 'light', KeyK: 'heavy', KeyL: 'block', KeyU: 'dodge',
 };
 function clearInput(): void {
-  commands = commandState(); keys.clear(); pointers.clear(); pendingJump = false; pendingDodge = false; pendingAttack = undefined;
+  commands = commandState(); keys.clear(); pointers.clear(); pendingJump = false; pendingDodge = false; pendingAttacks = []; fight.comboQueue = [];
   document.querySelectorAll('.touch-controls .active').forEach(button => button.classList.remove('active'));
 }
 function input(): Input {
@@ -46,7 +46,7 @@ function input(): Input {
   for (const key of [...keys.values(), ...pointers.values()]) current[key] = true;
   current.jump = pendingJump; pendingJump = false;
   current.dodge = pendingDodge; pendingDodge = false;
-  current.attackPressed = pendingAttack; pendingAttack = undefined;
+  current.attackPresses = pendingAttacks; pendingAttacks = [];
   return current;
 }
 function heldInput(): Input {
@@ -58,11 +58,12 @@ function directions(): void { observeDirections(commands, heldInput(), fight.pla
 function queueAttack(action: Button): void {
   directions();
   if (action === 'dodge') pendingDodge = true;
-  if (action === 'long' || action === 'overhand' || action === 'backfist') { pendingAttack = action; return; }
+  if (action === 'long' || action === 'overhand' || action === 'backfist') { if (pendingAttacks.length < 3) pendingAttacks.push(action); return; }
   if (action !== 'light' && action !== 'heavy') return;
   const held = heldInput();
-  pendingAttack = action === 'heavy' ? heavyCommand(commands, { ...held, down: held.down && fight.player.y === 0 }, fight.player.facing, performance.now() / 1000)
-    : held.down && fight.player.y === 0 ? 'low' : fight.lightHand;
+  if (pendingAttacks.length >= 3) return;
+  pendingAttacks.push(action === 'heavy' ? heavyCommand(commands, { ...held, down: held.down && fight.player.y === 0 }, fight.player.facing, performance.now() / 1000, fight.player.y === 0)
+    : held.down && fight.player.y === 0 ? 'low' : 'light');
 }
 function reset(play = true): void {
   const chosen = difficulty.value === 'warmup' ? 'warmup' : 'street';
@@ -117,12 +118,15 @@ function update(): void {
   }
   guardStatus.dataset.state = guardState;
   if (guardStatus.textContent !== guardText) guardStatus.textContent = guardText;
+  const names = { jab: 'ДЖЕБ', cross: 'ВТОРОЙ ЛЁГКИЙ', heavy: 'ТЯЖЁЛЫЙ', low: 'ПО НОГАМ', upper: 'АППЕРКОТ', long: 'ДЛИННЫЙ ПРЯМОЙ', overhand: 'СВЕРХУ', backfist: 'БЭКФИСТ', poke: 'ТЫЧОК', sweep: 'ПОДСЕЧКА', overhead: 'СВЕРХУ', thrust: 'ВЫПАД', spin: 'ВЕРТУШКА' };
+  const technique = fight.player.action ? names[fight.player.action.kind] : 'СТОЙКА';
+  element('player-technique').textContent = `ПРИЁМ: ${technique}${fight.comboQueue.length ? ' → ' + fight.comboQueue.map(kind => names[kind]).join(' → ') : ''}`;
   canvas.dataset.playerBlock = guardState; canvas.dataset.workerBlock = String(fight.worker.blocking);
   element('timer').textContent = String(Math.ceil(fight.remaining)).padStart(2, '0');
   canvas.dataset.training = String(fight.training.enabled); canvas.dataset.frozen = String(training.frozen());
   canvas.dataset.time = String(fight.time); canvas.dataset.aiIntent = fight.brain.intent; canvas.dataset.gap = String(fight.training.gap);
   canvas.dataset.combo = String(fight.combo);
-  canvas.dataset.buffered = fight.buffered?.kind ?? '';
+  canvas.dataset.buffered = fight.buffered?.kind ?? ''; canvas.dataset.comboQueue = fight.comboQueue.join(',');
   canvas.dataset.phase = phase;
   canvas.dataset.loaded = renderer ? 'true' : 'false';
   const ended = phase === 'win' || phase === 'loss' || phase === 'draw';
