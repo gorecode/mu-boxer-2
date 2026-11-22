@@ -26,7 +26,7 @@ test('cel duration, pose and collision share one source, including active bounda
     s.player.action.time = .29; assert.equal(fighterGeometry(s.player).hit.length, 0);
   } finally { resetCels(); }
   assert.equal(moves.jab.windup, .08); assert.equal(moves.jab.cels[0].pose, 0);
-  assert.equal(moves.jab.cels[1].hit[0].right, 266); assert.equal(moves.jab.range, 331);
+  assert.equal(moves.jab.cels[1].hit[0].right, 273); assert.equal(moves.jab.range, 338);
 });
 
 test('editor rejects invalid duration, pose, phase and rectangles atomically', () => {

@@ -7,6 +7,7 @@ import {schedules, poseAt} from './schedule.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const project = path.resolve(root, '../../../..');
+const jabStage = JSON.parse(await fs.readFile(path.join(root, '../jab-reference-animation/metadata.json'), 'utf8')).stage;
 const {chromium} = createRequire(path.join(project, 'scene-lab/package.json'))('playwright');
 const browser = await chromium.launch({executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox']});
 try {
@@ -17,7 +18,7 @@ try {
     await page.waitForFunction(() => document.querySelector('#start').textContent === 'НАЧАТЬ БОЙ →');
     await page.clock.pauseAt(new Date('2026-11-22T10:00:00Z'));
     await page.addScriptTag({content: `window.poseAt = ${poseAt.toString()}`});
-    await page.evaluate(async ({schedule, name}) => {
+    await page.evaluate(async ({schedule, jabStage}) => {
       const manifest = await fetch('./art/fight/manifest.json').then(r => r.json());
       const images = {};
       for (const [, actor, i] of schedule) {
@@ -29,12 +30,14 @@ try {
       window.drawn = [];
       CanvasRenderingContext2D.prototype.drawImage = function (...args) {
         const image = args[0];
-        if (image instanceof HTMLImageElement && /\/jab\/jab-\d+\.webp$/.test(image.src)) {
+        if (image instanceof HTMLImageElement && /(?:boxer-|jab-hybrid\/jab-)\d+\.webp$/.test(image.src) && document.querySelector('#arena').dataset.playerAction === 'jab') {
           const t = Number(document.querySelector('#arena').dataset.playerActionTime) * 1000;
           const [, actor, i] = window.poseAt(schedule, t);
           window.drawn.push({time: t, actor, frame: i});
-          if (name !== 'smooth') {
-            const frame = manifest[actor][i], source = manifest.jab[Number(image.src.match(/jab-(\d+)/)[1])];
+          {
+            const frame = actor === 'jab' ? jabStage : manifest.boxer[i];
+            const sourceActor = image.src.includes('/boxer-') ? 'boxer' : 'jab';
+            const source = manifest[sourceActor][Number(image.src.match(/(?:boxer-|jab-)(\d+)/)[1])];
             this.save(); this.scale(frame.scale / source.scale, frame.scale / source.scale);
             draw.call(this, images[`${actor}-${i}`], -frame.anchorX, -frame.anchorY, frame.width, frame.height);
             this.restore(); return;
@@ -42,7 +45,7 @@ try {
         }
         return Reflect.apply(draw, this, args);
       };
-    }, {schedule, name});
+    }, {schedule, jabStage});
     await page.locator('#training-mode').check(); await page.locator('#start').click(); await page.clock.runFor(1800);
     await page.locator('#arena').focus();
     const out = path.join(root, '.capture', name); await fs.mkdir(out, {recursive: true});

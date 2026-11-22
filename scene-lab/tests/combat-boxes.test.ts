@@ -14,7 +14,7 @@ test('every hero strike extends 12–24 world pixels beyond the measured fist, w
     const m = moves[c.kind], hit = m.cels[1].hit[0];
     assert.ok(hit.right - c.visibleRight >= 12 && hit.right - c.visibleRight <= 24, c.kind);
     assert.ok(hit.bottom <= c.visibleBottom && hit.top >= c.visibleTop, `${c.kind} must cover the fist vertically`);
-    const arm = c.kind === 'jab' ? jabHurtByFrame[4].at(-1)! : m.cels[1].hurt.at(-1)!;
+    const arm = m.cels[1].hurt.at(-1)!;
     assert.ok(arm.right <= c.visibleRight - 8, `${c.kind} arm must not become vulnerable in empty space`);
   }
 });
@@ -41,15 +41,19 @@ test('all thirteen attacks have valid phase boxes, no contacts outside active fr
   }
 });
 
-test('all eighteen grounded jab frames track the vulnerable arm and never keep an active box on recoil', () => {
-  for (const facing of [1, -1] as const) for (let frame = 0; frame < 18; frame++) {
-    const time = frame * .02;
-    const f = createFight().player; f.x = 700; f.facing = facing as 1 | -1; f.action = { kind: 'jab', time, connected: false };
-    const g = fighterGeometry(f), arm = g.hurt.at(-1)!, expected = jabHurtByFrame[frame].at(-1)!;
-    assert.ok(Math.abs((facing === 1 ? arm.right - f.x : f.x - arm.left) - expected.right) < 1e-9);
-    assert.equal(g.hit.length, frame >= 4 && frame < 8 ? 1 : 0);
+test('hybrid body boxes follow all four poses and recoil never keeps an active contact', () => {
+  for (const facing of [1, -1] as const) for (const [time, hurt, active] of [
+    [0, moves.jab.cels[0].hurt, false], [.04, jabHurtByFrame[0], false],
+    [.08, moves.jab.cels[1].hurt, true], [.159999, moves.jab.cels[1].hurt, true],
+    [.16, jabHurtByFrame[1], false], [.18, moves.jab.cels[2].hurt, false],
+    [.24, moves.jab.cels[3].hurt, false],
+  ] as const) {
+    const f = createFight().player; f.x = 700; f.facing = facing; f.action = {kind: 'jab', time, connected: false};
+    const g = fighterGeometry(f);
+    assert.deepEqual(g.hurt, hurt.map(b => ({...b, left: 700 + (facing === 1 ? b.left : -b.right), right: 700 + (facing === 1 ? b.right : -b.left)})));
+    assert.equal(g.hit.length, active ? 1 : 0);
   }
-  const f = createFight().player; f.crouch = true; f.action = { kind: 'jab', time: .3, connected: false };
+  const f = createFight().player; f.crouch = true; f.action = {kind: 'jab', time: .3, connected: false};
   assert.equal(Math.max(...fighterGeometry(f).hurt.map(b => b.top)), 265);
 });
 
@@ -84,15 +88,26 @@ test('worker tool tips stay outside vulnerable limbs and crouched sweep no longe
 
 test('jab arm boxes follow the reference elbow and retract on the same clock as the drawings', () => {
   const metadata = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/jab-reference-animation/metadata.json', import.meta.url), 'utf8'));
-  const tips = [108.29, 126.14, 184.45, 223.72, 247.52, 247.52, 247.52, 247.52, 246.33, 239.19, 227.29, 201.11, 164.22, 145.18, 129.71, 119, 113.05, 108.29];
-  assert.equal(jabHurtByFrame.length, metadata.samples.length);
+  const tips = [184.45, 164.22];
+  assert.equal(jabHurtByFrame.length, 2);
   for (let i = 0; i < tips.length; i++) {
     const arm = jabHurtByFrame[i].at(-1)!;
-    const [x, y] = metadata.samples[i].joints.e;
+    const [x, y] = metadata.samples[[2, 12][i]].joints.e;
     assert.ok(Math.abs(arm.right - (tips[i] - 12)) < .01);
     assert.ok(arm.left <= (x - 164) * 1.19 && arm.right >= (x - 164) * 1.19);
     assert.ok(arm.bottom <= (495 - y) * 1.19 && arm.top >= (495 - y) * 1.19);
     assert.deepEqual(jabHurtByFrame[i].slice(0, 5), jabHurtByFrame[0].slice(0, 5));
   }
-  assert.deepEqual(jabHurtByFrame[0], jabHurtByFrame[17]);
+  assert.ok(jabHurtByFrame[1].at(-1)!.right < jabHurtByFrame[0].at(-1)!.right);
+});
+
+test('original straight-punch stance exposes both legs and leaves the low gap between them empty', () => {
+  for (const kind of ['jab', 'long'] as const) for (const facing of [1, -1] as const) {
+    const f = createFight().player; f.x = 700; f.facing = facing;
+    f.action = {kind, time: moves[kind].windup, connected: false};
+    const hurt = fighterGeometry(f).hurt;
+    const contains = (offset: number) => hurt.some(b => b.left <= 700 + facing * offset && b.right >= 700 + facing * offset && b.bottom <= 70 && b.top >= 70);
+    assert.equal(contains(0), false, `${kind} must not put a low hurt box in the empty centre`);
+    assert.equal(contains(-140), true); assert.equal(contains(120), true);
+  }
 });

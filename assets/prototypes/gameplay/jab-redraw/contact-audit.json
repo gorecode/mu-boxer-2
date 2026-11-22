@@ -3,14 +3,14 @@
   "contacts": [
     {
       "kind": "jab",
-      "actor": "jab",
-      "pose": 4,
-      "asset": "jab/jab-4.webp",
-      "sha256": "c0a90d3d92909ab20cd88a9d09d0edcfba2565ae8f80a1c1c3bf9649ce6fcf73",
+      "actor": "boxer",
+      "pose": 2,
+      "asset": "boxer-2.webp",
+      "sha256": "41cf4a0d7159ec6493803c47edfa53e0697261a1e10028a4b0389ae07a37142f",
       "minHeight": 300,
-      "visibleRight": 247.51999999999998,
-      "visibleBottom": 443.87,
-      "visibleTop": 485.52
+      "visibleRight": 254.66,
+      "visibleBottom": 442.68,
+      "visibleTop": 484.33
     },
     {
       "kind": "cross",

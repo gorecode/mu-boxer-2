@@ -21,8 +21,8 @@ export function jabFrame(f: Fighter): number | null {
   if (f.hp <= 0 || f.reaction || f.hurt > 0 || !f.action || f.action.kind !== 'jab' || f.y > 0) return null;
   const { cel, index, elapsed } = celAt('jab', f.action.time);
   if (cel.pose !== [0, 2, 0, 0][index] || cel.phase === 'recovery' && f.crouch) return null;
-  const progress = cel.duration > 0 ? Math.min(1, elapsed / cel.duration) : 0;
-  if (index === 1) return 4;
-  const time = [0, .08, .16, .24][index] + progress * [.08, .08, .08, .10][index];
-  return Math.min(17, Math.floor(time * 50 + 1e-9));
+  const progress = cel.duration > 0 ? elapsed / cel.duration : 0;
+  if (index === 0 && progress >= .5 - 1e-9) return 0;
+  if (index === 2 && progress < .25 - 1e-9) return 1;
+  return null;
 }
