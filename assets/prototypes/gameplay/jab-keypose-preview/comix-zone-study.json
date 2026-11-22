@@ -1,0 +1,87 @@
+{
+  "source_page": "https://spritedatabase.net/file/6549",
+  "source_file": "https://spritedatabase.net/files/genesis/111/Sprite/Sketch.gif",
+  "ripper": "Grim",
+  "sheet_dimensions": [
+    960,
+    3216
+  ],
+  "sheet_sha256": "bfc14cf311a147596eecc3d315cc9570cef4a7928dd78253b62a216982109dda",
+  "observation": "Manual counting of isolated drawings on the published rip, not extraction of original animation bytecode. Row interpretations follow visible movement.",
+  "straight_punch_pair": {
+    "row_y": [
+      214,
+      281
+    ],
+    "drawings": 6,
+    "rects_x": [
+      [
+        10,
+        73
+      ],
+      [
+        81,
+        179
+      ],
+      [
+        184,
+        250
+      ],
+      [
+        265,
+        327
+      ],
+      [
+        333,
+        425
+      ],
+      [
+        430,
+        496
+      ]
+    ],
+    "interpretation": "Two successive opposite-hand straight punches; about three drawings per punch in this row."
+  },
+  "rising_strike_and_return": {
+    "row_y": [
+      285,
+      378
+    ],
+    "drawings": 8,
+    "rects_x": [
+      [
+        21,
+        72
+      ],
+      [
+        80,
+        137
+      ],
+      [
+        146,
+        220
+      ],
+      [
+        225,
+        309
+      ],
+      [
+        322,
+        384
+      ],
+      [
+        395,
+        448
+      ],
+      [
+        461,
+        512
+      ],
+      [
+        520,
+        571
+      ]
+    ]
+  },
+  "limits": "A static sheet does not establish in-game holds, reuse, branching, tick counts, or a universal number of in-betweens."
+}

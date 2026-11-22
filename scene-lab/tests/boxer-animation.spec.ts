@@ -8,7 +8,7 @@ test('boxer keeps his ground anchor and facing through attacks, walk, recovery a
     CanvasRenderingContext2D.prototype.drawImage = new Proxy(CanvasRenderingContext2D.prototype.drawImage, {
       apply(draw, context: CanvasRenderingContext2D, args) {
         const image = args[0];
-        if (image instanceof HTMLImageElement && /(?:boxer-|jab\/jab-)\d+\.webp$/.test(image.src)) {
+        if (image instanceof HTMLImageElement && /(?:boxer-|jab-hybrid\/jab-)\d+\.webp$/.test(image.src)) {
           const m = context.getTransform();
           samples.push({ pose: Number(image.src.match(/(?:boxer-|jab-)(\d+)/)![1]), a: m.a, b: m.b, c: m.c, d: m.d, x: m.e, y: m.f });
         }

@@ -1,0 +1,16 @@
+{
+  "runtime_matches_approved_preview": true,
+  "compared_frames": 61,
+  "max_channel_delta": 0,
+  "draw_replacement": false,
+  "hit_tip": 273,
+  "visible_tip": 254.66,
+  "padding": 18.34,
+  "standing_target_reach": 338,
+  "visual_idle_ms": 180,
+  "total_move_ms": 340,
+  "textures": {
+    "jab-0.webp": "413f81e3aa4ea97703054453267f99b1d6a21433d012024ac8e66a0ec4765ca1",
+    "jab-1.webp": "c8dc14cd8229d0c54bbe2091f51ea656044f49f1bbbaec177e5830ec56cd1be6"
+  }
+}
