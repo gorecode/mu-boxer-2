@@ -33,3 +33,6 @@ and cutscene implementation or edits for «Месть Боксёра 2», read a
 
 Apply the author's latest explicit decisions before older scene documents and
 examples. This skill does not authorize publication or other external actions.
+
+For reference-preserving sprite animation from motion video, read and apply
+[video-reference-animation](.claude/skills/video-reference-animation/SKILL.md).

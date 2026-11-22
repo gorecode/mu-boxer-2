@@ -1,0 +1,138 @@
+{
+  "source": "jab.mp4",
+  "sha256": "1eac9f500275e21ae4b656ac0d3d3397ef37abdab7053c966548d44ae457cf22",
+  "fps": 24,
+  "annotation": "manual visual estimates, approximately +/- 5 source pixels; guidance only",
+  "retarget": "video near arm mapped to approved reference far-arm punch; no video RGB used",
+  "timing": "art-directed compression to 80 ms startup / 80 ms contact / 180 ms return",
+  "landmarks": [
+    {
+      "frame": 27,
+      "time": 1.125,
+      "shoulder": [
+        444,
+        141
+      ],
+      "elbow": [
+        456,
+        179
+      ],
+      "wrist": [
+        490,
+        140
+      ]
+    },
+    {
+      "frame": 29,
+      "time": 1.2083333333333333,
+      "shoulder": [
+        466,
+        145
+      ],
+      "elbow": [
+        495,
+        168
+      ],
+      "wrist": [
+        531,
+        129
+      ]
+    },
+    {
+      "frame": 30,
+      "time": 1.25,
+      "shoulder": [
+        493,
+        137
+      ],
+      "elbow": [
+        535,
+        139
+      ],
+      "wrist": [
+        587,
+        114
+      ]
+    },
+    {
+      "frame": 31,
+      "time": 1.2916666666666667,
+      "shoulder": [
+        503,
+        128
+      ],
+      "elbow": [
+        553,
+        123
+      ],
+      "wrist": [
+        627,
+        108
+      ]
+    },
+    {
+      "frame": 33,
+      "time": 1.375,
+      "shoulder": [
+        510,
+        129
+      ],
+      "elbow": [
+        561,
+        119
+      ],
+      "wrist": [
+        633,
+        108
+      ]
+    },
+    {
+      "frame": 38,
+      "time": 1.5833333333333333,
+      "shoulder": [
+        479,
+        145
+      ],
+      "elbow": [
+        524,
+        153
+      ],
+      "wrist": [
+        569,
+        126
+      ]
+    },
+    {
+      "frame": 39,
+      "time": 1.625,
+      "shoulder": [
+        470,
+        147
+      ],
+      "elbow": [
+        502,
+        165
+      ],
+      "wrist": [
+        536,
+        130
+      ]
+    },
+    {
+      "frame": 41,
+      "time": 1.7083333333333333,
+      "shoulder": [
+        450,
+        143
+      ],
+      "elbow": [
+        463,
+        181
+      ],
+      "wrist": [
+        499,
+        138
+      ]
+    }
+  ]
+}
