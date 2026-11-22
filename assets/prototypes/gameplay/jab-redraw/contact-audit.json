@@ -4,13 +4,13 @@
     {
       "kind": "jab",
       "actor": "jab",
-      "pose": 3,
-      "asset": "jab/jab-3.webp",
-      "sha256": "c521d79519ee4d6e638078dfbddb7fad04797cb4bdea0ddfd82bf9dcd5431ac6",
+      "pose": 4,
+      "asset": "jab/jab-4.webp",
+      "sha256": "c0a90d3d92909ab20cd88a9d09d0edcfba2565ae8f80a1c1c3bf9649ce6fcf73",
       "minHeight": 300,
-      "visibleRight": 297.1275899280576,
-      "visibleBottom": 442.15348920863306,
-      "visibleTop": 489.5394604316547
+      "visibleRight": 247.51999999999998,
+      "visibleBottom": 443.87,
+      "visibleTop": 485.52
     },
     {
       "kind": "cross",

@@ -64,15 +64,15 @@ test('cel editor changes real poses and contact, validates inputs, drags zones a
   await page.locator('#edit-left').fill('400'); await page.locator('#edit-left').press('Tab'); await expect(page.locator('#edit-left')).toHaveValue('55');
   await arena.scrollIntoViewIfNeeded(); const r = (await arena.boundingBox())!;
   const width = Math.min(r.width, r.height * 16/9), height = width * 9/16;
-  const x = r.x + (r.width - width)/2 + 755 * width/1600, y = r.y + (r.height - height)/2 + 355 * height/900;
-  await page.mouse.move(x, y); await page.mouse.down(); await page.mouse.move(x - 110 * width/1600, y, { steps: 3 }); await page.mouse.up();
+  const x = r.x + (r.width - width)/2 + 696 * width/1600, y = r.y + (r.height - height)/2 + 355 * height/900;
+  await page.mouse.move(x, y); await page.mouse.down(); await page.mouse.move(x - 61 * width/1600, y, { steps: 3 }); await page.mouse.up();
   await expect(page.locator('#edit-right')).toHaveValue('205');
   await page.locator('#training-step').click(); await expect(page.locator('#worker-hp')).toHaveText('120 / 120');
   const downloadPromise = page.waitForEvent('download'); await page.locator('#edit-export').click(); const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('mu-boxer-moves.json');
   const data = JSON.parse(await readFile((await download.path())!, 'utf8'));
   expect(data.version).toBe(1); expect(data.moves.jab[0].duration).toBe(.2); expect(data.moves.jab[1].hit[0].right).toBe(205);
-  await page.locator('#edit-defaults').click(); await expect(page.locator('#edit-right')).toHaveValue('315');
+  await page.locator('#edit-defaults').click(); await expect(page.locator('#edit-right')).toHaveValue('266');
   await page.locator('#training-step').click(); await expect(page.locator('#worker-hp')).toHaveText('112 / 120');
   await page.screenshot({ path: info.outputPath('fight-training.png'), fullPage: true });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

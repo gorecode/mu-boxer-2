@@ -220,10 +220,10 @@ test('pose boxes follow facing and height, disappear outside active frames, and 
   assert.equal(fighterGeometry(p).hit.length, 0);
   p.action.time = .11;
   const right = fighterGeometry(p);
-  assert.equal(right.hit.length, 1); assert.equal(right.hurt.length, 5);
-  assert.equal(right.hit[0].right, 915);
+  assert.equal(right.hit.length, 1); assert.equal(right.hurt.length, 7);
+  assert.equal(right.hit[0].right, 866);
   p.facing = -1; const left = fighterGeometry(p);
-  assert.equal(left.hit[0].left, 285); assert.equal(left.hit[0].right, 545);
+  assert.equal(left.hit[0].left, 334); assert.equal(left.hit[0].right, 545);
   p.y = 100; assert.equal(fighterGeometry(p).hit[0].top, left.hit[0].top + 100);
   p.action.time = .19; assert.equal(fighterGeometry(p).hit.length, 0);
   p.action = null; p.crouch = true; p.y = 0;
@@ -257,7 +257,7 @@ test('airborne down input does not select grounded crouching attacks', () => {
 
 test('jab reaches the drawn fist at 300px in either facing and respects contact boundaries', () => {
   for (const facing of [1, -1] as const) {
-    for (const [distance, hp] of [[300, 112], [380, 112], [380.1, 120]] as const) {
+    for (const [distance, hp] of [[300, 112], [331, 112], [331.1, 120]] as const) {
       const s = ready(); s.player.x = 800; s.worker.x = 800 + facing * distance;
       s.player.facing = facing; s.worker.facing = facing === 1 ? -1 : 1; s.worker.stop = .5;
       advance(s, .15, { light: true });
@@ -271,5 +271,5 @@ test('jab reaches the drawn fist at 300px in either facing and respects contact 
   advance(immune, .15, { light: true }); assert.equal(immune.worker.hp, 120);
   const s = duel(); s.player.action = { kind: 'jab', time: .11, connected: false };
   const hit = fighterGeometry(s.player).hit[0];
-  assert.deepEqual(hit, { left: 655, right: 915, bottom: 420, top: 498 });
+  assert.deepEqual(hit, { left: 655, right: 866, bottom: 420, top: 493 });
 });

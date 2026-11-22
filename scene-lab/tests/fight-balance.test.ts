@@ -109,13 +109,20 @@ test('close blocks allow a heavy punish and the padded jab punishes a tip poke w
   }
 });
 
-test('out-of-range worker swings stay harmless and can be punished during recovery in either facing', () => {
+test('whiff retaliation respects the shorter jab: poke and overhead are punishable, a far sweep needs an approach', () => {
   for (const facing of [1, -1] as const) for (const kind of ['poke', 'sweep', 'overhead'] as const) {
     const s = ready(moves[kind].range + 20, facing);
     s.worker.action = { kind, time: 0, connected: false };
     advance(s, moves[kind].windup + moves[kind].active + .02);
     assert.equal(s.player.hp, 100); assert.ok(s.worker.action); assert.equal(s.worker.action.connected, false);
-    until(s, () => Math.abs(s.worker.x - s.player.x) <= 410, facing === 1 ? { right: true } : { left: true });
+    if (kind === 'sweep') {
+      press(s, 'jab', .4);
+      assert.equal(s.worker.hp, 120, 'a stationary jab must not reach across the shovel gap');
+      until(s, () => Math.abs(s.worker.x - s.player.x) <= 300, facing === 1 ? { right: true } : { left: true });
+      press(s, 'jab', .15); assert.equal(s.worker.hp, 112); assert.equal(s.player.hp, 100);
+      continue;
+    }
+    until(s, () => Math.abs(s.worker.x - s.player.x) <= 365, facing === 1 ? { right: true } : { left: true });
     punish(s, 'jab');
     assert.equal(s.worker.hp, 112, `${kind} whiff punish, facing=${facing}`); assert.equal(s.player.hp, 100);
     assert.equal(s.worker.action, null); assert.ok(s.worker.stun > 0);

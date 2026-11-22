@@ -13,7 +13,7 @@ function move(timing: number[], poses: number[], height: number[], low: boolean,
   return { ...data, cels, get range() { return Math.max(0, cels[1].hit[0]?.right ?? 0) + 65; }, get windup() { return cels[0].duration; }, get active() { return cels[1].duration; }, get recovery() { return cels[2].duration + cels[3].duration; } };
 }
 export const moves: Record<Attack, Move> = {
-  jab: move([.08, .08, .08, .10], [0, 2, 0, 0], [420, 498], false, { range: 380, damage: 8, level: 'mid', push: 18, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
+  jab: move([.08, .08, .08, .10], [0, 2, 0, 0], [420, 493], false, { range: 331, damage: 8, level: 'mid', push: 18, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
   cross: move([.14, .09, .08, .12], [0, 3, 0, 0], [397, 469], false, { range: 310, damage: 9, level: 'mid', push: 22, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
   heavy: move([.25, .12, .09, .19], [0, 3, 0, 0], [397, 469], false, { range: 310, damage: 20, level: 'mid', push: 60, hitstun: .42, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
   low: move([.17, .1, .09, .15], [5, 8, 5, 5], [153, 223], true, { range: 403, damage: 10, level: 'low', push: 25, hitstun: .38, stop: [.04, .065], reaction: 'light', lift: 0 }),
@@ -49,9 +49,36 @@ for (const [kind, m] of Object.entries(moves)) {
     cel.hurt = structuredClone(hurtForPose(kind, cel.pose));
   }
 }
-export const jabHurtByFrame: Box[][] = [107, 137, 222, 297, 268, 135, 108, 107].map(tip => [
-  box(-175, 0, -25, 220), box(15, 0, 120, 225), box(-100, 220, 45, 450), box(-30, 470, 52, 575), box(45, 430, tip - 12, 480),
-]);
+export const jabHurtByFrame: Box[][] = [
+  [194, 136, 229, 183, 121, 108.29],
+  [196.5, 132, 236.25, 176.58, 115.95, 126.14],
+  [203.33, 122.58, 256.13, 156.01, 103.97, 184.45],
+  [211, 115.33, 272.65, 134.68, 98.73, 223.72],
+  [219, 110, 285, 106.0, 100, 247.52],
+  [219, 110, 285, 106.0, 100, 247.52],
+  [219, 110, 285, 106.0, 100, 247.52],
+  [219, 110, 285, 106.0, 100, 247.52],
+  [218.2, 110.53, 284.06, 114.35, 99.87, 246.33],
+  [215.91, 112.06, 280.45, 123.49, 99.51, 239.19],
+  [212.2, 114.53, 274.53, 132.42, 98.92, 227.29],
+  [205.6, 119.75, 262.64, 147.28, 100.34, 201.11],
+  [201.6, 124.75, 251.09, 161.82, 106.74, 164.22],
+  [199.12, 127.85, 243.87, 169.15, 110.71, 145.18],
+  [197.03, 131.15, 237.8, 175.13, 114.87, 129.71],
+  [195.6, 133.44, 233.63, 178.97, 117.77, 119],
+  [194.8, 134.72, 231.31, 181.02, 119.38, 113.05],
+  [194, 136, 229, 183, 121, 108.29],
+].map(([sx, sy, ex, ey, wy, tip]) => {
+  const shoulder = [(sx - 164) * 1.19, (495 - sy) * 1.19];
+  const elbow = [(ex - 164) * 1.19, (495 - ey) * 1.19];
+  const wristY = (495 - wy) * 1.19;
+  return [
+    box(-175, 0, -25, 220), box(15, 0, 120, 225), box(-100, 220, 45, 450), box(-30, 470, 52, 575),
+    box(35, 385, 95, 465),
+    box(shoulder[0] - 10, Math.min(shoulder[1], elbow[1]) - 10, elbow[0] + 10, Math.max(shoulder[1], elbow[1]) + 10),
+    box(elbow[0] - 10, Math.min(elbow[1], wristY) - 10, tip - 12, Math.max(elbow[1], wristY) + 14),
+  ];
+});
 export function strikeAt(kind: Attack, time: number): number {
   const m = moves[kind], t = (time - m.windup) / m.active;
   if (t < -1e-9 || t >= 1 - 1e-9) return -1;

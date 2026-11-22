@@ -1,0 +1,88 @@
+{
+  "source": "18 original-texture PNGs from PR9",
+  "runtime": "scene-lab/public/art/fight/jab",
+  "frames": [
+    {
+      "frame": 0,
+      "sha256": "65ca8ba180368cc4f6fedb61d038375175375d80ea67d6b33a6f705f68cedca2"
+    },
+    {
+      "frame": 1,
+      "sha256": "2003f6a19ce841df5df96ab55d5c37398ed53d8596acfda2dc660d007e35b6da"
+    },
+    {
+      "frame": 2,
+      "sha256": "413f81e3aa4ea97703054453267f99b1d6a21433d012024ac8e66a0ec4765ca1"
+    },
+    {
+      "frame": 3,
+      "sha256": "e7d7499b267c7ac783c19026c8d79e25ffce2f2d044217d296425515fd475065"
+    },
+    {
+      "frame": 4,
+      "sha256": "c0a90d3d92909ab20cd88a9d09d0edcfba2565ae8f80a1c1c3bf9649ce6fcf73"
+    },
+    {
+      "frame": 5,
+      "sha256": "c0a90d3d92909ab20cd88a9d09d0edcfba2565ae8f80a1c1c3bf9649ce6fcf73"
+    },
+    {
+      "frame": 6,
+      "sha256": "c0a90d3d92909ab20cd88a9d09d0edcfba2565ae8f80a1c1c3bf9649ce6fcf73"
+    },
+    {
+      "frame": 7,
+      "sha256": "c0a90d3d92909ab20cd88a9d09d0edcfba2565ae8f80a1c1c3bf9649ce6fcf73"
+    },
+    {
+      "frame": 8,
+      "sha256": "af72f84aca44ea091ef4ebaecffbe762446755cdb1e9ee4ae499a8eb2cd9defd"
+    },
+    {
+      "frame": 9,
+      "sha256": "79dbf34cd1fa124047ad08bced6b4326f0803362b8ed89938b9ffd60ce13ee2a"
+    },
+    {
+      "frame": 10,
+      "sha256": "26261b6d3e2fa11f3bedaf886f97fd2de4a878404ab2a21450292491498f634a"
+    },
+    {
+      "frame": 11,
+      "sha256": "6e34caeadda9585c2534f8042ed75c005e154ee333ff73c37096c20826d5ab88"
+    },
+    {
+      "frame": 12,
+      "sha256": "c8dc14cd8229d0c54bbe2091f51ea656044f49f1bbbaec177e5830ec56cd1be6"
+    },
+    {
+      "frame": 13,
+      "sha256": "67a61e1eb58c090a9071f1802d4fd4049b4060ae839d56b52bf2dbea2b17d835"
+    },
+    {
+      "frame": 14,
+      "sha256": "b443a127663ebcfe63ed3b49a549a6bd2bc5db80117a940944a51e28292123d2"
+    },
+    {
+      "frame": 15,
+      "sha256": "41702f4ae102bf423d96b74d82f0e7e26b9c87ea42424f13adde2f1134fc7ff4"
+    },
+    {
+      "frame": 16,
+      "sha256": "f0cf54d825009c6d05d65b82775c78dd2426080d39ca5e9b9477b281bb31d4e3"
+    },
+    {
+      "frame": 17,
+      "sha256": "65ca8ba180368cc4f6fedb61d038375175375d80ea67d6b33a6f705f68cedca2"
+    }
+  ],
+  "timing_ms": {
+    "startup": 80,
+    "contact": 80,
+    "return": 180
+  },
+  "visible_tip": 247.52,
+  "active_tip": 266,
+  "padding": 18.48,
+  "capture": "runtime-contact.png",
+  "capture_method": "Actual production renderer, no asset routes or drawing replacement"
+}
