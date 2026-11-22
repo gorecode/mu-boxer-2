@@ -1,0 +1,36 @@
+{
+  "stage": {
+    "width": 500,
+    "height": 530,
+    "anchorX": 228,
+    "anchorY": 495,
+    "scale": 1.19
+  },
+  "poses": [
+    {
+      "spread": 0,
+      "drop": 0,
+      "frontLift": 0,
+      "rearLift": 0
+    },
+    {
+      "spread": 28.151260504201684,
+      "drop": 4,
+      "frontLift": 6,
+      "rearLift": 0
+    },
+    {
+      "spread": 56.30252100840337,
+      "drop": 8,
+      "frontLift": 0,
+      "rearLift": 0
+    },
+    {
+      "spread": 28.151260504201684,
+      "drop": 4,
+      "frontLift": 0,
+      "rearLift": 5
+    }
+  ],
+  "method": "original sprite texture deformation; no generated pixels"
+}

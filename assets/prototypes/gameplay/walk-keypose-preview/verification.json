@@ -1,0 +1,109 @@
+{
+  "source_sha256": "4ecabf66657cf73ae3f86bf1eb70afb293cf5758dc23c0f671b96d2785dd614d",
+  "method": "native texture rig; original face, guard, clothes and boots; no generated pixels",
+  "registration": {
+    "stage": {
+      "width": 500,
+      "height": 530,
+      "anchorX": 228,
+      "anchorY": 495,
+      "scale": 1.19
+    },
+    "poses": [
+      {
+        "spread": 0,
+        "drop": 0,
+        "frontLift": 0,
+        "rearLift": 0
+      },
+      {
+        "spread": 28.151260504201684,
+        "drop": 4,
+        "frontLift": 6,
+        "rearLift": 0
+      },
+      {
+        "spread": 56.30252100840337,
+        "drop": 8,
+        "frontLift": 0,
+        "rearLift": 0
+      },
+      {
+        "spread": 28.151260504201684,
+        "drop": 4,
+        "frontLift": 0,
+        "rearLift": 5
+      }
+    ],
+    "method": "original sprite texture deformation; no generated pixels"
+  },
+  "upper_body": [
+    {
+      "pose": 0,
+      "upper_drop_px": 0,
+      "identical_upper_pixels_alpha_ge_250": 23382
+    },
+    {
+      "pose": 1,
+      "upper_drop_px": 4,
+      "identical_upper_pixels_alpha_ge_250": 23382
+    },
+    {
+      "pose": 2,
+      "upper_drop_px": 8,
+      "identical_upper_pixels_alpha_ge_250": 23382
+    },
+    {
+      "pose": 3,
+      "upper_drop_px": 4,
+      "identical_upper_pixels_alpha_ge_250": 23382
+    }
+  ],
+  "bounds": [
+    {
+      "pose": 0,
+      "alpha_bounds": [
+        64,
+        1,
+        344,
+        493
+      ],
+      "rear_sole_y": 493,
+      "front_sole_y": 485
+    },
+    {
+      "pose": 1,
+      "alpha_bounds": [
+        36,
+        5,
+        372,
+        493
+      ],
+      "rear_sole_y": 493,
+      "front_sole_y": 479
+    },
+    {
+      "pose": 2,
+      "alpha_bounds": [
+        8,
+        9,
+        400,
+        493
+      ],
+      "rear_sole_y": 493,
+      "front_sole_y": 485
+    },
+    {
+      "pose": 3,
+      "alpha_bounds": [
+        36,
+        5,
+        372,
+        488
+      ],
+      "rear_sole_y": 488,
+      "front_sole_y": 485
+    }
+  ],
+  "limits": "Feet agree with support anchors at key poses. Continuous root movement during held sprites still produces sliding between keys, especially with two drawings."
+}

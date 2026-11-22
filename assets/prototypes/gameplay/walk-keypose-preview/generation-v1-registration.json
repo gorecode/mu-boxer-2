@@ -1,0 +1,65 @@
+{
+  "master": "scene-lab/public/art/fight/boxer-0.webp",
+  "master_sha256": "4ecabf66657cf73ae3f86bf1eb70afb293cf5758dc23c0f671b96d2785dd614d",
+  "generation_sha256": "647f5b8146fcaba127d512999e3695177c61d18c5a38a6ae6f06ad02292da02a",
+  "stage": {
+    "width": 500,
+    "height": 530,
+    "anchorX": 228,
+    "anchorY": 495,
+    "scale": 1.19
+  },
+  "unchanged_upper_rows": [
+    0,
+    218
+  ],
+  "registration": [
+    {
+      "name": "stance",
+      "cell": null,
+      "offset": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "lead-transfer",
+      "cell": [
+        591,
+        0,
+        1182,
+        665
+      ],
+      "offset": [
+        -64,
+        -1
+      ]
+    },
+    {
+      "name": "wide-support",
+      "cell": [
+        0,
+        665,
+        591,
+        1330
+      ],
+      "offset": [
+        -64,
+        -1
+      ]
+    },
+    {
+      "name": "rear-recovery",
+      "cell": [
+        591,
+        665,
+        1182,
+        1330
+      ],
+      "offset": [
+        -64,
+        -1
+      ]
+    }
+  ]
+}
