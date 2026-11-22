@@ -27,9 +27,9 @@ test('new jab draws transparent registered frames, holds contact and restores th
   const frames = await page.evaluate(() => (window as Window & { jabFrames?: { frame: number; time: number; x: number; y: number; a: number; d: number }[] }).jabFrames!);
   expect([...new Set(frames.map(f => f.frame))].sort()).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
   const contact = frames.filter(f => f.frame === 3);
-  expect(contact.at(-1)!.time - contact[0].time).toBeGreaterThanOrEqual(65);
+  expect(contact.at(-1)!.time - contact[0].time).toBeGreaterThanOrEqual(64);
   expect(contact.at(-1)!.time - contact[0].time).toBeLessThanOrEqual(100);
-  for (const frame of frames) { expect(frame.x).toBe(430); expect(frame.y).toBe(820); expect(frame.a).toBeCloseTo(1.55, 6); expect(frame.d).toBeCloseTo(1.55, 6); }
+  for (const frame of frames) { expect(frame.x).toBe(430); expect(frame.y).toBe(820); expect(frame.a).toBeCloseTo(.5265107913669065, 6); expect(frame.d).toBeCloseTo(.5265107913669065, 6); }
   await expect(arena).toHaveAttribute('data-player-action', ''); await expect(page.locator('#worker-hp')).toHaveText('120 / 120');
   const alpha = await page.evaluate(async () => {
     const root = new URL('./art/fight/jab/', location.href);
@@ -40,9 +40,9 @@ test('new jab draws transparent registered frames, holds contact and restores th
       const c = canvas.getContext('2d')!; c.drawImage(image, 0, 0); const pixels = c.getImageData(0, 0, image.width, image.height).data;
       let clear = 0, opaque = 0;
       for (let p = 3; p < pixels.length; p += 4) { if (pixels[p] === 0) clear++; if (pixels[p] >= 250) opaque++; }
-      const feet = [[30, 180], [190, 335]].map(([left, right], side) => {
+      const feet = [[0, Math.floor(image.width * .32)], [Math.floor(image.width * .32), Math.floor(image.width * .7)]].map(([left, right], side) => {
         let x = side ? -Infinity : Infinity, y = 0;
-        for (let py = image.height - 60; py < image.height; py++) for (let px = left; px < right; px++) {
+        for (let py = Math.floor(image.height * .85); py < image.height; py++) for (let px = left; px < right; px++) {
           if (pixels[(py * image.width + px) * 4 + 3] < 128) continue;
           x = side ? Math.max(x, px) : Math.min(x, px); y = Math.max(y, py);
         }

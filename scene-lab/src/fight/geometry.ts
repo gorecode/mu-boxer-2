@@ -1,4 +1,5 @@
-import { celAt, strikeAt, crouching, standing, type Box } from './moves.ts';
+import { celAt, strikeAt, crouching, standing, jabHurtByFrame, type Box } from './moves.ts';
+import { jabFrame } from './boxer-animation.ts';
 import type { Fighter } from './model.ts';
 export type { Box } from './moves.ts';
 export interface Geometry { hurt: Box[]; hit: Box[] }
@@ -8,7 +9,10 @@ export function overlaps(a: Box, b: Box): boolean {
 }
 export function fighterGeometry(f: Fighter): Geometry {
   const cel = f.action ? celAt(f.action.kind, f.action.time).cel : null;
+  const frame = jabFrame(f);
   const hurt = f.reaction === 'down' ? [{ left: -105, bottom: 0, right: 105, top: 85 }]
+    : frame !== null ? jabHurtByFrame[frame]
+    : f.action?.kind === 'jab' && cel?.phase === 'recovery' && f.crouch ? crouching
     : cel?.hurt ?? (f.crouch ? crouching : standing);
   const world = (b: Box): Box => ({
     left: f.x + (f.facing === 1 ? b.left : -b.right), right: f.x + (f.facing === 1 ? b.right : -b.left),

@@ -24,12 +24,13 @@ test('boxer keeps his ground anchor and facing through attacks, walk, recovery a
   async function sample() {
     return page.evaluate(() => (window as Window & { boxerFrames?: { pose: number; a: number; b: number; c: number; d: number; x: number; y: number }[] }).boxerFrames!.at(-1)!);
   }
+  const scales = await page.evaluate(async () => (await fetch(new URL('./art/fight/manifest.json', location.href)).then(r => r.json())).boxer.map((f: { scale: number }) => f.scale)) as number[];
   for (const kind of ['jab', 'cross', 'heavy', 'long', 'backfist', 'overhand', 'low', 'upper']) {
     await page.locator('#edit-attack').selectOption(kind);
     for (const phase of ['0', '1', '2', '3']) {
       await page.locator('#edit-phase').selectOption(phase);
       const frame = await sample();
-      expect(frame.a).toBeGreaterThan(1); expect(frame.a).toBe(frame.d);
+      expect(frame.a).toBeCloseTo(kind === 'jab' ? 0.5265107913669065 : scales[frame.pose], 6); expect(frame.a).toBe(frame.d);
       expect(frame.b).toBe(0); expect(frame.c).toBe(0);
       expect(frame.x).toBeCloseTo(Number(await arena.getAttribute('data-player-x')), 1);
       expect(frame.y).toBeCloseTo(820 - Number(await arena.getAttribute('data-player-y')), 1);

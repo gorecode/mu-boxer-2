@@ -96,7 +96,7 @@ test('far spin closes into punching distance and damages a stationary player; bl
 
 test('second light has real mirrored reach, a guarded first hit cannot cancel, and two hands can finish with heavy', () => {
   for (const facing of [1, -1] as const) {
-    for (const [distance, hp] of [[320, 111], [321, 120]] as const) {
+    for (const [distance, hp] of [[310, 111], [311, 120]] as const) {
       const s = ready(facing); s.player.x = s.worker.x - facing * distance; s.lightHand = 'cross';
       advance(s, .3, { light: true }); assert.equal(s.worker.hp, hp); assert.equal(s.hits, hp < 120 ? 1 : 0);
     }

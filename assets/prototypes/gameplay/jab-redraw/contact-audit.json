@@ -1,0 +1,148 @@
+{
+  "method": "Alpha >=128, forward-most silhouette in the annotated height region; vertical bounds of the last28 world pixels. World units from runtime manifest. Uppercut and overhands use swept arcs in game.",
+  "contacts": [
+    {
+      "kind": "jab",
+      "actor": "jab",
+      "pose": 3,
+      "asset": "jab/jab-3.webp",
+      "sha256": "c521d79519ee4d6e638078dfbddb7fad04797cb4bdea0ddfd82bf9dcd5431ac6",
+      "minHeight": 300,
+      "visibleRight": 297.1275899280576,
+      "visibleBottom": 442.15348920863306,
+      "visibleTop": 489.5394604316547
+    },
+    {
+      "kind": "cross",
+      "actor": "boxer",
+      "pose": 3,
+      "asset": "boxer-3.webp",
+      "sha256": "d791ebd68928c26ec5b3031ccd2528957636ed5d7b3e3a9d18060e449ae0153e",
+      "minHeight": 300,
+      "visibleRight": 227.29,
+      "visibleBottom": 404.59999999999997,
+      "visibleTop": 460.53
+    },
+    {
+      "kind": "heavy",
+      "actor": "boxer",
+      "pose": 3,
+      "asset": "boxer-3.webp",
+      "sha256": "d791ebd68928c26ec5b3031ccd2528957636ed5d7b3e3a9d18060e449ae0153e",
+      "minHeight": 300,
+      "visibleRight": 227.29,
+      "visibleBottom": 404.59999999999997,
+      "visibleTop": 460.53
+    },
+    {
+      "kind": "low",
+      "actor": "boxer",
+      "pose": 8,
+      "asset": "boxer-8.webp",
+      "sha256": "a4b23e403dc7f5f4cbbb73354d1c62d71f7113909ecd1ecc25a8e82111405266",
+      "minHeight": 140,
+      "visibleRight": 320.32000000000005,
+      "visibleBottom": 161.28000000000003,
+      "visibleTop": 215.04000000000002
+    },
+    {
+      "kind": "upper",
+      "actor": "boxer",
+      "pose": 9,
+      "asset": "boxer-9.webp",
+      "sha256": "d339330002eeae8f489f00462d82e31331b48c6f8b493cf2fe3e6a1b3655ff61",
+      "minHeight": 430,
+      "visibleRight": 205.2,
+      "visibleBottom": 430.8,
+      "visibleTop": 487.2
+    },
+    {
+      "kind": "long",
+      "actor": "boxer",
+      "pose": 2,
+      "asset": "boxer-2.webp",
+      "sha256": "41cf4a0d7159ec6493803c47edfa53e0697261a1e10028a4b0389ae07a37142f",
+      "minHeight": 300,
+      "visibleRight": 254.66,
+      "visibleBottom": 442.68,
+      "visibleTop": 484.33
+    },
+    {
+      "kind": "overhand",
+      "actor": "boxer",
+      "pose": 3,
+      "asset": "boxer-3.webp",
+      "sha256": "d791ebd68928c26ec5b3031ccd2528957636ed5d7b3e3a9d18060e449ae0153e",
+      "minHeight": 300,
+      "visibleRight": 227.29,
+      "visibleBottom": 404.59999999999997,
+      "visibleTop": 460.53
+    },
+    {
+      "kind": "backfist",
+      "actor": "boxer",
+      "pose": 3,
+      "asset": "boxer-3.webp",
+      "sha256": "d791ebd68928c26ec5b3031ccd2528957636ed5d7b3e3a9d18060e449ae0153e",
+      "minHeight": 300,
+      "visibleRight": 227.29,
+      "visibleBottom": 404.59999999999997,
+      "visibleTop": 460.53
+    },
+    {
+      "kind": "poke",
+      "actor": "worker",
+      "pose": 2,
+      "asset": "worker-2.webp",
+      "sha256": "27b7e169cd17a1fb5b0a91dfc787358d0741b32405f91a984b4d425cebf8befc",
+      "minHeight": 250,
+      "visibleRight": 295.24,
+      "visibleBottom": 345.26,
+      "visibleTop": 392.84
+    },
+    {
+      "kind": "thrust",
+      "actor": "worker",
+      "pose": 2,
+      "asset": "worker-2.webp",
+      "sha256": "27b7e169cd17a1fb5b0a91dfc787358d0741b32405f91a984b4d425cebf8befc",
+      "minHeight": 250,
+      "visibleRight": 295.24,
+      "visibleBottom": 345.26,
+      "visibleTop": 392.84
+    },
+    {
+      "kind": "sweep",
+      "actor": "worker",
+      "pose": 9,
+      "asset": "worker-9.webp",
+      "sha256": "a81e083bc1a046be3b173bf2acf9b06d9ce19915a247abdee62ba626b4c8c2e2",
+      "minHeight": 0,
+      "visibleRight": 444.40000000000003,
+      "visibleBottom": 3.3000000000000003,
+      "visibleTop": 60.50000000000001
+    },
+    {
+      "kind": "spin",
+      "actor": "worker",
+      "pose": 4,
+      "asset": "worker-4.webp",
+      "sha256": "40259295fa2e8034184dc0c42284c56138456e52e01fb816a706c159c68aca76",
+      "minHeight": 0,
+      "visibleRight": 253.76,
+      "visibleBottom": 132.98,
+      "visibleTop": 195.2
+    },
+    {
+      "kind": "overhead",
+      "actor": "worker",
+      "pose": 8,
+      "asset": "worker-8.webp",
+      "sha256": "b8436422de467e2b2e86f5056065aa068869e3131ebcf6f74cc1058565599678",
+      "minHeight": 0,
+      "visibleRight": 368.0,
+      "visibleBottom": 8.049999999999999,
+      "visibleTop": 74.75
+    }
+  ]
+}

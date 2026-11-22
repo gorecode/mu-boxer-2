@@ -95,18 +95,17 @@ function punish(s: Fight, kind: 'jab' | 'heavy'): void {
   assert.ok(hit, 'retaliation must actually hit');
 }
 
-test('close blocks allow a heavy punish; a tip-range poke requires a step for jab retaliation', () => {
+test('close blocks allow a heavy punish and the padded jab punishes a tip poke without a step', () => {
   for (const facing of [1, -1] as const) {
     for (const kind of ['poke', 'sweep', 'overhead'] as const) {
       const s = ready(200, facing); blocked(s, kind); punish(s, 'heavy');
       assert.equal(s.worker.hp, 100, `${kind} close punish, facing=${facing}`);
       assert.equal(s.player.hp, 100); assert.equal(s.worker.action, null); assert.ok(s.worker.stun > 0);
     }
-    const tip = ready(320, facing); blocked(tip, 'poke'); const moment = structuredClone(tip);
-    press(tip, 'jab', .15); assert.equal(tip.worker.hp, 120, 'stationary jab should miss after block pushback');
-    const x = moment.player.x;
-    advance(moment, .06, facing === 1 ? { right: true } : { left: true }); punish(moment, 'jab');
-    assert.ok((moment.player.x - x) * facing > 10); assert.equal(moment.worker.hp, 112); assert.equal(moment.player.hp, 100);
+    const tip = ready(320, facing); blocked(tip, 'poke'); const x = tip.player.x;
+    punish(tip, 'jab');
+    assert.ok((tip.player.x - x) * facing <= .001, 'jab must not gain an automatic forward step');
+    assert.equal(tip.worker.hp, 112); assert.equal(tip.player.hp, 100);
   }
 });
 
@@ -116,7 +115,7 @@ test('out-of-range worker swings stay harmless and can be punished during recove
     s.worker.action = { kind, time: 0, connected: false };
     advance(s, moves[kind].windup + moves[kind].active + .02);
     assert.equal(s.player.hp, 100); assert.ok(s.worker.action); assert.equal(s.worker.action.connected, false);
-    until(s, () => Math.abs(s.worker.x - s.player.x) <= 300, facing === 1 ? { right: true } : { left: true });
+    until(s, () => Math.abs(s.worker.x - s.player.x) <= 410, facing === 1 ? { right: true } : { left: true });
     punish(s, 'jab');
     assert.equal(s.worker.hp, 112, `${kind} whiff punish, facing=${facing}`); assert.equal(s.player.hp, 100);
     assert.equal(s.worker.action, null); assert.ok(s.worker.stun > 0);

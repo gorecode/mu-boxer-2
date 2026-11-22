@@ -15,7 +15,7 @@ function advance(s: Fight, seconds: number, input: Partial<Input> = {}): void {
 
 test('long straight has harmless startup, bounded physical step, reach edge and one hit in both directions and walls', () => {
   for (const facing of [1, -1] as const) for (const wall of [false, true]) {
-    for (const [distance, hp] of [[220, 106], [350, 106], [430, 106], [431, 120]] as const) {
+    for (const [distance, hp] of [[220, 106], [350, 106], [448, 106], [449, 120]] as const) {
       const s = ready(distance, facing, wall), x = s.player.x;
       advance(s, .18, { long: true }); assert.equal(s.worker.hp, 120); assert.equal(s.player.action?.kind, 'long');
       assert.ok(Math.abs((s.player.x - x) * facing - (distance === 220 ? 0 : 110)) < .001);
@@ -51,7 +51,7 @@ test('overhand beats crouching guard, standing guard preserves HP, and backfist 
     const hit = ready(300, facing); advance(hit, .18, { backfist: true }); assert.equal(hit.worker.hp, 120);
     advance(hit, .2, { backfist: true }); assert.equal(hit.worker.hp, 102); assert.ok(hit.worker.knockback * facing > 200);
     advance(hit, .6, { backfist: true }); assert.equal(hit.worker.hp, 102); assert.equal(hit.hits, 1);
-    const miss = ready(301, facing); advance(miss, .8, { backfist: true }); assert.equal(miss.worker.hp, 120);
+    const miss = ready(311, facing); advance(miss, .8, { backfist: true }); assert.equal(miss.worker.hp, 120);
   }
 });
 

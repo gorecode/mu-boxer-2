@@ -15,7 +15,7 @@ test('standalone uppercut closes normal spacing with a real step, launches once 
   expect(distance).toBeGreaterThan(300); expect(distance).toBeLessThan(320);
   await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(150);
   await expect(arena).toHaveAttribute('data-player-action', 'upper'); await expect(page.locator('#worker-hp')).toHaveText('120 / 120');
-  expect(await num(page, 'player-x') - x).toBeCloseTo(70, 1);
+  expect(await num(page, 'player-x') - x).toBeCloseTo(distance - 268, 1);
   await page.clock.runFor(220); await expect(page.locator('#worker-hp')).toHaveText('97 / 120'); expect(await num(page, 'worker-y')).toBeGreaterThan(0);
   await page.locator('.arena-shell').screenshot({ path: info.outputPath('uppercut-step.png') });
   await page.clock.runFor(700); await expect(page.locator('#worker-hp')).toHaveText('97 / 120');

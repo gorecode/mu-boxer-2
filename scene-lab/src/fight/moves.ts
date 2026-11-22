@@ -10,24 +10,48 @@ function move(timing: number[], poses: number[], height: number[], low: boolean,
   const phases: CelPhase[] = ['windup', 'active', 'settle', 'recovery'];
   const cels = phases.map((phase, i): Cel => ({ phase, duration: timing[i], pose: poses[i], hurt: structuredClone(low ? crouching : standing), hit: [] }));
   cels[1].hit.push(box(55, height[0], data.range - 65, height[1]));
-  if (data.level === 'mid' && !low) cels[1].hurt.push(box(50, height[0], data.range - 77, height[1]));
   return { ...data, cels, get range() { return Math.max(0, cels[1].hit[0]?.right ?? 0) + 65; }, get windup() { return cels[0].duration; }, get active() { return cels[1].duration; }, get recovery() { return cels[2].duration + cels[3].duration; } };
 }
 export const moves: Record<Attack, Move> = {
-  jab: move([.1, .09, .09, 0.09], [0, 2, 0, 0], [430, 500], false, { range: 320, damage: 8, level: 'mid', push: 18, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
-  cross: move([.14, .09, .08, .12], [0, 3, 0, 0], [380, 480], false, { range: 320, damage: 9, level: 'mid', push: 22, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
-  heavy: move([.25, .12, .09, .19], [0, 3, 0, 0], [260, 370], false, { range: 250, damage: 20, level: 'mid', push: 60, hitstun: .42, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
-  low: move([.17, .1, .09, .15], [5, 8, 5, 5], [15, 110], true, { range: 235, damage: 10, level: 'low', push: 25, hitstun: .38, stop: [.04, .065], reaction: 'light', lift: 0 }),
-  upper: move([.2, .12, .09, 0.31], [5, 9, 9, 0], [210, 455], true, { range: 250, damage: 23, level: 'overhead', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
-  long: move([.23, .09, .1, .27], [0, 2, 0, 0], [380, 485], false, { range: 320, damage: 14, level: 'mid', push: 45, hitstun: .36, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
-  overhand: move([.38, .12, .12, .34], [4, 3, 0, 0], [205, 490], false, { range: 255, damage: 22, level: 'overhead', push: 45, hitstun: .65, stop: [.075, .10], reaction: 'down', lift: 0 }),
-  backfist: move([.2, .1, .1, .32], [0, 3, 0, 0], [340, 470], false, { range: 300, damage: 18, level: 'high', push: 85, hitstun: .4, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
+  jab: move([.08, .08, .08, .10], [0, 2, 0, 0], [420, 498], false, { range: 380, damage: 8, level: 'mid', push: 18, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
+  cross: move([.14, .09, .08, .12], [0, 3, 0, 0], [397, 469], false, { range: 310, damage: 9, level: 'mid', push: 22, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
+  heavy: move([.25, .12, .09, .19], [0, 3, 0, 0], [397, 469], false, { range: 310, damage: 20, level: 'mid', push: 60, hitstun: .42, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
+  low: move([.17, .1, .09, .15], [5, 8, 5, 5], [153, 223], true, { range: 403, damage: 10, level: 'low', push: 25, hitstun: .38, stop: [.04, .065], reaction: 'light', lift: 0 }),
+  upper: move([.2, .12, .09, 0.31], [5, 9, 9, 0], [210, 548], true, { range: 288, damage: 23, level: 'overhead', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
+  long: move([.23, .09, .1, .27], [0, 2, 0, 0], [435, 493], false, { range: 338, damage: 14, level: 'mid', push: 45, hitstun: .36, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
+  overhand: move([.38, .12, .12, .34], [4, 3, 0, 0], [205, 490], false, { range: 310, damage: 22, level: 'overhead', push: 45, hitstun: .65, stop: [.075, .10], reaction: 'down', lift: 0 }),
+  backfist: move([.2, .1, .1, .32], [0, 3, 0, 0], [397, 469], false, { range: 310, damage: 18, level: 'high', push: 85, hitstun: .4, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
   poke: move([.22, .12, .09, .21], [1, 2, 2, 7], [330, 410], false, { range: 320, damage: 12, level: 'high', push: 38, hitstun: .36, stop: [.045, .07], reaction: 'light', lift: 0 }),
-  sweep: move([.5, .14, .09, .37], [7, 9, 9, 7], [0, 65], false, { range: 345, damage: 17, level: 'low', push: 65, hitstun: .65, stop: [.055, .085], reaction: 'down', lift: 0 }),
+  sweep: move([.5, .14, .09, .37], [7, 9, 9, 7], [0, 65], false, { range: 497, damage: 17, level: 'low', push: 65, hitstun: .65, stop: [.055, .085], reaction: 'down', lift: 0 }),
   thrust: move([.42, .13, .12, .65], [1, 2, 2, 7], [290, 420], false, { range: 340, damage: 14, level: 'mid', push: 55, hitstun: .38, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
-  spin: move([.65, .9, .16, .65], [3, 4, 1, 7], [210, 400], false, { range: 320, damage: 16, level: 'mid', push: 35, hitstun: .25, stop: [.035, .055], reaction: 'light', lift: 0 }),
-  overhead: move([.6, .12, .09, .41], [3, 8, 8, 7], [240, 490], false, { range: 280, damage: 22, level: 'overhead', push: 65, hitstun: .5, stop: [.075, .1], reaction: 'heavy', lift: 0 }),
+  spin: move([.65, .9, .16, .65], [3, 4, 1, 7], [125, 400], false, { range: 320, damage: 16, level: 'mid', push: 35, hitstun: .25, stop: [.035, .055], reaction: 'light', lift: 0 }),
+  overhead: move([.6, .12, .09, .41], [3, 8, 8, 7], [0, 490], false, { range: 421, damage: 22, level: 'overhead', push: 65, hitstun: .5, stop: [.075, .1], reaction: 'heavy', lift: 0 }),
 };
+const boxerHurtByPose: Partial<Record<number, Box[]>> = {
+  2: [box(-65, 0, 65, 180), box(-80, 180, 55, 455), box(-10, 480, 60, 565), box(35, 430, 240, 480)],
+  3: [box(-65, 0, 90, 180), box(-60, 180, 90, 450), box(15, 465, 95, 550), box(45, 410, 215, 450)],
+  8: [box(-100, 0, 80, 110), box(-100, 100, 50, 275), box(20, 285, 100, 355), box(50, 160, 305, 210)],
+  9: [box(-100, 0, 100, 150), box(-80, 170, 60, 345), box(-25, 345, 60, 480), box(40, 430, 190, 520)],
+};
+const workerHurtByPose: Partial<Record<number, Box[]>> = {
+  2: [...standing, box(55, 335, 165, 400)],
+  4: [box(-65, 0, 65, 180), box(-60, 180, 85, 405), box(-40, 405, 65, 480)],
+  7: [box(-70, 0, 80, 150), box(-35, 140, 70, 340), box(45, 340, 110, 425)],
+  8: [box(-65, 0, 65, 180), box(80, 0, 170, 180), box(-40, 180, 140, 380), box(105, 380, 175, 455)],
+  9: [box(-140, 0, 120, 135), box(-20, 135, 185, 270), box(175, 270, 245, 335)],
+};
+function hurtForPose(kind: string, pose: number): Box[] {
+  const worker = ['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind);
+  return (worker ? workerHurtByPose : boxerHurtByPose)[pose] ?? (!worker && pose === 5 ? crouching : standing);
+}
+for (const [kind, m] of Object.entries(moves)) {
+  for (const cel of m.cels) {
+    cel.hurt = structuredClone(hurtForPose(kind, cel.pose));
+  }
+}
+export const jabHurtByFrame: Box[][] = [107, 137, 222, 297, 268, 135, 108, 107].map(tip => [
+  box(-175, 0, -25, 220), box(15, 0, 120, 225), box(-100, 220, 45, 450), box(-30, 470, 52, 575), box(45, 430, tip - 12, 480),
+]);
 export function strikeAt(kind: Attack, time: number): number {
   const m = moves[kind], t = (time - m.windup) / m.active;
   if (t < -1e-9 || t >= 1 - 1e-9) return -1;
@@ -56,4 +80,5 @@ export function editCel(kind: Attack, index: number, patch: Partial<Pick<Cel, 'd
     throw new RangeError('Недопустимые параметры фазы.');
   }
   Object.assign(cel, structuredClone(patch));
+  if (patch.pose !== undefined) cel.hurt = structuredClone(hurtForPose(kind, patch.pose));
 }
