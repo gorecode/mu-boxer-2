@@ -5,7 +5,7 @@ export const schedules = {
     [0, 'jab', 0], [20, 'jab', 1], [40, 'jab', 2], [60, 'jab', 3], [80, 'jab', 4],
     ...Array.from({length: 9}, (_, i) => [160 + i * 20, 'jab', i + 8]),
   ],
-  hybrid: [[0, 'boxer', 0], [40, 'jab', 2], [80, 'boxer', 2], [160, 'jab', 12], [220, 'boxer', 0]],
+  hybrid: [[0, 'boxer', 0], [40, 'jab', 2], [80, 'boxer', 2], [160, 'jab', 12], [180, 'boxer', 0]],
 };
 
 export function poseAt(schedule, time) {
