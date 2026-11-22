@@ -11,9 +11,9 @@ function player(time = 0) {
   return f;
 }
 test('jab plays startup drawings, holds full extension throughout contact, then retracts', () => {
-  const cases = [[0, 0], [.033, 0], [.034, 1], [.066, 1], [.067, 2], [.099999, 2], [.1, 3], [.189999, 3], [.19, 4], [.234999, 4], [.235, 5], [.28, 6], [.325, 7], [.369, 7]];
+  const cases = [[0, 0], [.026, 0], [.027, 1], [.053, 1], [.054, 2], [.079999, 2], [.08, 3], [.159999, 3], [.16, 4], [.199999, 4], [.2, 5], [.24, 6], [.29, 7], [.339, 7]];
   for (const [time, frame] of cases) assert.equal(jabFrame(player(time)), frame, `time=${time}`);
-  assert.equal(moves.jab.windup, .1); assert.equal(moves.jab.active, .09); assert.equal(moves.jab.range, 320);
+  assert.equal(moves.jab.windup, .08); assert.equal(moves.jab.active, .08); assert.equal(moves.jab.range, 380);
 });
 test('reactions, defeat, airborne punches, crouch recovery and edited poses override the clip', () => {
   const f = player(.12);

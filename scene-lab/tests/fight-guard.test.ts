@@ -19,7 +19,7 @@ test('standalone uppercut steps into normal fighting distance before contact in 
     stepFight(s, { ...idleInput(), attackPressed: 'upper' }, dt); advance(s, .15, { down: true });
     assert.equal(s.player.action?.kind, 'upper'); assert.equal(s.worker.hp, 120, 'startup must remain harmless');
     const travel = (s.player.x - x) * facing;
-    assert.ok(travel >= 49.99 && travel <= 70.001, `step=${travel}, distance=${distance}`);
+    assert.ok(travel >= 11.99 && travel <= 70.001, `step=${travel}, distance=${distance}`);
     advance(s, .2); assert.equal(s.worker.hp, 97); assert.ok(s.worker.y > 0); assert.equal(s.hits, 1);
     advance(s, .6); assert.equal(s.worker.hp, 97); assert.equal(s.hits, 1);
   }
@@ -32,14 +32,14 @@ test('uppercut keeps a bounded step and real contact range without close-range c
       stepFight(s, { ...idleInput(), attackPressed: 'upper' }, dt); advance(s, .15);
       assert.equal(s.player.x, x); advance(s, .2); assert.equal(s.worker.hp, 97);
     }
-    for (const distance of [321, 400, 600]) {
+    for (const distance of [359, 400, 600]) {
       const s = ready(distance, facing), x = s.player.x;
       stepFight(s, { ...idleInput(), attackPressed: 'upper' }, dt); advance(s, .8);
       assert.ok(Math.abs((s.player.x - x) * facing - 70) < .001); assert.equal(s.worker.hp, 120); assert.equal(s.hits, 0);
     }
     const moving = ready(300, facing), x = moving.player.x;
     stepFight(moving, { ...idleInput(), attackPressed: 'upper' }, dt); moving.worker.x += facing * 120;
-    advance(moving, .8); assert.ok(Math.abs((moving.player.x - x) * facing - 70) < .001); assert.equal(moving.worker.hp, 120);
+    advance(moving, .8); assert.ok(Math.abs((moving.player.x - x) * facing - 32) < .001); assert.equal(moving.worker.hp, 120);
   }
 });
 

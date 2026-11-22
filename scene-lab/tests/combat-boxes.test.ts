@@ -1,0 +1,82 @@
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { celAt, editCel, jabHurtByFrame, resetCels, strikeAt, type Attack } from '../src/fight/moves.ts';
+import { createFight, idleInput, moves, stepFight } from '../src/fight/model.ts';
+import { fighterGeometry } from '../src/fight/geometry.ts';
+const audit = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/jab-redraw/contact-audit.json', import.meta.url), 'utf8')) as { contacts: { kind: Attack; actor: string; asset: string; sha256: string; visibleRight: number; visibleBottom: number; visibleTop: number }[] };
+
+test('every hero strike extends 12–24 world pixels beyond the measured fist, with arm vulnerability inside it', () => {
+  for (const c of audit.contacts.filter(c => c.actor !== 'worker')) {
+    const bytes = readFileSync(new URL(`../public/art/fight/${c.asset}`, import.meta.url));
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), c.sha256, `${c.kind} measurements must match the actual texture`);
+    const m = moves[c.kind], hit = m.cels[1].hit[0];
+    assert.ok(hit.right - c.visibleRight >= 12 && hit.right - c.visibleRight <= 24, c.kind);
+    assert.ok(hit.bottom <= c.visibleBottom && hit.top >= c.visibleTop, `${c.kind} must cover the fist vertically`);
+    const arm = c.kind === 'jab' ? jabHurtByFrame[3].at(-1)! : m.cels[1].hurt.at(-1)!;
+    assert.ok(arm.right <= c.visibleRight - 8, `${c.kind} arm must not become vulnerable in empty space`);
+  }
+});
+
+test('all thirteen attacks have valid phase boxes, no contacts outside active frames, and mirrored world geometry', () => {
+  for (const kind of Object.keys(moves) as Attack[]) {
+    const m = moves[kind]; let time = 0;
+    for (const cel of m.cels) {
+      for (const b of [...cel.hit, ...cel.hurt]) {
+        assert.ok([b.left, b.right, b.bottom, b.top].every(Number.isFinite));
+        assert.ok(b.left < b.right && b.bottom < b.top, kind);
+      }
+      const f = createFight().player; f.x = 700; f.y = 50;
+      f.action = { kind, time: time + cel.duration / 2, connected: false };
+      const right = fighterGeometry(f); f.facing = -1; const left = fighterGeometry(f);
+      for (const type of ['hurt', 'hit'] as const) for (let i = 0; i < right[type].length; i++) {
+        assert.equal(left[type][i].left, 1400 - right[type][i].right);
+        assert.equal(left[type][i].right, 1400 - right[type][i].left);
+        assert.equal(left[type][i].top, right[type][i].top);
+      }
+      if (cel.phase !== 'active') { assert.equal(strikeAt(kind, f.action.time), -1); assert.equal(right.hit.length, 0); }
+      time += cel.duration;
+    }
+  }
+});
+
+test('all eight grounded jab frames track the vulnerable arm and never keep an active box on recoil', () => {
+  for (const facing of [1, -1] as const) for (const [time, frame] of [[0, 0], [.03, 1], [.06, 2], [.10, 3], [.17, 4], [.21, 5], [.25, 6], [.3, 7]]) {
+    const f = createFight().player; f.x = 700; f.facing = facing as 1 | -1; f.action = { kind: 'jab', time, connected: false };
+    const g = fighterGeometry(f), arm = g.hurt.at(-1)!, expected = jabHurtByFrame[frame].at(-1)!;
+    assert.equal(facing === 1 ? arm.right - f.x : f.x - arm.left, expected.right);
+    assert.equal(g.hit.length, frame === 3 ? 1 : 0);
+  }
+  const f = createFight().player; f.crouch = true; f.action = { kind: 'jab', time: .3, connected: false };
+  assert.equal(Math.max(...fighterGeometry(f).hurt.map(b => b.top)), 265);
+});
+
+test('padded reach connects at the edge and misses immediately outside without repeated damage, mirrored', () => {
+  for (const kind of ['jab', 'cross', 'heavy', 'low', 'upper', 'long', 'overhand', 'backfist'] as const) for (const facing of [1, -1] as const) for (const outside of [false, true]) {
+    const s = createFight('street', true); s.phase = 'fighting'; s.player.x = 700; s.worker.x = 700 + facing * (moves[kind].range + (outside ? .1 : 0));
+    s.player.facing = facing; s.worker.facing = facing === 1 ? -1 : 1; s.worker.stop = 2;
+    s.player.action = { kind, time: 0, connected: false };
+    for (let i = 0; i < 120; i++) stepFight(s, idleInput(), 1/120);
+    assert.equal(s.hits, outside ? 0 : 1, `${kind}, facing=${facing}, outside=${outside}`);
+    assert.equal(s.worker.hp, outside ? 120 : 120 - moves[kind].damage);
+  }
+});
+
+test('changing an editor pose updates body boxes atomically; reset restores the audited phase geometry', () => {
+  const before = structuredClone(moves.heavy.cels[1]);
+  try {
+    editCel('heavy', 1, { pose: 8 }); assert.ok(moves.heavy.cels[1].hurt.some(b => b.right === 305));
+    const edited = structuredClone(moves.heavy.cels[1]);
+    assert.throws(() => editCel('heavy', 1, { pose: 12 }), RangeError); assert.deepEqual(moves.heavy.cels[1], edited);
+  } finally { resetCels(); }
+  assert.deepEqual(moves.heavy.cels[1], before);
+  assert.equal(celAt('jab', .079).cel.phase, 'windup'); assert.equal(celAt('jab', .08).cel.phase, 'active');
+});
+
+test('worker tool tips stay outside vulnerable limbs and crouched sweep no longer has a standing head', () => {
+  assert.ok(moves.sweep.cels[1].hit[0].right >= 430);
+  assert.ok(Math.max(...moves.sweep.cels[1].hurt.map(b => b.top)) <= 335);
+  assert.ok(Math.max(...moves.thrust.cels[1].hurt.map(b => b.right)) < 180);
+  assert.equal(moves.spin.cels[1].hit[0].bottom, 125);
+});
