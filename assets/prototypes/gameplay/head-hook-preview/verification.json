@@ -1,0 +1,179 @@
+{
+  "left-compare.gif": {
+    "size": [
+      1500,
+      650
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 1210,
+    "sha256": "7e49be947802919fe68d36ce932f0ced216a623ed6215c29995b3a81dc2d984e"
+  },
+  "left-compare-slow.gif": {
+    "size": [
+      1500,
+      650
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 4840,
+    "sha256": "e5f78b4d398281cc45bbe6620485db3fed5c7d254c73e946dcebceea1529ed56"
+  },
+  "left-0.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 3,
+    "distinct_images": 2,
+    "duration_ms": 1210,
+    "sha256": "acee92a1b30cb3301addfa0811cb720e5e5451089ec8f994e368e891f964a722"
+  },
+  "left-0-slow.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 3,
+    "distinct_images": 2,
+    "duration_ms": 4840,
+    "sha256": "1fd7faf5904a1af6bdd6f45221c2491937775e1a3691640513f7cb9f10222eed"
+  },
+  "left-1.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 5,
+    "distinct_images": 3,
+    "duration_ms": 1210,
+    "sha256": "e8c15830953d81fcc462c321e883c6c1168072708c636b115daa029972ba4146"
+  },
+  "left-1-slow.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 5,
+    "distinct_images": 3,
+    "duration_ms": 4840,
+    "sha256": "dc0052ac1293ff041af081b3f4774b82f025be67741937e8a17a722f6b8faa0d"
+  },
+  "left-2.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 1210,
+    "sha256": "e5623c27b58cc0562f3eaecd43ff34158e895d0b598976f9937392304a944aff"
+  },
+  "left-2-slow.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 4840,
+    "sha256": "b13c6dbee33b1ff1c26d2b1d603ae47cf21678fe8182bdaecbe3bd8b88ac8f70"
+  },
+  "right-compare.gif": {
+    "size": [
+      1500,
+      650
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 1210,
+    "sha256": "9f82db32a4c01634eba119375f3e7d6f9504c7d9a68738af5033d3bdaa9f6967"
+  },
+  "right-compare-slow.gif": {
+    "size": [
+      1500,
+      650
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 4840,
+    "sha256": "f605810dd639ff3cd01d0cc2ccafbdeaf49b24f40a44ee4f0f1f0ee763d0da41"
+  },
+  "right-0.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 3,
+    "distinct_images": 2,
+    "duration_ms": 1210,
+    "sha256": "d8f12315a3ce4f470e4db4bc48df7d7205a574ffb6741245e68244b918455115"
+  },
+  "right-0-slow.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 3,
+    "distinct_images": 2,
+    "duration_ms": 4840,
+    "sha256": "ab4198587c07db7c67060192fab2524df9ae701695173b1f9363e66569a54c85"
+  },
+  "right-1.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 5,
+    "distinct_images": 3,
+    "duration_ms": 1210,
+    "sha256": "4d4cc02306599df092185d8e375eb6d39361b3c2a738efa2e6a84ec79882a083"
+  },
+  "right-1-slow.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 5,
+    "distinct_images": 3,
+    "duration_ms": 4840,
+    "sha256": "ba7c24241c1ca0edb0d7eb6859e9617e39fe26b48eb2847e8fbbeea22c1efaed"
+  },
+  "right-2.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 1210,
+    "sha256": "9716d83a8c93c94c5cca3f754d980ce9c76f1dfd2c9fd4d170e074b87943f3da"
+  },
+  "right-2-slow.gif": {
+    "size": [
+      500,
+      570
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 4840,
+    "sha256": "62ca87b3eb6b951c72887c16f453c7c67dd03d7dfe80b29b5586d418cdc3334f"
+  },
+  "sources": {
+    "left-contact.png": "5e7a64172d9f31354bdcbb87d39bd9f4be1ff9003f69440027ceafe5ec17d792",
+    "left-early.png": "0bf1a1ceed6d01729a79b2e34b98115abb45cd1bc539002e5f8cc7b362b4fb3e",
+    "left-late.png": "80d75bc05f2ee2cf3f19708203ce3c396a89e6cccb06b4b2c5ee53b860a0d08f",
+    "right-contact.png": "a26f4d279c6f1934bef9898ed87f4658d1acbbd6fc6a10b481ad5c6fcf87165b",
+    "right-early.png": "b1d2a1feb39ca334d248ce6266d67e149b44af45cf1a4b972ae4ecc8e1b3f4bc",
+    "right-late.png": "9f04bff5ac605fa05212d9183bc32d00455475302d93f1430164181818bf2549"
+  },
+  "checks": [
+    "six animations with exactly 0/1/2 additional drawings",
+    "identical 120 ms contact",
+    "20 ms hybrid return",
+    "decoded GIF durations and loop",
+    "planted front toe registration",
+    "selected left contact master unchanged",
+    "unclipped transparent native frames"
+  ]
+}

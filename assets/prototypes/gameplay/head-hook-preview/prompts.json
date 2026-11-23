@@ -1,0 +1,45 @@
+{
+  "base": "Use case: precise-object-edit. One transparent full-body 2D fighting-game sprite of the EXACT boxer in the supplied masters: same ugly angular face, spiky short hair, worn mauve T-shirt, dusty brown trousers and black shoes. Rough Comix Zone ink and dense tiny black crosshatching, muted red-brown tones. Do not redesign, beautify or make a smooth painting. No blur, effects, text, labels, enemy or borders. Full figure including both shoes uncropped. Faces and punches toward RIGHT in every frame, same camera. No jump and no forward step. Preserve natural upper arm/forearm lengths, two arms and two fists only. The planted FRONT shoe on image RIGHT stays in the same place. Actual left/right refer to the boxer's anatomical hands, not the viewer. ",
+  "tasks": [
+    {
+      "name": "right-contact",
+      "refs": [
+        "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/scene-lab/public/art/fight/boxer-0.webp",
+        "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/assets/prototypes/gameplay/heavy-contact-options/inputs/01-head-hook.png"
+      ],
+      "detail": "Create the CONTACT KEYFRAME of a heavy RIGHT REAR-HAND HOOK to the jaw, as the counterpart of the left hook master image2. This must NOT be a horizontal mirror: he still faces RIGHT and the forward/front shoe remains on image RIGHT. The striking RIGHT arm is the NEAR/CAMERA arm, whose shoulder is on image LEFT in idle image1. Show this near upper arm prominently across the front of the chest, elbow lifted around shoulder height, elbow bent approximately 90 degrees and closed fist driving across toward RIGHT at opponent JAW height. The FAR/LEFT arm, whose shoulder is on image RIGHT, is tucked in guard beside the far cheek and is NOT punching. Strong right shoulder and hip rotation, rear heel turns, front knee braced. Contact/end of a curved heavy hook, not a straight punch, not an uppercut, not a downward overhand. Same overall size, head size, clothing and exact coarse black hatching as image2."
+    },
+    {
+      "name": "left-early",
+      "refs": [
+        "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/scene-lab/public/art/fight/boxer-0.webp",
+        "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/assets/prototypes/gameplay/heavy-contact-options/inputs/01-head-hook.png"
+      ],
+      "detail": "Image1 is the original IDLE, image2 the AUTHOR-APPROVED LEFT/LEAD-HAND HOOK CONTACT. Draw the EARLY IN-BETWEEN, roughly 30 percent of the way from idle to contact. Follow image2's same punching FAR/LEFT arm (shoulder on image RIGHT): its left elbow has begun lifting sideways at chest height, closed fist still close to the front of the face at about jaw height, no full extension yet. The NEAR/RIGHT arm (shoulder image LEFT) stays folded as guard beside the near cheek. Torso begins a small left-hook turn, shoulders and shirt turn WITH the arm; legs keep the grounded idle stance, heel only just begins to pivot. This is a preparation key before the swing opens, not the final contact. Preserve the master's same facial structure and fine original-style ink texture; no additional third hand."
+    },
+    {
+      "name": "left-late",
+      "refs": [
+        "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/scene-lab/public/art/fight/boxer-0.webp",
+        "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/assets/prototypes/gameplay/heavy-contact-options/inputs/01-head-hook.png"
+      ],
+      "detail": "Image1 is original IDLE, image2 the AUTHOR-APPROVED LEFT/LEAD-HAND HOOK CONTACT. Draw the LATE IN-BETWEEN, roughly 65 percent of the way from idle to contact. Follow image2's exact punching FAR/LEFT arm (shoulder on image RIGHT): left upper arm has swung outward toward RIGHT, elbow lifts almost to shoulder height, elbow stays bent about 90 degrees; closed left fist is at JAW height halfway between the idle guard and final contact fist. Do NOT straighten the arm into a jab. The NEAR/RIGHT arm (shoulder image LEFT) stays folded in guard beside the near cheek. Torso and hips are visibly rotated about halfway toward image2, rear heel partially pivots, front shoe unchanged and knees braced. Keep face identity, hairstyle, shirt and coarse tiny hatching matched to image2. This is not the final pose: a clearly less-open hook than image2."
+    },
+    {
+      "name": "right-early",
+      "refs": [
+        "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/scene-lab/public/art/fight/boxer-0.webp",
+        "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/assets/prototypes/gameplay/head-hook-preview/inputs/right-contact.png"
+      ],
+      "detail": "Image1 is original IDLE, image2 is the RIGHT REAR-HAND HOOK contact master. Draw its EARLY IN-BETWEEN, roughly 30 percent from idle to contact. Punch with the SAME NEAR/RIGHT arm seen prominently in image2, attached to shoulder on image LEFT in idle: pull that right elbow very slightly outward/back at chest height, fist still close in front of the chest/chin, beginning a small shoulder turn. The FAR/LEFT hand (shoulder on image RIGHT) stays raised protecting the far cheek exactly as in image2 and never punches. Torso and hips begin to rotate toward image2, rear heel only starting its pivot. Keep the front shoe planted, overall stance close to idle, a clear bent-elbow boxing hook preparation rather than a straight punch. Preserve identity, original-size head, clothing folds, dense black hatch texture of image2."
+    },
+    {
+      "name": "right-late",
+      "refs": [
+        "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/scene-lab/public/art/fight/boxer-0.webp",
+        "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/assets/prototypes/gameplay/head-hook-preview/inputs/right-contact.png"
+      ],
+      "detail": "Image1 is original IDLE, image2 the RIGHT REAR-HAND HOOK CONTACT. Draw a LATE IN-BETWEEN, roughly 65 percent from idle to contact. The SAME NEAR/RIGHT arm (shoulder on image LEFT in idle), which dominates the chest in image2, is swinging across toward RIGHT: elbow now lifted toward shoulder height, still bent approximately 90 degrees; right fist at jaw level about halfway between original guard and image2's contact fist, not as far as final impact. Far/LEFT hand stays in guard at far cheek and does NOT punch. Torso/hips half rotated toward contact, rear heel partly pivoted, front shoe planted. Follow image2's clear arm overlap order: the punching right arm crosses IN FRONT of the chest. Absolutely no extra fist, no switch to the far left punching arm, no straight jab, no uppercut, no new step. Same face, hairstyle and fine rough ink."
+    }
+  ]
+}

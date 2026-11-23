@@ -1,0 +1,5 @@
+{
+  "observed": "Front sole in generated native frames was 479\u2013480 px, original idle sole 485 px; horizontal toe alignment already matched 343\u2013344 px.",
+  "correction": "Derive the planted-foot target from original idle instead of estimating it as 480 px. Target (344,485); preserve original artwork and redraw once at corrected registration.",
+  "review": "Two arms and correct near/far hand order confirmed in all generated poses; rear heel pivots while front toe remains fixed."
+}
