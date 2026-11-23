@@ -29,7 +29,9 @@ try {
   await page.waitForFunction(() => window.ready);
   await mkdir(resolve(root, '.capture'), { recursive: true });
   await mkdir(resolve(root, 'frames'), { recursive: true });
-  const {frames,registration,stage}=await page.evaluate(()=>window.hookPreview);
+  const {frames,registration,stage,correction}=await page.evaluate(()=>window.hookPreview);
+  await writeFile(resolve(root,'correction-v2/registration.json'),JSON.stringify(correction.records,null,2)+'\n');
+  await writeFile(resolve(root,'correction-v2/head-source.png'),Buffer.from(correction.head,'base64'));
   for(const [name,png] of Object.entries(frames))await writeFile(resolve(root,`frames/${name}.png`),Buffer.from(png,'base64'));
   await writeFile(resolve(root,'registration.json'),JSON.stringify({stage,registration},null,2)+'\n');
   for(const hand of ['left','right']){

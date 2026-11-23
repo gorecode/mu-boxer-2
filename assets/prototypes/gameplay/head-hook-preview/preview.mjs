@@ -1,4 +1,5 @@
 import {stage,schedules,poseAt,leadInMs} from './schedule.mjs';
+import {repair} from './correction-v2/repair.mjs';
 const load=async path=>{const im=new Image();im.src=path;await im.decode();return im;};
 const make=()=>Object.assign(document.createElement('canvas'),{width:stage.width,height:stage.height});
 const idle=await load('../../../../scene-lab/public/art/fight/boxer-0.webp');
@@ -26,6 +27,7 @@ for(const hand of ['left','right'])for(const pose of ['early','late','contact'])
  const c=make(),ctx=c.getContext('2d');ctx.imageSmoothingQuality='high';ctx.drawImage(image,x,y,image.width*scale,image.height*scale);frames[name]=c;
  registration.push({name,source,scale,x,y,bounds,leadingToe:targetToe});
 }
+const correction=await repair(frames,load,make);
 const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d');
 const labels=['0 IN-BETWEENS','1 IN-BETWEEN','2 IN-BETWEENS'];
 function panel(hand,index,ms){
@@ -45,4 +47,4 @@ function render(hand,ms){
  ctx.fillStyle='#f5dbc3';ctx.font='15px sans-serif';ctx.fillText('HEAD HOOK  |  250 ms windup / 120 ms contact / 20 ms visual return  |  DRAFT',12,590);
  return {png:canvas.toDataURL().split(',')[1],selected};
 }
-window.hookPreview={frames:Object.fromEntries(Object.entries(frames).map(([name,c])=>[name,c.toDataURL().split(',')[1]])),registration,stage,render};window.ready=true;
+window.hookPreview={frames:Object.fromEntries(Object.entries(frames).map(([name,c])=>[name,c.toDataURL().split(',')[1]])),registration,correction,stage,render};window.ready=true;

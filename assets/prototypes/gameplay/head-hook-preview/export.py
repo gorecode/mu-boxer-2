@@ -5,7 +5,7 @@ import hashlib
 
 root=Path(__file__).resolve().parent
 project=root.parents[3]
-public=project/'scene-lab/public/previews/head-hook'
+public=project/'scene-lab/public/previews/head-hook-v2'
 public.mkdir(exist_ok=True)
 expected={0:[550,120,540],1:[470,80,120,20,520],2:[470,40,40,120,20,520]}
 registration=json.loads((root/'registration.json').read_text())
@@ -61,6 +61,7 @@ for hand in ['left','right']:
         cropped=[f.crop((i*500,0,(i+1)*500,570)) for f in frames]
         save_gif(f'{hand}-{i}',cropped,[10]*121,expected[i])
 report['sources']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((root/'inputs').glob('*.png'))}
-report['checks']=['six animations with exactly 0/1/2 additional drawings','identical 120 ms contact','20 ms hybrid return','decoded GIF durations and loop','planted front toe registration','selected left contact master unchanged','unclipped transparent native frames']
+report['correction_sources']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((root/'correction-v2').glob('*')) if p.is_file()}
+report['checks']=['six animations with exactly 0/1/2 additional drawings','identical 120 ms contact','20 ms hybrid return','decoded GIF durations and loop','planted front toe registration','selected left contact input retained; preview costume/head repaired','unclipped transparent native frames']
 (root/'verification.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps({k:{'states':v['decoded_states'],'unique':v['distinct_images'],'ms':v['duration_ms']} for k,v in report.items() if k.endswith('.gif')},indent=2))

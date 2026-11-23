@@ -7,7 +7,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "7e49be947802919fe68d36ce932f0ced216a623ed6215c29995b3a81dc2d984e"
+    "sha256": "af4186d698f938d0367f3c8c82204838088bd32a225ba8b3729979288881f58d"
   },
   "left-compare-slow.gif": {
     "size": [
@@ -17,7 +17,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "e5f78b4d398281cc45bbe6620485db3fed5c7d254c73e946dcebceea1529ed56"
+    "sha256": "061b9e3ebf1dcf7099bb705570953b3790d57f9c4af66fa3c3d5b78431d742ff"
   },
   "left-0.gif": {
     "size": [
@@ -27,7 +27,7 @@
     "decoded_states": 3,
     "distinct_images": 2,
     "duration_ms": 1210,
-    "sha256": "acee92a1b30cb3301addfa0811cb720e5e5451089ec8f994e368e891f964a722"
+    "sha256": "75f5eeb949800eb2ce87b14542d33153c477b7fe4e1b1371e1ac2d4a693b19b3"
   },
   "left-0-slow.gif": {
     "size": [
@@ -37,7 +37,7 @@
     "decoded_states": 3,
     "distinct_images": 2,
     "duration_ms": 4840,
-    "sha256": "1fd7faf5904a1af6bdd6f45221c2491937775e1a3691640513f7cb9f10222eed"
+    "sha256": "846592669d2d00ab918bab99920378ba54f77a748422abd0f9852b3789592386"
   },
   "left-1.gif": {
     "size": [
@@ -47,7 +47,7 @@
     "decoded_states": 5,
     "distinct_images": 3,
     "duration_ms": 1210,
-    "sha256": "e8c15830953d81fcc462c321e883c6c1168072708c636b115daa029972ba4146"
+    "sha256": "3519111f02bb10353c1664ac57a4a59510807baa066ce09cdbcae2e3d2816eee"
   },
   "left-1-slow.gif": {
     "size": [
@@ -57,7 +57,7 @@
     "decoded_states": 5,
     "distinct_images": 3,
     "duration_ms": 4840,
-    "sha256": "dc0052ac1293ff041af081b3f4774b82f025be67741937e8a17a722f6b8faa0d"
+    "sha256": "19a057201612df02df55e09a4cfc9ab741c659ebb54301ce830cd093a2794654"
   },
   "left-2.gif": {
     "size": [
@@ -67,7 +67,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "e5623c27b58cc0562f3eaecd43ff34158e895d0b598976f9937392304a944aff"
+    "sha256": "c92048115aa314eec4f224998617d3371ec56f477530b3375828d3279c9e40b6"
   },
   "left-2-slow.gif": {
     "size": [
@@ -77,7 +77,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "b13c6dbee33b1ff1c26d2b1d603ae47cf21678fe8182bdaecbe3bd8b88ac8f70"
+    "sha256": "aac5ebcbe0f305a783ab15d6b158460855b8c9d1a2313e48b058aa5b5b31019d"
   },
   "right-compare.gif": {
     "size": [
@@ -87,7 +87,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "9f82db32a4c01634eba119375f3e7d6f9504c7d9a68738af5033d3bdaa9f6967"
+    "sha256": "b631de8f21172704ea2a22934fe8f32b48345baa20b50f7e98395187137d82e7"
   },
   "right-compare-slow.gif": {
     "size": [
@@ -97,7 +97,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "f605810dd639ff3cd01d0cc2ccafbdeaf49b24f40a44ee4f0f1f0ee763d0da41"
+    "sha256": "03090e1445b579079c2970163ed893a451147f66b4e01d14216d4962383e109e"
   },
   "right-0.gif": {
     "size": [
@@ -107,7 +107,7 @@
     "decoded_states": 3,
     "distinct_images": 2,
     "duration_ms": 1210,
-    "sha256": "d8f12315a3ce4f470e4db4bc48df7d7205a574ffb6741245e68244b918455115"
+    "sha256": "7cb467a9477d2263f6a66040f0ba3313794fc94c5e848c8ccca7648a76bfb864"
   },
   "right-0-slow.gif": {
     "size": [
@@ -117,7 +117,7 @@
     "decoded_states": 3,
     "distinct_images": 2,
     "duration_ms": 4840,
-    "sha256": "ab4198587c07db7c67060192fab2524df9ae701695173b1f9363e66569a54c85"
+    "sha256": "efa1230a2bac93b4ed81724a55ecf752c1525951dcce9f6a8914970942af53a7"
   },
   "right-1.gif": {
     "size": [
@@ -127,7 +127,7 @@
     "decoded_states": 5,
     "distinct_images": 3,
     "duration_ms": 1210,
-    "sha256": "4d4cc02306599df092185d8e375eb6d39361b3c2a738efa2e6a84ec79882a083"
+    "sha256": "9dbef24478d35ada51c5df455494fdcc00f6838e40df18521eb11e394268d8dd"
   },
   "right-1-slow.gif": {
     "size": [
@@ -137,7 +137,7 @@
     "decoded_states": 5,
     "distinct_images": 3,
     "duration_ms": 4840,
-    "sha256": "ba7c24241c1ca0edb0d7eb6859e9617e39fe26b48eb2847e8fbbeea22c1efaed"
+    "sha256": "c17f6196a13f1cb601393dc759ae94f1dc46489922eefab64d3c95ee9f0c26b3"
   },
   "right-2.gif": {
     "size": [
@@ -147,7 +147,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "9716d83a8c93c94c5cca3f754d980ce9c76f1dfd2c9fd4d170e074b87943f3da"
+    "sha256": "6fea7dd880045084afd58a6d34365aecf589bd4ba618024803e20c6977b7f5d6"
   },
   "right-2-slow.gif": {
     "size": [
@@ -157,7 +157,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "62ca87b3eb6b951c72887c16f453c7c67dd03d7dfe80b29b5586d418cdc3334f"
+    "sha256": "19374621b44ed6b9a204374d2795eedfc710c06047a580bb58079e2538859a4c"
   },
   "sources": {
     "left-contact.png": "5e7a64172d9f31354bdcbb87d39bd9f4be1ff9003f69440027ceafe5ec17d792",
@@ -167,13 +167,25 @@
     "right-early.png": "b1d2a1feb39ca334d248ce6266d67e149b44af45cf1a4b972ae4ecc8e1b3f4bc",
     "right-late.png": "9f04bff5ac605fa05212d9183bc32d00455475302d93f1430164181818bf2549"
   },
+  "correction_sources": {
+    "head-source.png": "23daec06a74340b7be3dd3e5ec659ce3429140342889a0d8e94bc2baf29862c3",
+    "left-shirt.png": "46832b189727fe0946cdb0d2d0ec27e05d4300e7f8d8297b74745ccc9d123a7e",
+    "left-target.png": "02c485532caf284773f302810cff9d58b8e5decf4493d656c2d04c11b50d16ed",
+    "prepare.mjs": "2d73c62509716eb4dae6e757199c93c82fc95cc10247e4e37a2c2302b0069988",
+    "provenance.json": "4ecd761602581a6221c911a50c5d49e5e680edba60bfc69b7b103b0b9c703a21",
+    "registration.json": "f873f64f5c77cd3ea2f1d1faf3a5e4e6fc435d1534365a52c4656a86c1365976",
+    "repair.mjs": "4ec88824a8710128fab88a6a1771795ead543424e86d223762bcfebbb18d9c3e",
+    "right-shirt.png": "f4b93498548d14d7101846605bc49294f7f5e5d0899d1dab68c1e93130716a01",
+    "right-target.png": "925b6a33982ab9b3616c0064492393dc9ed39a220712611b095d6d6b21376571",
+    "validate.py": "1f0b193b9da22caf18fe9dc50d5f748a9bc0827196c5ba9cfdc544942c8e01ef"
+  },
   "checks": [
     "six animations with exactly 0/1/2 additional drawings",
     "identical 120 ms contact",
     "20 ms hybrid return",
     "decoded GIF durations and loop",
     "planted front toe registration",
-    "selected left contact master unchanged",
+    "selected left contact input retained; preview costume/head repaired",
     "unclipped transparent native frames"
   ]
 }

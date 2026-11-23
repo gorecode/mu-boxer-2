@@ -1,0 +1,29 @@
+{
+  "method": "built-in image_gen for localized shirt drawing; deterministic Canvas reference compositing and registration",
+  "costumePrompt": "Edit first image: 3-panel upper-body animation strip. Keep EXACTLY three equally wide cells, existing sprite scale, position, hand/arm/neck/head anatomy and poses, 1500:285 aspect ratio. No rearrangement, no lower body additions. Output transparent background. Second image is original costume and ink style reference.\nRepair ONLY THE T-SHIRT in all 3 poses to be the same garment as second image: battered dark muted red short-sleeve T-SHIRT, simple thin creased ROUND CREWNECK seam close around base of neck, irregular rough short sleeve ends and same waist hem. NO HOOD, no neck roll, no cowl, no scarf, no draped cape, no jacket, no extra collar behind the head. At the neck/back, fabric ends exactly at the small crewneck seam below bare neck. Draw correct shoulder cap and sewn short sleeve armhole that stays at the same upper-arm position while shoulder rotates. Preserve original's rough uneven black ink contour, dense scratchy diagonal hatching and irregular angular large cloth creases. NO smooth rendering, NO gradient shading, NO large smooth flowing bands like curtains. Fold roots remain attached to armpit and tucked waist. Same shirt color, fabric, sleeve length, neckline and hems in every cell. Same ink density as original reference. Do not recolor skin. Preserve punching and guarding arms, fists, body silhouette, torso rotation, all pose geometry, exact crop and spacing. Background must be actually transparent; no labels, no shadows, no matte. This is a precise localized costume continuity repair for game sprite animation.",
+  "inputs": [
+    "left-target.png",
+    "right-target.png",
+    "scene-lab/public/art/fight/boxer-0.webp"
+  ],
+  "outputs": {
+    "left-shirt.png": "exec-8de5cc65-09af-44ec-b80f-d793a7858632.png",
+    "right-shirt.png": "exec-d93525d0-0e3c-431a-b088-2835f6f983e4.png"
+  },
+  "rejected": [
+    {
+      "method": "whole 4x2 sheet repair",
+      "result": "removed hood, but lost fine hatching at reduced per-character resolution",
+      "prompt": "EDIT TARGET: the first image is an 8-panel animation contact sheet, four columns by two rows. Keep EXACTLY this panel layout, character locations, scale, silhouettes, hand poses and punches. Top row LEFT anatomical lead arm hook: idle / early / late / contact. Bottom row RIGHT anatomical rear arm hook: idle / early / late / contact. All face screen RIGHT.\nREFERENCE MASTER: the second image is the original approved character sprite. Preserve its rough angular Comix Zone era ink drawing style, hand drawn uneven contours, coarse diagonal hatching, warm muted rusty rose palette, narrow ugly angry face, short upright spiked hair silhouette.\nREPAIR REQUEST ONLY: In all six moving poses repair the inconsistent HAIR AND T-SHIRT. These are the SAME man and SAME clothes at every torso angle. Hair must remain the same short narrow upright spiky haircut as original idle, NOT become a broad swept-back fan or longer spines. Short sleeve battered dark burgundy T-SHIRT with simple thin creased crewneck, NEVER a hoodie, NEVER a hood/cowl/cape/draped neck fabric. In bottom right contact there is an erroneous HOOD and scarf-like collar folded behind neck: REMOVE IT entirely and draw the bare neck and ordinary small crew neck T-shirt seam. Upper back shoulder should be a clean ordinary shirt shoulder, with a short sewn sleeve edge ending at upper arm and a continuous armhole. No rolls of fabric sprouting from neckline. Match original sleeve cut, seam locations and coarse cloth texture across ALL frames. Cloth folds can rotate with torso but remain anchored to same armpit, side seam, waist hem. Original creases should not be replaced by smooth flowing parallel bands. Keep waist hem and trousers consistent rather than inventing new garment details. Restore original warm side light and original sharp ink contrast.\nDo not change facial expression, head size, anatomy, arm assignment, hook geometry, foot support or stage positions. Do not mirror. Do not add intermediate panels or figures. Keep idle panels unchanged as the canonical comparison. Background stays solid #28212a, no checkerboard or extra labels. Deliver full 4-column x 2-row sheet with identical layout. This is a repair sheet for an animation, not concept variants: consistency across cells is more important than embellishing any one cell."
+    },
+    {
+      "method": "first upper-body registration",
+      "result": "incorrect head offsets moved head forward and masked raised shoulder; rejected before publication"
+    },
+    {
+      "method": "corrected registration",
+      "result": "original head attached at original contact locations; front reach registered to old silhouette; lower body byte-identical"
+    }
+  ],
+  "limits": "Original source head is retained; shirt is newly drawn, not a pixel-identical garment rig. Author approval pending."
+}
