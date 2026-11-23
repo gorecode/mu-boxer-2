@@ -1,0 +1,21 @@
+{
+  "base": "Use case: precise-object-edit. ONE full-body transparent fighting-game sprite, NEW HEAVY PUNCH CONTACT KEYFRAME for the EXACT boxer in the two reference images. These are identity, costume and rough ink style masters. Same ugly angular middle aged face, short spiky hair, tense expression, worn mauve T-shirt, dusty brown trousers and black shoes, muted reddish brown palette, coarse Comix Zone black crosshatching and broken outlines. Match original comic sprite, no smooth painting, no airbrush, no blur, no effects, no labels or borders, no enemy. Face and feet visible uncropped. Facing RIGHT in the same side/three-quarter fighting view. Feet on ground, no jump, no forward sliding step, natural bone lengths, two arms and two fists only. It must read instantly as a powerful heavy blow, distinctly different from the extended short straight in image2. Rotate shoulders/hips with the punch, brace the legs, show mass in the pose. ",
+  "variants": [
+    [
+      "01-head-hook",
+      "A wide horizontal LEFT HOOK to the opponent's JAW. Depict the contact/end of swing: punching elbow lifted to shoulder height and swung outward, elbow clearly bent approximately 90 degrees; forearm sweeps horizontally across the front of the face toward RIGHT, closed fist at head height. Very strong torso/hip rotation and planted lead foot, lifted rear heel, other fist guards the jaw. A hooked bent arm silhouette, NOT an extended straight arm, NOT an uppercut, NOT a punch above his own head. The imaginary contact target is to the RIGHT of his face."
+    ],
+    [
+      "02-body-hook",
+      "A crushing SHOVEL HOOK to the opponent's SOLAR PLEXUS or LIVER. Depict impact/end pose: drop centre of gravity with clearly bent knees, torso leans forward about 20 degrees and twists, punching elbow tucked low near ribs, fist drives diagonally upward toward RIGHT but remains at the height of the opponent's lower ribs (roughly this boxer's own stomach/lower chest level). Punching arm visibly bent, other fist guards the cheek. Heavy compressed grounded silhouette, strong wide stance, no airborne movement, do not turn this into an uppercut to the chin and do not extend the arm like a jab."
+    ],
+    [
+      "03-downward-overhand",
+      "A brutal DOWNWARD OVERHAND RIGHT / clubbing punch. Depict the LAST impact drawing, not the windup: fist has already descended in a steep diagonal arc toward a target to the RIGHT, ending at this boxer's chest/sternum height, elbow high above fist, shoulders rotated and pitching forward, rear shoulder drives the strike. The elbow remains bent so arm forms a steep diagonal and does not become a horizontal jab. Torso slightly bowed into impact, front knee bent and rear leg braced; other hand protects head. No fist held over his own head, no raised victory pose, no jump. This is the contact at the bottom of a descending swing."
+    ]
+  ],
+  "refs": [
+    "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/scene-lab/public/art/fight/boxer-0.webp",
+    "/home/enikey/projects/mu-boxer-gameplay/.workspaces/mu-boxer-2/scene-lab/public/art/fight/boxer-3.webp"
+  ]
+}
