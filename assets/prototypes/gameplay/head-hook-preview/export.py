@@ -2,10 +2,11 @@ from pathlib import Path
 from PIL import Image, ImageSequence, ImageDraw
 import json
 import hashlib
+from shutil import copyfile
 
 root=Path(__file__).resolve().parent
 project=root.parents[3]
-public=project/'scene-lab/public/previews/head-hook-v2'
+public=project/'scene-lab/public/previews/head-hook-v3'
 public.mkdir(exist_ok=True)
 expected={0:[550,120,540],1:[470,80,120,20,520],2:[470,40,40,120,20,520]}
 registration=json.loads((root/'registration.json').read_text())
@@ -29,15 +30,14 @@ for row,hand in enumerate(['left','right']):
         im=sprites['idle' if pose=='idle' else hand+'-'+pose];board.paste(im,(col*500,row*560+28),im)
         d.text((col*500+12,row*560+9),hand.upper()+' / '+pose.upper(),fill='white')
 board.save(root/'contact-sheet.png');board.save(public/'contact-sheet.png')
-sample=Image.new('RGB',(1500,650*10))
-for row,(hand,index) in enumerate((h,i) for h in ['left','right'] for i in [0,47,51,55,68]):
-    with Image.open(root/f'.capture/{hand}/{index*10:04d}.png') as im:sample.paste(im.convert('RGB'),(0,row*650))
-palette=sample.quantize(colors=256,method=Image.Quantize.MEDIANCUT)
+palette=Image.open(project/'scene-lab/public/previews/head-hook-v2/left-compare.gif')
 report={}
 def save_gif(name,indexed,durations,expected_times):
     for suffix,multiplier in [('',1),('-slow',4)]:
         path=public/f'{name}{suffix}.gif'
         indexed[0].save(path,save_all=True,append_images=indexed[1:],duration=[n*multiplier for n in durations],loop=0,optimize=False)
+        if name.startswith('left-'):
+            copyfile(project/'scene-lab/public/previews/head-hook-v2'/path.name,path)
         with Image.open(path) as gif:
             decoded=[(f.convert('RGB').copy(),f.info['duration']) for f in ImageSequence.Iterator(gif)]
             times=[t for _,t in decoded]
@@ -60,8 +60,32 @@ for hand in ['left','right']:
     for i in range(3):
         cropped=[f.crop((i*500,0,(i+1)*500,570)) for f in frames]
         save_gif(f'{hand}-{i}',cropped,[10]*121,expected[i])
+for name,left_path,labels in [
+    ('right-before-after',project/'scene-lab/public/previews/head-hook-v2/right-2.gif',('RIGHT / PREVIOUS','RIGHT / STYLE REPAIR')),
+    ('approved-left-vs-right',public/'left-2.gif',('APPROVED LEFT / 2 IN-BETWEENS','REPAIRED RIGHT / 2 IN-BETWEENS')),
+]:
+    with Image.open(left_path) as a,Image.open(public/'right-2.gif') as b:
+        left=[(f.convert('RGB').copy(),f.info['duration']) for f in ImageSequence.Iterator(a)]
+        right=[(f.convert('RGB').copy(),f.info['duration']) for f in ImageSequence.Iterator(b)]
+    times=[t for _,t in right]
+    assert times==expected[2]==[t for _,t in left]
+    paired=[]
+    for (a,_),(b,_) in zip(left,right):
+        c=Image.new('RGB',(1000,600),'#201b20');c.paste(a,(0,30));c.paste(b,(500,30))
+        draw=ImageDraw.Draw(c)
+        for i,label in enumerate(labels):draw.text((i*500+12,10),label,fill='#f5dbc3')
+        paired.append(c.quantize(palette=palette,dither=Image.Dither.NONE))
+    for suffix,multiplier in [('',1),('-slow',4)]:
+        path=public/f'{name}{suffix}.gif'
+        paired[0].save(path,save_all=True,append_images=paired[1:],duration=[t*multiplier for t in times],loop=0,optimize=False)
+        with Image.open(path) as im:
+            decoded=[(f.convert('RGB').copy(),f.info['duration']) for f in ImageSequence.Iterator(im)]
+            assert [t for _,t in decoded]==[t*multiplier for t in times]
+            assert im.info['loop']==0 and decoded[0][0].tobytes()==decoded[-1][0].tobytes()
+        report[path.name]={'size':[1000,600],'decoded_states':len(decoded),'distinct_images':len({f.tobytes() for f,_ in decoded}),'duration_ms':sum(t for _,t in decoded),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
 report['sources']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((root/'inputs').glob('*.png'))}
 report['correction_sources']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((root/'correction-v2').glob('*')) if p.is_file()}
+report['right_style_sources']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((root/'correction-v3').glob('*')) if p.is_file()}
 report['checks']=['six animations with exactly 0/1/2 additional drawings','identical 120 ms contact','20 ms hybrid return','decoded GIF durations and loop','planted front toe registration','selected left contact input retained; preview costume/head repaired','unclipped transparent native frames']
 (root/'verification.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps({k:{'states':v['decoded_states'],'unique':v['distinct_images'],'ms':v['duration_ms']} for k,v in report.items() if k.endswith('.gif')},indent=2))

@@ -12,7 +12,7 @@ export async function repair(frames,load,make){
  const head=make(),h=head.getContext('2d');h.save();polygon(h,headPolygon);h.clip();h.drawImage(frames.idle,0,0);h.restore();
  const records=[];
  for(const hand of ['left','right']){
-  const sheet=await load(`./correction-v2/${hand}-shirt.png`);
+  const sheet=await load(hand==='right'?'./correction-v3/right-shirt.png':`./correction-v2/${hand}-shirt.png`);
   for(const [i,pose] of ['early','late','contact'].entries()){
    const name=`${hand}-${pose}`,before=frames[name],src=Object.assign(document.createElement('canvas'),{width:sheet.width/3,height:sheet.height}),sc=src.getContext('2d');
    sc.drawImage(sheet,i*src.width,0,src.width,src.height,0,0,src.width,src.height);

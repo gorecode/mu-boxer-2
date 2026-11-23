@@ -1,0 +1,18 @@
+{
+  "decision": "Author approved LEFT hook with two in-betweens; RIGHT rejected for style drift",
+  "source_commit": "bd3310f09187eabb282e99de88f872c69df4928c",
+  "sha256": {
+    "assets/prototypes/gameplay/head-hook-preview/frames/idle.png": "ce1f69cf00005261a25593cdbde43c4cab1a0ead21e8459e82faa1c9b16f6746",
+    "assets/prototypes/gameplay/head-hook-preview/frames/left-early.png": "eeccd78333cd1162f52a75bd8971ef248561ae0d2b518e1d619c6a76c90bcd64",
+    "assets/prototypes/gameplay/head-hook-preview/frames/left-late.png": "4296cbeeb77c641cc00f474909f00e58593f1998e1fc344937ded457e76ebccf",
+    "assets/prototypes/gameplay/head-hook-preview/frames/left-contact.png": "f4c0d8846401b66c31e6abbf0a5ca34eb6dde877f9ed1c6432d163eebe036cc9",
+    "scene-lab/public/previews/head-hook-v2/left-2-slow.gif": "aac5ebcbe0f305a783ab15d6b158460855b8c9d1a2313e48b058aa5b5b31019d",
+    "scene-lab/public/previews/head-hook-v2/left-0.gif": "75f5eeb949800eb2ce87b14542d33153c477b7fe4e1b1371e1ac2d4a693b19b3",
+    "scene-lab/public/previews/head-hook-v2/left-0-slow.gif": "846592669d2d00ab918bab99920378ba54f77a748422abd0f9852b3789592386",
+    "scene-lab/public/previews/head-hook-v2/left-2.gif": "c92048115aa314eec4f224998617d3371ec56f477530b3375828d3279c9e40b6",
+    "scene-lab/public/previews/head-hook-v2/left-1.gif": "3519111f02bb10353c1664ac57a4a59510807baa066ce09cdbcae2e3d2816eee",
+    "scene-lab/public/previews/head-hook-v2/left-compare.gif": "af4186d698f938d0367f3c8c82204838088bd32a225ba8b3729979288881f58d",
+    "scene-lab/public/previews/head-hook-v2/left-compare-slow.gif": "061b9e3ebf1dcf7099bb705570953b3790d57f9c4af66fa3c3d5b78431d742ff",
+    "scene-lab/public/previews/head-hook-v2/left-1-slow.gif": "19a057201612df02df55e09a4cfc9ab741c659ebb54301ce830cd093a2794654"
+  }
+}

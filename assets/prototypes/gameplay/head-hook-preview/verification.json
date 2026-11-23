@@ -87,7 +87,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "b631de8f21172704ea2a22934fe8f32b48345baa20b50f7e98395187137d82e7"
+    "sha256": "d551069c3d2c5ec3c614157801ddc1c484b44a0006b0559d2fb2294e2045aed3"
   },
   "right-compare-slow.gif": {
     "size": [
@@ -97,7 +97,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "03090e1445b579079c2970163ed893a451147f66b4e01d14216d4962383e109e"
+    "sha256": "40cd76e4773e3ae1669edb87500b7dfb2ea5af388f57efc9907809e85eb5e59a"
   },
   "right-0.gif": {
     "size": [
@@ -107,7 +107,7 @@
     "decoded_states": 3,
     "distinct_images": 2,
     "duration_ms": 1210,
-    "sha256": "7cb467a9477d2263f6a66040f0ba3313794fc94c5e848c8ccca7648a76bfb864"
+    "sha256": "62aed1f37bdffd58b0c372fb795a0361b08154deca3b62d3c1f8c6650b2ae29c"
   },
   "right-0-slow.gif": {
     "size": [
@@ -117,7 +117,7 @@
     "decoded_states": 3,
     "distinct_images": 2,
     "duration_ms": 4840,
-    "sha256": "efa1230a2bac93b4ed81724a55ecf752c1525951dcce9f6a8914970942af53a7"
+    "sha256": "0b0ab9e3caffe59f6a7de43fee26ced0dcaffd36e3bb05c5d6a94f4098f76e99"
   },
   "right-1.gif": {
     "size": [
@@ -127,7 +127,7 @@
     "decoded_states": 5,
     "distinct_images": 3,
     "duration_ms": 1210,
-    "sha256": "9dbef24478d35ada51c5df455494fdcc00f6838e40df18521eb11e394268d8dd"
+    "sha256": "32d08dae009aad927bcaca252f126c8892e82fe3291aef53431a99444ac53712"
   },
   "right-1-slow.gif": {
     "size": [
@@ -137,7 +137,7 @@
     "decoded_states": 5,
     "distinct_images": 3,
     "duration_ms": 4840,
-    "sha256": "c17f6196a13f1cb601393dc759ae94f1dc46489922eefab64d3c95ee9f0c26b3"
+    "sha256": "3c072091a2d2670b8d5cd61c9b8596be3c1ca1fa256cc8b1b223794f02920dab"
   },
   "right-2.gif": {
     "size": [
@@ -147,7 +147,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "6fea7dd880045084afd58a6d34365aecf589bd4ba618024803e20c6977b7f5d6"
+    "sha256": "1a3391e4b8993cc96bcb85403cf572fc8e69acfab07ddc331de2dbcab36b7524"
   },
   "right-2-slow.gif": {
     "size": [
@@ -157,7 +157,47 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "19374621b44ed6b9a204374d2795eedfc710c06047a580bb58079e2538859a4c"
+    "sha256": "efb903eb5dcf2b073b86b5876b76ee2b8471a7783e86d41eb901d716b4fba695"
+  },
+  "right-before-after.gif": {
+    "size": [
+      1000,
+      600
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 1210,
+    "sha256": "5d6b6129ae1b785cc9762bebc94e4ba452f47c7da9c329d3928aa78c005f0892"
+  },
+  "right-before-after-slow.gif": {
+    "size": [
+      1000,
+      600
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 4840,
+    "sha256": "9fb5020cb4a2a4b5c2486b665dd39084920b3b42d066e13eec2c97d66297f634"
+  },
+  "approved-left-vs-right.gif": {
+    "size": [
+      1000,
+      600
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 1210,
+    "sha256": "152347c0aa46cdce328b0cc413991e368864927eeb6f7208e4ef7a50684f46c8"
+  },
+  "approved-left-vs-right-slow.gif": {
+    "size": [
+      1000,
+      600
+    ],
+    "decoded_states": 6,
+    "distinct_images": 4,
+    "duration_ms": 4840,
+    "sha256": "c0031cc83d8b5f1ad9737102864e0397cb3261253fb05690a9bbd0c56550544a"
   },
   "sources": {
     "left-contact.png": "5e7a64172d9f31354bdcbb87d39bd9f4be1ff9003f69440027ceafe5ec17d792",
@@ -173,11 +213,18 @@
     "left-target.png": "02c485532caf284773f302810cff9d58b8e5decf4493d656c2d04c11b50d16ed",
     "prepare.mjs": "2d73c62509716eb4dae6e757199c93c82fc95cc10247e4e37a2c2302b0069988",
     "provenance.json": "4ecd761602581a6221c911a50c5d49e5e680edba60bfc69b7b103b0b9c703a21",
-    "registration.json": "f873f64f5c77cd3ea2f1d1faf3a5e4e6fc435d1534365a52c4656a86c1365976",
-    "repair.mjs": "4ec88824a8710128fab88a6a1771795ead543424e86d223762bcfebbb18d9c3e",
+    "registration.json": "a40a349bcade47e896d37814faccd2e2d446418f3c17459908d237051e9f1a46",
+    "repair.mjs": "a5a5d0620f19684744472de328b78b6c6ec163123d89c291d7953a8addf3d567",
     "right-shirt.png": "f4b93498548d14d7101846605bc49294f7f5e5d0899d1dab68c1e93130716a01",
     "right-target.png": "925b6a33982ab9b3616c0064492393dc9ed39a220712611b095d6d6b21376571",
     "validate.py": "1f0b193b9da22caf18fe9dc50d5f748a9bc0827196c5ba9cfdc544942c8e01ef"
+  },
+  "right_style_sources": {
+    "decoded-contact-comparison.png": "c41db0c77ccd1e7a36fb3e281d03a899536f5dad075842658216009cda95e826",
+    "left-approved.json": "2621cde34680f5348ac859a831518e7122fc9ddcf34ce13c8d7e65f00237f5a8",
+    "provenance.json": "35858278395f40574c939c6868d0c093aa7c822dddd09dea139712adeb161d53",
+    "right-shirt.png": "ce10658c28d77f8c4bec2a17120b814a67c6076bb3f714546697bdcb0d364143",
+    "validate.py": "cc707043b834400cbc261be8fee83f1d755a69cc3005903e25b5d5ee68f8dd2d"
   },
   "checks": [
     "six animations with exactly 0/1/2 additional drawings",
