@@ -56,6 +56,7 @@
       },
       "headAlignmentShear": 4.5,
       "reachScale": 0.9734513274336283,
+      "targetReach": 345,
       "cutoffY": 245
     },
     "unchangedFromY": 245
@@ -117,6 +118,7 @@
       },
       "headAlignmentShear": 6,
       "reachScale": 0.9242424242424242,
+      "targetReach": 318,
       "cutoffY": 245
     },
     "unchangedFromY": 245
@@ -178,6 +180,7 @@
       },
       "headAlignmentShear": 6.5,
       "reachScale": 0.9464285714285714,
+      "targetReach": 346,
       "cutoffY": 245
     },
     "unchangedFromY": 245
@@ -227,18 +230,19 @@
       ]
     ],
     "shirt": {
-      "scale": 0.6641221374045801,
-      "x": 11.893129770992374,
-      "y": -95.26717557251908,
+      "scale": 0.47368421052631576,
+      "x": 59.86842105263159,
+      "y": -45.4736842105263,
       "source": {
-        "minX": 166,
-        "minY": 157,
-        "maxX": 469,
-        "maxY": 549,
-        "count": 76829
+        "minX": 138,
+        "minY": 115,
+        "maxX": 506,
+        "maxY": 665,
+        "count": 139270
       },
-      "headAlignmentShear": 3.5,
-      "reachScale": 0.9135802469135802,
+      "headAlignmentShear": 23.5,
+      "reachScale": 1.1044776119402986,
+      "targetReach": 318,
       "cutoffY": 245
     },
     "unchangedFromY": 245
@@ -246,8 +250,8 @@
   {
     "name": "right-late",
     "headOffset": [
-      -6,
-      4
+      1,
+      6
     ],
     "headPolygon": [
       [
@@ -288,18 +292,19 @@
       ]
     ],
     "shirt": {
-      "scale": 0.6725888324873096,
-      "x": 5.0203045685279335,
-      "y": -99.92385786802026,
+      "scale": 0.48007246376811596,
+      "x": 49.89855072463769,
+      "y": -49.72826086956525,
       "source": {
-        "minX": 179,
-        "minY": 156,
-        "maxX": 453,
-        "maxY": 549,
-        "count": 74558
+        "minX": 129,
+        "minY": 114,
+        "maxX": 517,
+        "maxY": 665,
+        "count": 141659
       },
-      "headAlignmentShear": 11,
-      "reachScale": 0.9024390243902439,
+      "headAlignmentShear": 24.5,
+      "reachScale": 1.161764705882353,
+      "targetReach": 319,
       "cutoffY": 245
     },
     "unchangedFromY": 245
@@ -307,7 +312,7 @@
   {
     "name": "right-contact",
     "headOffset": [
-      -28,
+      -5,
       4
     ],
     "headPolygon": [
@@ -349,18 +354,19 @@
       ]
     ],
     "shirt": {
-      "scale": 0.6725888324873096,
-      "x": 3.92766497461929,
-      "y": -99.92385786802026,
+      "scale": 0.4809437386569873,
+      "x": 40.86206896551724,
+      "y": -50.30852994555357,
       "source": {
-        "minX": 164,
-        "minY": 156,
-        "maxX": 498,
-        "maxY": 549,
-        "count": 77535
+        "minX": 152,
+        "minY": 115,
+        "maxX": 574,
+        "maxY": 665,
+        "count": 145676
       },
-      "headAlignmentShear": 8,
-      "reachScale": 0.8646616541353384,
+      "headAlignmentShear": 26,
+      "reachScale": 1.1938775510204083,
+      "targetReach": 351,
       "cutoffY": 245
     },
     "unchangedFromY": 245

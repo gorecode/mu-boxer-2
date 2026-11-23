@@ -87,7 +87,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "d551069c3d2c5ec3c614157801ddc1c484b44a0006b0559d2fb2294e2045aed3"
+    "sha256": "ea58b1d89bbf4e872c24deadbcc31c17e950e4de3326b2b8306a22a1d2389d09"
   },
   "right-compare-slow.gif": {
     "size": [
@@ -97,7 +97,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "40cd76e4773e3ae1669edb87500b7dfb2ea5af388f57efc9907809e85eb5e59a"
+    "sha256": "bfcad7b1dc261f6dd506c2fed8823e2cb5d1951e24a531a682aff1122d815bea"
   },
   "right-0.gif": {
     "size": [
@@ -107,7 +107,7 @@
     "decoded_states": 3,
     "distinct_images": 2,
     "duration_ms": 1210,
-    "sha256": "62aed1f37bdffd58b0c372fb795a0361b08154deca3b62d3c1f8c6650b2ae29c"
+    "sha256": "f4c367e6daa4cdd82486eb9c1833a2523fb53b06866dc9282171f8e55cd239c8"
   },
   "right-0-slow.gif": {
     "size": [
@@ -117,7 +117,7 @@
     "decoded_states": 3,
     "distinct_images": 2,
     "duration_ms": 4840,
-    "sha256": "0b0ab9e3caffe59f6a7de43fee26ced0dcaffd36e3bb05c5d6a94f4098f76e99"
+    "sha256": "390dc9e8e02e219dedea254f2f92e750766752925680d85a8d6a1b83f90c1db0"
   },
   "right-1.gif": {
     "size": [
@@ -127,7 +127,7 @@
     "decoded_states": 5,
     "distinct_images": 3,
     "duration_ms": 1210,
-    "sha256": "32d08dae009aad927bcaca252f126c8892e82fe3291aef53431a99444ac53712"
+    "sha256": "57817b25cd8321ff696938a61476286aeacb9c1623a24539cd7d7f0aa4b1a545"
   },
   "right-1-slow.gif": {
     "size": [
@@ -137,7 +137,7 @@
     "decoded_states": 5,
     "distinct_images": 3,
     "duration_ms": 4840,
-    "sha256": "3c072091a2d2670b8d5cd61c9b8596be3c1ca1fa256cc8b1b223794f02920dab"
+    "sha256": "9472c28f27715f4200686b516573e5f8ab0eaf5d4e3145c19f86a72db1e8c5da"
   },
   "right-2.gif": {
     "size": [
@@ -147,7 +147,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "1a3391e4b8993cc96bcb85403cf572fc8e69acfab07ddc331de2dbcab36b7524"
+    "sha256": "6e65336cb4120f4f411c0f81dedeae8e811730bad1fe76375962dfc640881d37"
   },
   "right-2-slow.gif": {
     "size": [
@@ -157,7 +157,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "efb903eb5dcf2b073b86b5876b76ee2b8471a7783e86d41eb901d716b4fba695"
+    "sha256": "18d98dd11e03d3700684b5b105c96a10b4685d05517173fd35559efb55dd4965"
   },
   "right-before-after.gif": {
     "size": [
@@ -167,7 +167,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "5d6b6129ae1b785cc9762bebc94e4ba452f47c7da9c329d3928aa78c005f0892"
+    "sha256": "fab44331e1374d23e58d0f76ad5ec2500c6d56c7a640e9a1552f0090c8c5e574"
   },
   "right-before-after-slow.gif": {
     "size": [
@@ -177,7 +177,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "9fb5020cb4a2a4b5c2486b665dd39084920b3b42d066e13eec2c97d66297f634"
+    "sha256": "0d00cea0a7d76fb9e8447b8ab56a269f65ab4372e7dd8066a265c8e9d60d45e2"
   },
   "approved-left-vs-right.gif": {
     "size": [
@@ -187,7 +187,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "152347c0aa46cdce328b0cc413991e368864927eeb6f7208e4ef7a50684f46c8"
+    "sha256": "0a9ed550a7fc2cac19d42d987445c5f0458cb2deb7a65e1fb64db0ac18172b7c"
   },
   "approved-left-vs-right-slow.gif": {
     "size": [
@@ -197,7 +197,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "c0031cc83d8b5f1ad9737102864e0397cb3261253fb05690a9bbd0c56550544a"
+    "sha256": "c70c877a21689d936d07aa69a9f6e284bb74c4170019c126cc89da6b839399af"
   },
   "sources": {
     "left-contact.png": "5e7a64172d9f31354bdcbb87d39bd9f4be1ff9003f69440027ceafe5ec17d792",
@@ -213,8 +213,8 @@
     "left-target.png": "02c485532caf284773f302810cff9d58b8e5decf4493d656c2d04c11b50d16ed",
     "prepare.mjs": "2d73c62509716eb4dae6e757199c93c82fc95cc10247e4e37a2c2302b0069988",
     "provenance.json": "4ecd761602581a6221c911a50c5d49e5e680edba60bfc69b7b103b0b9c703a21",
-    "registration.json": "a40a349bcade47e896d37814faccd2e2d446418f3c17459908d237051e9f1a46",
-    "repair.mjs": "a5a5d0620f19684744472de328b78b6c6ec163123d89c291d7953a8addf3d567",
+    "registration.json": "f2815e7dac2e9790e96f1dac22409190516ad0bd8950c248e9ce17bd28b2b5d6",
+    "repair.mjs": "6845ea615eac26004657e29a0bceb6914f20ef1d62644464b934aa7a74e42d33",
     "right-shirt.png": "f4b93498548d14d7101846605bc49294f7f5e5d0899d1dab68c1e93130716a01",
     "right-target.png": "925b6a33982ab9b3616c0064492393dc9ed39a220712611b095d6d6b21376571",
     "validate.py": "1f0b193b9da22caf18fe9dc50d5f748a9bc0827196c5ba9cfdc544942c8e01ef"
@@ -225,6 +225,14 @@
     "provenance.json": "35858278395f40574c939c6868d0c093aa7c822dddd09dea139712adeb161d53",
     "right-shirt.png": "ce10658c28d77f8c4bec2a17120b814a67c6076bb3f714546697bdcb0d364143",
     "validate.py": "cc707043b834400cbc261be8fee83f1d755a69cc3005903e25b5d5ee68f8dd2d"
+  },
+  "right_mechanics_sources": {
+    "TECHNIQUE.md": "275d9af5134e234f449d80c2b8aa7ecaac4426bbe22d62b443fd978adca852e6",
+    "decoded-contact-comparison.png": "ce3c2812a9408639d2be4f38814b3212b49a350ffc02ed2494e83c977c2fe26a",
+    "iteration-1-too-straight.png": "3c26694182652a86ed901056c8415754bbd4241295e8cfe0ab5bdb2cd26e31f3",
+    "provenance.json": "c24bc36fd32759417ea7e8ee9962ddbd343c925cdb21a46367a5468e2c80c8a2",
+    "right-hook.png": "4f8dd1a8cc833c49a13513b2b62832b29fd6478b70b1b12bc08f3eae4ece7a57",
+    "validate.py": "788b56f7e6baab7ed7fa02ce4ad5737dcfe867120a0e971fa922ca1863417a4d"
   },
   "checks": [
     "six animations with exactly 0/1/2 additional drawings",

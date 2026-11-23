@@ -1,0 +1,63 @@
+{
+  "scope": "Right hook mechanics only; LEFT v2 with 2 in-betweens remains author-approved, pixel/byte frozen. Preview, no gameplay integration.",
+  "method": "Built-in image_gen: corrected three-pose upper-body drawing using approved style and coaching diagram; localized contact-arm repair. Canvas registration preserves original source head and lower body.",
+  "prompts": [
+    "EDIT image 1: the three-pose upper-body strip for RIGHT REAR HAND HOOK. Correct its poor punch mechanics while preserving this character's exact clothes and art style. Image 2 is the approved LEFT hook STYLE reference only, not the arm choice. Image 3 is the original character/style. Image 4 is a coaching diagram showing a rear hook, POSE/BIOMECHANICS reference ONLY: never copy its gloves, clothes, face, line art or palette.\nDeliver exactly 3 equally spaced upper-body cells on transparent background, same layout/scale/crop as image 1. The SAME boxer faces and punches SCREEN RIGHT in an orthodox stance. His anatomical RIGHT arm is NEAR CAMERA and is the moving punching arm. Anatomical LEFT is FAR ARM and stays guarding the opposite cheek. DO NOT mirror the left hook.\nThe current right punch is rejected because it looks like a cramped upward short straight. Rebuild the right arm in ALL THREE cells, not just a longer final forearm.\nCELL 1: compact loading: relaxed rear hand stays close to jaw, small body coil, hips start turning before arm. Do not pull fist far backward or turn head away.\nCELL 2: release: rear shoulder rotates forward and around, elbow rises out toward camera to nearly jaw/shoulder height, fist travels in a lateral ARC around guard, not upward across the chest. Foreshorten upper arm naturally as elbow comes toward camera. Left guard remains at cheek. Clear progression from 1 to 2.\nCELL 3: decisive contact of a slightly LONGER REAR HOOK to the opponent's jaw. Right elbow LIFTED, approximately shoulder height; forearm travels roughly HORIZONTALLY at jaw height with NEUTRAL straight wrist and palm mostly DOWN; knuckles point into target SCREEN RIGHT. Elbow remains meaningfully BENT (a long hook, not a straight or fully locked arm). Shoulder rolls forward with hips and supports tucked chin. Do not hunch both shoulders or fold the forearm diagonally upward in front of own nose. The near right arm visibly sweeps around from the shoulder. Increase final fist reach by only about 8% of the character's height compared to image 1 (equivalent about 25 game pixels), through slightly more shoulder rotation and more open elbow angle, NOT by stretching arm bones. Keep all limb proportions as original. No noodle arm, no extra elbow, no deformed shoulder, no overrotation that loses balance. Rear hip rotated into contact, chest turns rather than the whole character sliding. Head and gaze toward opponent, no head recoil backward. Body remains balanced above planted front foot (lower legs will be retained from original outside this crop).\nCOSTUME AND INK: Match APPROVED image 2 exactly: dusty burgundy ordinary short-sleeve t-shirt, small simple crewneck, NO hoodie/hood/scarf, modest worn sleeve edges, angular cloth creases. Preserve fine irregular black contours, long diagonal hatching, muted copper/peach warm rim light and brown shadows. No stippled dots, no thick smooth cartoon outlines, no new muscles, no colorful costume. Source 3 confirms original angular narrow angry face and short upright spiky hair, don't beautify. Character identity and ink density consistent across cells.\nKeep waist crop level in all cells. No full body, no legs added, no panels/text/background. This is a coherent 3-key-pose corrected right hook, not three attack variants.",
+    "TARGET: the attached three-pose RIGHT rear-hand hook strip. Keep all 3 poses, layout, body, shirt, light and head exactly as they are, with transparent background. Repair ONLY the punching RIGHT arm in the THIRD (rightmost) cell. The current contact has become TOO STRAIGHT and reads like a jab/cross. It must visibly read as a BENT-ELBOW REAR HOOK, consistent with an MMA long rear hook, sweeping around the opponent's guard.\nKeep the fist at approximately its current head-height forward position (screen right), DO NOT reduce reach. Put the NEAR elbow clearly out toward the viewer and a little below the fist, with a rounded foreshortened elbow cap prominently visible. Show distinct upper arm and forearm meeting at a visibly bent elbow, an obvious obtuse projected angle around 115–130 degrees, never a nearly straight 180 degree arm. The upper arm comes outward toward camera from the rotated near shoulder; the forearm curves/extends laterally inward from the elbow to the target. Neutral wrist, knuckles into screen right, palm mostly down. Do not draw an arm across the top of the face, do not raise fist above forehead, do not put elbow down at waist, do not inflate muscles. Keep anatomical lengths consistent with first 2 cells, use perspective foreshortening properly. The far left hand stays at cheek guarding. TWO ARMS, TWO HANDS only. The right fist silhouette remains a little beyond the leading foot line in full figure.\nThis is a local anatomical repair of third-cell right arm, not a full redraw or style change. Preserve the fine irregular diagonal ink hatching, muted copper skin, dusty burgundy tee and warm upper-left light. Preserve ordinary small crewneck, no hood. Do not change the first two cells. No text or background."
+  ],
+  "sources": [
+    {
+      "url": "https://dynamicstriking.com/blogs/news/coach-winkeljohn-provides-top-tier-tips-on-the-rear-hook",
+      "kind": "Written breakdown of MMA coach Mike Winkeljohn's rear hook; read, not video watched"
+    },
+    {
+      "url": "https://www.iba.sport/wp-content/uploads/2019/01/AIBA-Coach-Regulations-Manual_WEB_2019_01-1.pdf",
+      "page": 48,
+      "kind": "Visually inspected rear-arm head hook illustration and coaching text; diagram used as geometry reference only"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=zo-K-AkTHiI",
+      "kind": "Evolve MMA video discovered; viewing/download unavailable (bot sign-in), no claim of visual video analysis"
+    }
+  ],
+  "artReferences": [
+    "correction-v3/right-shirt.png (old motion/style target)",
+    "correction-v2/left-shirt.png (approved style only)",
+    "scene-lab/public/art/fight/boxer-0.webp (character master)"
+  ],
+  "iterations": [
+    {
+      "file": "iteration-1-too-straight.png",
+      "generatedSource": "exec-ff2a9592-1648-4342-a99f-3633f053cb57.png",
+      "verdict": "Rejected: contact arm nearly collinear; read as cross rather than hook"
+    },
+    {
+      "file": "right-hook.png",
+      "generatedSource": "exec-eb9d4ec9-e1d7-465e-ae3f-859e0d4e1950.png",
+      "verdict": "Contact has a visible bent elbow; fist further forward with modest horizontal/diagonal lateral path. Needs author assessment."
+    }
+  ],
+  "registration": {
+    "reachIncreaseNativePx": [
+      0,
+      12,
+      25
+    ],
+    "headOffsets": [
+      [
+        5,
+        9
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        -5,
+        4
+      ]
+    ],
+    "unchangedLowerBodyFromY": 245
+  },
+  "limits": "Sparse artistic keys informed by reference technique, not video-tracked motion capture. Limb foreshortening and torso projection are artistic. Existing foot/leg drawings retained; no claim of exact physical technique validation."
+}
