@@ -87,7 +87,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "ea58b1d89bbf4e872c24deadbcc31c17e950e4de3326b2b8306a22a1d2389d09"
+    "sha256": "ec173e7386087a4149d40ee5ace2500e2a265ea60452e44747475263cac86ead"
   },
   "right-compare-slow.gif": {
     "size": [
@@ -97,7 +97,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "bfcad7b1dc261f6dd506c2fed8823e2cb5d1951e24a531a682aff1122d815bea"
+    "sha256": "63adc757dec12295a5d402acba0bd6df2330bf12b5055c9cebff7b6e147257c6"
   },
   "right-0.gif": {
     "size": [
@@ -127,7 +127,7 @@
     "decoded_states": 5,
     "distinct_images": 3,
     "duration_ms": 1210,
-    "sha256": "57817b25cd8321ff696938a61476286aeacb9c1623a24539cd7d7f0aa4b1a545"
+    "sha256": "bce5823194fc96a0a4309bd150490a4f3efcac552e1e538df72ffc4d3059aeaa"
   },
   "right-1-slow.gif": {
     "size": [
@@ -137,7 +137,7 @@
     "decoded_states": 5,
     "distinct_images": 3,
     "duration_ms": 4840,
-    "sha256": "9472c28f27715f4200686b516573e5f8ab0eaf5d4e3145c19f86a72db1e8c5da"
+    "sha256": "29d48e8e13d73dfd80b48a9f0aeabd18f29bb868d506142c7f290f46304f87b2"
   },
   "right-2.gif": {
     "size": [
@@ -147,7 +147,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "6e65336cb4120f4f411c0f81dedeae8e811730bad1fe76375962dfc640881d37"
+    "sha256": "d2a11cdb4cd5b3c48ae7aa4e2af5f02a4c4c06f8e2673af7d43b66964d76e056"
   },
   "right-2-slow.gif": {
     "size": [
@@ -157,7 +157,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "18d98dd11e03d3700684b5b105c96a10b4685d05517173fd35559efb55dd4965"
+    "sha256": "43fc17f84c111ceba45f57d49c0e295eb1f62c4d96653aae7c72fd932f7c1847"
   },
   "right-before-after.gif": {
     "size": [
@@ -167,7 +167,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "fab44331e1374d23e58d0f76ad5ec2500c6d56c7a640e9a1552f0090c8c5e574"
+    "sha256": "7e88b945eb2f3c64c2f3319cff6c5a1c59e5b95da327e23466e961ecde62aa0c"
   },
   "right-before-after-slow.gif": {
     "size": [
@@ -177,7 +177,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "0d00cea0a7d76fb9e8447b8ab56a269f65ab4372e7dd8066a265c8e9d60d45e2"
+    "sha256": "73eb10a87eb3367eca4f59413318c05b9146da735481db12b33b15c3eff5775d"
   },
   "approved-left-vs-right.gif": {
     "size": [
@@ -187,7 +187,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 1210,
-    "sha256": "0a9ed550a7fc2cac19d42d987445c5f0458cb2deb7a65e1fb64db0ac18172b7c"
+    "sha256": "904e2f03c76366f0187147248e9f59d6683556aa936ae361baac71abe42490b9"
   },
   "approved-left-vs-right-slow.gif": {
     "size": [
@@ -197,7 +197,7 @@
     "decoded_states": 6,
     "distinct_images": 4,
     "duration_ms": 4840,
-    "sha256": "c70c877a21689d936d07aa69a9f6e284bb74c4170019c126cc89da6b839399af"
+    "sha256": "7f66e789ab179c0c67e4e31aee92f9be00c5b807880ad280e4edb177631d9f9f"
   },
   "sources": {
     "left-contact.png": "5e7a64172d9f31354bdcbb87d39bd9f4be1ff9003f69440027ceafe5ec17d792",
@@ -233,6 +233,18 @@
     "provenance.json": "c24bc36fd32759417ea7e8ee9962ddbd343c925cdb21a46367a5468e2c80c8a2",
     "right-hook.png": "4f8dd1a8cc833c49a13513b2b62832b29fd6478b70b1b12bc08f3eae4ece7a57",
     "validate.py": "788b56f7e6baab7ed7fa02ce4ad5737dcfe867120a0e971fa922ca1863417a4d"
+  },
+  "right_consistency_sources": {
+    "assemble.mjs": "6243e2b0169c4addc8fe0a6c7f4df33fb79f6bf6ff276d84a04a6a850d940b1d",
+    "clean-plate-generated.png": "5ced0af469fa48d45c3e8c6bd69f19af1d2a289b9b813d98035b7e59ee2f411b",
+    "decoded-inbetweens.png": "376ffd8319c7ed646861a8cd763d3f59c474bcdabcc8c6e6962040cbb8b4890d",
+    "fore.png": "fcfa44a1d1793ce9134cb31f5bbadabfb67bcf27be312f8daac1d1f17e75e19c",
+    "generatedNative.png": "decb4805cf5865a723713b2c104850cff5ff590bc8d2d1a45ddc626a0e21888e",
+    "plate.png": "4da06a8fd16cea72a1d9cf313a7340d8f37ea30aea20b4db25010c5933c070e7",
+    "provenance.json": "5eb22aebc7298a9fe2f2f291374515f13dda18986e6acf5da5e4a1cad2960387",
+    "rig.json": "a95202b532ce3a967b0bfdddb6a4d36be56ca8155c0ab9f60350fc3983b83715",
+    "upper.png": "8f5bdfbab3115e3b4252dcb840fc41ed846cfecc0bce08a879730820d98900f5",
+    "validate.py": "219487e317de020a1631660110e43cf2ac0185b9a940616685cb6cbc03f554ff"
   },
   "checks": [
     "six animations with exactly 0/1/2 additional drawings",

@@ -4,7 +4,7 @@ import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { resolve, extname, sep } from 'node:path';
 import assert from 'node:assert/strict';
-import { durationMs } from './schedule.mjs';
+import { durationMs, schedules, poseAt, leadInMs } from './schedule.mjs';
 
 const root = fileURLToPath(new URL('./', import.meta.url));
 const project = resolve(root, '../../../..');
@@ -29,7 +29,10 @@ try {
   await page.waitForFunction(() => window.ready);
   await mkdir(resolve(root, '.capture'), { recursive: true });
   await mkdir(resolve(root, 'frames'), { recursive: true });
-  const {frames,registration,stage,correction}=await page.evaluate(()=>window.hookPreview);
+  const {frames,registration,stage,correction,consistency}=await page.evaluate(()=>window.hookPreview);
+  const {layers,...rig}=consistency;
+  await writeFile(resolve(root,'correction-v5/rig.json'),JSON.stringify(rig,null,2)+'\n');
+  for(const [name,png] of Object.entries(layers))await writeFile(resolve(root,`correction-v5/${name}.png`),Buffer.from(png,'base64'));
   await writeFile(resolve(root,'correction-v2/registration.json'),JSON.stringify(correction.records,null,2)+'\n');
   await writeFile(resolve(root,'correction-v2/head-source.png'),Buffer.from(correction.head,'base64'));
   for(const [name,png] of Object.entries(frames))await writeFile(resolve(root,`frames/${name}.png`),Buffer.from(png,'base64'));
@@ -37,11 +40,18 @@ try {
   for(const hand of ['left','right']){
     await mkdir(resolve(root,`.capture/${hand}`),{recursive:true});
     const records=[];
+    let signature, cached, lastMs;
     for(let ms=0;ms<=durationMs;ms+=10){
-      const {png,...record}=await page.evaluate(({hand,ms})=>window.hookPreview.render(hand,ms),{hand,ms});
-      await writeFile(resolve(root,`.capture/${hand}/${String(ms).padStart(4,'0')}.png`),Buffer.from(png,'base64'));
-      records.push({ms,...record});
+      const selected=[0,1,2].map(i=>poseAt(schedules[i],ms-leadInMs)),next=selected.join('/');
+      if(next!==signature){
+        if(cached){const check=await page.evaluate(({hand,ms})=>window.hookPreview.render(hand,ms),{hand,ms:lastMs});assert.equal(check.png,cached.png);}
+        cached=await page.evaluate(({hand,ms})=>window.hookPreview.render(hand,ms),{hand,ms});
+        assert.deepEqual(cached.selected,selected);signature=next;
+      }
+      await writeFile(resolve(root,`.capture/${hand}/${String(ms).padStart(4,'0')}.png`),Buffer.from(cached.png,'base64'));
+      records.push({ms,selected});lastMs=ms;
     }
+    assert.equal((await page.evaluate(({hand,ms})=>window.hookPreview.render(hand,ms),{hand,ms:durationMs})).png,cached.png);
     assert.equal(records.length,121);
     assert.deepEqual(records[0].selected,['idle','idle','idle']);assert.deepEqual(records.at(-1).selected,['idle','idle','idle']);
     assert.deepEqual([0,1,2].map(i=>new Set(records.map(r=>r.selected[i])).size),[2,3,4]);

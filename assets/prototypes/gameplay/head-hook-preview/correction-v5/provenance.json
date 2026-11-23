@@ -1,0 +1,32 @@
+{
+  "task": "Author still observes inconsistent in-betweens. Fix right only; approved left and right v4 contact endpoint frozen.",
+  "method": "Shared source pixel parts rather than independent full-body intermediate drawings. Existing idle supplies early preparation; existing v4 contact supplies late torso, upper arm and forearm. One local clean-plate generation fills the arm occlusion.",
+  "prompt": "Edit target: this single sprite of a boxer delivering a RIGHT rear hook toward screen right. We need an animation CLEAN PLATE, not a new pose or new character.\nRemove ONLY the NEAR-CAMERA attacking RIGHT ARM: the bent near arm sweeping across the chest from near shoulder (image x170,y120) through elbow (x210,y155) to attacking fist at x340,y120, using the 500x530 target coordinates. Remove that entire near punching arm including near fist, exposed biceps and forearm. Reconstruct the small area of burgundy T-SHIRT behind it with exactly the same existing garment fabric, diagonal hatching and angular folds. Make empty transparent background where the removed limb was outside the torso silhouette.\nPRESERVE the OTHER FAR LEFT ARM which guards next to the cheek, including its fist at x293,y94 and forearm down to x279,y193. If punching arm occluded a small piece of that far guard arm, reconstruct it consistently. The resulting sprite has ONE visible guarding arm and no near attacking arm: this is intentional.\nKeep torso in EXACTLY its current contact twist and location, same outline of back and waist; only close the near sleeve opening naturally, do not invent a new collar. Keep the bare neck, angry face, spiked hair, trousers, legs and boots in their exact original positions. Do not change proportions, art style, color, folds, lighting or pose. No hood, scarf, jacket, shoulder armor or prosthetic. Do not amputate or change the far guarding arm.\nKeep same transparent background, same whole 500x530 canvas arrangement with all feet visible. This is a localized clean-plate inpaint for separating an existing sprite into reusable animation layers. High fidelity to the existing rough ink pixels and hatch density is essential; no smoothing or new design.",
+  "sourceCommit": "6c813a53a921af18e3d5bfada34be9f801e12037",
+  "sources": {
+    "masters/idle.png": "Original runtime idle, pixel exact copy",
+    "masters/contact.png": "Right v4 contact; preserved byte-for-byte in current native frames",
+    "upper.png": "Masked from contact master, no generation",
+    "fore.png": "Masked from contact master, no generation",
+    "clean-plate-generated.png": "Built-in image_gen localized arm removal; generated source exec-d8eb0e75-a7e1-4ea8-86f2-1d1048ecb6ac.png"
+  },
+  "assembly": {
+    "early": "Idle upper 245 rows translated (-3,+1), original idle legs retained. No separate redraw.",
+    "late": "Contact plate upper translated (-4,+1), source contact arm parts projected to late two-bone pose. Generated pixels clipped to old arm occlusion; guard repair local. Original head pixels relocked after arm composition.",
+    "contact": "Existing v4 endpoint retained without changes.",
+    "projection": "Late forearm screen projection is 94 px vs source contact projection ~122 px, explicitly chosen foreshortening; fixed transverse thickness. This is an artistic projection, not measured 3D anatomy.",
+    "legs": "Early uses idle legs; late uses contact legs. Native front foot is anchored in both masters."
+  },
+  "observations": [
+    {
+      "iteration": 1,
+      "result": "Plate exposed missing guard section under old punching arm; locally registered clean-plate guard patch."
+    },
+    {
+      "iteration": 2,
+      "result": "Five jaw pixels were covered by the projected hand; copied canonical head pixels after assembly."
+    }
+  ],
+  "checks": "Approved left hashes, unchanged right contact and 0-inbetween GIFs, actual idle/body/arm source pixels, nonempty layers, guard continuity, canonical face colors, projected joint lengths, schedule and decoded GIF loop.",
+  "limits": "Two endpoint drawings remain different artworks. This removes independent intermediate redrawing; source reuse alone does not establish natural motion. Latest GIF awaits author's visual assessment. Preview only; no gameplay changes."
+}

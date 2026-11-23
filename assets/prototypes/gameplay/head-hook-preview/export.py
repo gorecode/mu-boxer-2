@@ -6,7 +6,7 @@ from shutil import copyfile
 
 root=Path(__file__).resolve().parent
 project=root.parents[3]
-public=project/'scene-lab/public/previews/head-hook-v4'
+public=project/'scene-lab/public/previews/head-hook-v5'
 public.mkdir(exist_ok=True)
 expected={0:[550,120,540],1:[470,80,120,20,520],2:[470,40,40,120,20,520]}
 registration=json.loads((root/'registration.json').read_text())
@@ -30,6 +30,7 @@ for row,hand in enumerate(['left','right']):
         im=sprites['idle' if pose=='idle' else hand+'-'+pose];board.paste(im,(col*500,row*560+28),im)
         d.text((col*500+12,row*560+9),hand.upper()+' / '+pose.upper(),fill='white')
 board.save(root/'contact-sheet.png');board.save(public/'contact-sheet.png')
+board.crop((0,560,2000,1120)).save(public/'right-keyposes.png')
 palette=Image.open(project/'scene-lab/public/previews/head-hook-v2/left-compare.gif')
 report={}
 def save_gif(name,indexed,durations,expected_times):
@@ -61,7 +62,7 @@ for hand in ['left','right']:
         cropped=[f.crop((i*500,0,(i+1)*500,570)) for f in frames]
         save_gif(f'{hand}-{i}',cropped,[10]*121,expected[i])
 for name,left_path,labels in [
-    ('right-before-after',project/'scene-lab/public/previews/head-hook-v3/right-2.gif',('RIGHT / PREVIOUS','RIGHT / REVISED HOOK')),
+    ('right-before-after',project/'scene-lab/public/previews/head-hook-v4/right-2.gif',('RIGHT / PREVIOUS','RIGHT / SHARED SOURCE PARTS')),
     ('approved-left-vs-right',public/'left-2.gif',('APPROVED LEFT / 2 IN-BETWEENS','REPAIRED RIGHT / 2 IN-BETWEENS')),
 ]:
     with Image.open(left_path) as a,Image.open(public/'right-2.gif') as b:
@@ -87,6 +88,7 @@ report['sources']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in so
 report['correction_sources']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((root/'correction-v2').glob('*')) if p.is_file()}
 report['right_style_sources']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((root/'correction-v3').glob('*')) if p.is_file()}
 report['right_mechanics_sources']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((root/'correction-v4').glob('*')) if p.is_file()}
+report['right_consistency_sources']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((root/'correction-v5').glob('*')) if p.is_file()}
 report['checks']=['six animations with exactly 0/1/2 additional drawings','identical 120 ms contact','20 ms hybrid return','decoded GIF durations and loop','planted front toe registration','selected left contact input retained; preview costume/head repaired','unclipped transparent native frames']
 (root/'verification.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps({k:{'states':v['decoded_states'],'unique':v['distinct_images'],'ms':v['duration_ms']} for k,v in report.items() if k.endswith('.gif')},indent=2))
