@@ -77,9 +77,9 @@ test('new ground commands buffer just before landing and pause clears them', () 
   }
 });
 
-test('long-heavy-upper and jab-backfist are hit-confirmed branches with scaling, no cancel on block or whiff', () => {
+test('corner long-heavy-upper and jab-backfist are hit-confirmed branches with scaling, no cancel on block or whiff', () => {
   for (const facing of [1, -1] as const) {
-    const s = ready(430, facing); s.training.dummy = 'after-hit';
+    const s = ready(430, facing, true); s.training.dummy = 'after-hit';
     stepFight(s, { ...idleInput(), attackPressed: 'long' }, dt); advance(s, .24);
     assert.equal(s.hits, 1); stepFight(s, { ...idleInput(), attackPressed: 'heavy' }, dt); advance(s, .34);
     assert.equal(s.hits, 2); stepFight(s, { ...idleInput(), attackPressed: 'upper' }, dt); advance(s, .35);

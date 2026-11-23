@@ -86,15 +86,17 @@ test('cel editor changes real poses and contact, validates inputs, drags zones a
   await page.locator('#edit-defaults').click(); await page.locator('#training-step').click(); await expect(page.locator('#player-hp')).toHaveText('88 / 100');
 });
 
-test('after-hit dummy accepts a distant true combo, blocks a gap, and backdash works through real controls', async ({ page }) => {
+test('after-hit dummy accepts a close true combo, blocks a gap, and backdash works through real controls', async ({ page }) => {
   await begin(page); const arena = page.locator('#arena');
   await page.locator('#training-dummy').selectOption('after-hit'); await arena.focus();
-  await page.keyboard.down('d'); await page.clock.runFor(1200); await page.keyboard.up('d');
-  expect(await num(page, 'worker-x') - await num(page, 'player-x')).toBeGreaterThan(300);
+  await page.keyboard.down('d'); await page.clock.runFor(1500); await page.keyboard.up('d');
+  expect(await num(page, 'worker-x') - await num(page, 'player-x')).toBeLessThan(220);
   await page.keyboard.press('j'); await page.clock.runFor(130); await expect(page.locator('#worker-hp')).toHaveText('112 / 120');
   await page.locator('#training-save').click();
   await page.keyboard.press('k'); await page.clock.runFor(310); await expect(arena).toHaveAttribute('data-combo', '2');
+  const upperX = await num(page, 'player-x');
   await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(340);
+  expect(await num(page, 'player-x')).toBe(upperX);
   await expect(arena).toHaveAttribute('data-combo', '3'); await expect(page.locator('#worker-hp')).toHaveText('78 / 120'); await expect(arena).toHaveAttribute('data-gap', 'false');
   await page.locator('#training-load').click(); await page.locator('#training-freeze').click(); await page.clock.runFor(900);
   await page.keyboard.down('d');

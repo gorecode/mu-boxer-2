@@ -13,40 +13,36 @@ function ready(distance = 300, facing: 1 | -1 = 1, wall = false): Fight {
   return s;
 }
 
-test('standalone uppercut steps into normal fighting distance before contact in either facing and at walls', () => {
-  for (const facing of [1, -1] as const) for (const wall of [false, true]) for (const distance of [280, 300, 320]) {
+test('crouching uppercut stays planted in both facings, at walls and throughout contact/recovery', () => {
+  for (const facing of [1, -1] as const) for (const wall of [false, true]) for (const distance of [140, 200, 280, 288]) {
     const s = ready(distance, facing, wall), x = s.player.x;
-    stepFight(s, { ...idleInput(), attackPressed: 'upper' }, dt); advance(s, .15, { down: true });
-    assert.equal(s.player.action?.kind, 'upper'); assert.equal(s.worker.hp, 120, 'startup must remain harmless');
-    const travel = (s.player.x - x) * facing;
-    assert.ok(travel >= 11.99 && travel <= 70.001, `step=${travel}, distance=${distance}`);
-    advance(s, .2); assert.equal(s.worker.hp, 97); assert.ok(s.worker.y > 0); assert.equal(s.hits, 1);
-    advance(s, .6); assert.equal(s.worker.hp, 97); assert.equal(s.hits, 1);
+    stepFight(s, { ...idleInput(), down: true }, dt);
+    stepFight(s, { ...idleInput(), down: true, heavy: true }, dt);
+    assert.equal(s.player.action?.kind, 'upper'); assert.equal(s.player.action?.lunge, 0);
+    for (let i = 0; i < 18; i++) { stepFight(s, { ...idleInput(), down: true, right: facing === 1, left: facing === -1 }, dt); assert.equal(s.player.x, x); }
+    assert.equal(s.worker.hp, 120, 'startup must remain harmless');
+    advance(s, .2, { down: true }); assert.equal(s.player.x, x); assert.equal(s.worker.hp, 97); assert.ok(s.worker.y > 0); assert.equal(s.hits, 1);
+    advance(s, .6, { down: true }); assert.equal(s.player.x, x); assert.equal(s.worker.hp, 97); assert.equal(s.hits, 1);
   }
 });
 
-test('uppercut keeps a bounded step and real contact range without close-range creep or chasing', () => {
-  for (const facing of [1, -1] as const) {
-    for (const distance of [140, 200, 230]) {
-      const s = ready(distance, facing), x = s.player.x;
-      stepFight(s, { ...idleInput(), attackPressed: 'upper' }, dt); advance(s, .15);
-      assert.equal(s.player.x, x); advance(s, .2); assert.equal(s.worker.hp, 97);
-    }
-    for (const distance of [359, 400, 600]) {
-      const s = ready(distance, facing), x = s.player.x;
-      stepFight(s, { ...idleInput(), attackPressed: 'upper' }, dt); advance(s, .8);
-      assert.ok(Math.abs((s.player.x - x) * facing - 70) < .001); assert.equal(s.worker.hp, 120); assert.equal(s.hits, 0);
-    }
-    const moving = ready(300, facing), x = moving.player.x;
-    stepFight(moving, { ...idleInput(), attackPressed: 'upper' }, dt); moving.worker.x += facing * 120;
-    advance(moving, .8); assert.ok(Math.abs((moving.player.x - x) * facing - 32) < .001); assert.equal(moving.worker.hp, 120);
+test('uppercut whiffs outside its unchanged range without moving to chase the target', () => {
+  for (const facing of [1, -1] as const) for (const distance of [288.01, 300, 359, 600]) {
+    const s = ready(distance, facing), x = s.player.x;
+    stepFight(s, { ...idleInput(), attackPressed: 'upper' }, dt); advance(s, .8, { down: true });
+    assert.equal(s.player.x, x); assert.equal(s.worker.hp, 120); assert.equal(s.hits, 0);
   }
+  const moving = ready(280), x = moving.player.x;
+  stepFight(moving, { ...idleInput(), down: true, heavy: true }, dt); moving.worker.x += 120;
+  advance(moving, .8, { down: true }); assert.equal(moving.player.x, x); assert.equal(moving.worker.hp, 120);
 });
 
-test('uppercut step pauses, stops on interruption and never gives an airborne punch a ground dash', () => {
-  const s = ready(); stepFight(s, { ...idleInput(), attackPressed: 'upper' }, dt); advance(s, .04);
-  const x = s.player.x; assert.ok(x > 600); pauseFight(s); advance(s, .5); assert.equal(s.player.x, x);
-  resumeFight(s); advance(s, .4); assert.equal(s.worker.hp, 97);
+test('uppercut remains stationary through pause, hitstop, interruption, airborne and rear targets', () => {
+  const s = ready(280); const x = s.player.x;
+  stepFight(s, { ...idleInput(), down: true, heavy: true }, dt); advance(s, .04);
+  pauseFight(s); advance(s, .5); assert.equal(s.player.x, x);
+  resumeFight(s); s.player.stop = .04; advance(s, .02); assert.equal(s.player.x, x);
+  advance(s, .4); assert.equal(s.player.x, x); assert.equal(s.worker.hp, 97);
   const interrupted = ready(200); stepFight(interrupted, { ...idleInput(), attackPressed: 'upper' }, dt);
   interrupted.worker.action = { kind: 'sweep', time: moves.sweep.windup, connected: false };
   stepFight(interrupted, idleInput(), dt); assert.equal(interrupted.player.action, null); assert.equal(interrupted.player.hp, 83);
@@ -57,6 +53,17 @@ test('uppercut step pauses, stops on interruption and never gives an airborne pu
   const rear = ready(); rear.player.facing = -1; const rearX = rear.player.x;
   stepFight(rear, { ...idleInput(), attackPressed: 'upper' }, dt); advance(rear, .4);
   assert.equal(rear.player.x, rearX); assert.equal(rear.worker.hp, 120);
+});
+
+test('a confirmed heavy-to-upper cancel cannot inherit the combo step', () => {
+  for (const facing of [1, -1] as const) {
+    const s = ready(200, facing), x = s.player.x;
+    s.player.action = { kind: 'heavy', time: .3, connected: true, result: 'hit', chain: 0 };
+    stepFight(s, { ...idleInput(), down: true, heavy: true }, dt);
+    assert.equal(s.player.action?.kind, 'upper'); assert.equal(s.player.action?.chain, 1); assert.equal(s.player.action?.lunge, 0);
+    advance(s, .18, { down: true }); assert.equal(s.player.x, x);
+    advance(s, .2, { down: true }); assert.equal(s.player.x, x); assert.equal(s.hits, 1);
+  }
 });
 
 test('low guard keeps its crouched posture and geometry through block hitstop and recovery, then releases', () => {
