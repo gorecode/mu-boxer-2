@@ -36,3 +36,12 @@ export function jabFrame(f: Fighter): number | null {
   if (index === 2 && progress < .25 - 1e-9) return 1;
   return null;
 }
+
+export function crossFrame(f: Fighter): number | null {
+  if (f.hp <= 0 || f.reaction || f.hurt > 0 || !f.action || f.action.kind !== 'cross' || f.y > 0) return null;
+  const { cel, index, elapsed } = celAt('cross', f.action.time);
+  if (cel.pose !== [0, 3, 0, 0][index] || cel.phase === 'recovery' && f.crouch) return null;
+  const progress = cel.duration > 0 ? elapsed / cel.duration : 0;
+  if (index === 0 && progress >= 5 / 7 - 1e-9 || index === 2 && progress < .25 - 1e-9) return 0;
+  return null;
+}
