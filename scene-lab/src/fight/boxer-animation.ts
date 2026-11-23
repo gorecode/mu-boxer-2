@@ -1,6 +1,17 @@
 import { celAt } from './moves.ts';
 import type { Fighter } from './model.ts';
 
+export const walkStride = 134;
+
+export function canWalk(f: Fighter): boolean {
+  return f.hp > 0 && !f.action && !f.reaction && f.hurt <= 0 && f.stun <= 0 && f.dodge <= 0 && !f.blocking && !f.crouch && f.y === 0;
+}
+
+export function walkFrame(f: Fighter): number | null {
+  if (f.walk === null || !canWalk(f)) return null;
+  return Math.min(3, Math.floor((f.walk + 1e-9) / (walkStride / 4)));
+}
+
 export function boxerPose(f: Fighter): number {
   if (f.hp === 0 || f.reaction === 'down') return 11;
   if (f.reaction === 'guard') return f.crouch ? 5 : 4;
@@ -13,7 +24,6 @@ export function boxerPose(f: Fighter): number {
   if (f.blocking) return f.crouch ? 5 : 4;
   if (f.crouch) return 5;
   if (f.y > 0) return 7;
-  if (Math.abs(f.velocity) > 1) return Math.floor(f.travel / 67) % 2 ? 1 : 0;
   return 0;
 }
 

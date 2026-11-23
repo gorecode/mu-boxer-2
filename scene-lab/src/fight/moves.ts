@@ -63,6 +63,13 @@ export const jabHurtByFrame: Box[][] = [
     box(elbow[0] - 10, Math.min(elbow[1], wristY) - 10, tip - 12, Math.max(elbow[1], wristY) + 14),
   ];
 });
+export const walkHurtByFrame: Box[][] = [
+  [0, 0, 0, 0], [33.5, 4.76, 7.14, 0], [67, 9.52, 0, 0], [33.5, 4.76, 0, 5.95],
+].map(([spread, drop, frontLift, rearLift]) => [
+  box(-175 - spread, rearLift, -25 - spread / 2, 220 - drop / 2),
+  box(15 + spread / 2, frontLift, 120 + spread, 225 - drop / 2),
+  box(-65, 180 - drop, 65, 450 - drop), box(-45, 450 - drop, 50, 570 - drop),
+]);
 export function strikeAt(kind: Attack, time: number): number {
   const m = moves[kind], t = (time - m.windup) / m.active;
   if (t < -1e-9 || t >= 1 - 1e-9) return -1;

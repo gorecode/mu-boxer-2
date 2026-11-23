@@ -33,11 +33,11 @@ test('crouching attacks return to crouch without an extra stand-crouch flicker',
   }
 });
 
-test('grounded footwork never uses tucked airborne knees or the differently proportioned walk drawing', () => {
+test('walking falls back to original stance while dodge and airborne poses stay separate', () => {
   const f = createFight().player; f.velocity = 355;
   const walk = new Set<number>();
   for (let travel = 0; travel < 500; travel += 7) { f.travel = travel; walk.add(boxerPose(f)); }
-  assert.deepEqual([...walk].sort(), [0, 1]);
+  assert.deepEqual([...walk].sort(), [0]);
   f.dodge = .18; assert.equal(boxerPose(f), 1);
   f.dodge = 0; f.y = 50; assert.equal(boxerPose(f), 7);
   f.y = 0; f.velocity = 0; assert.equal(boxerPose(f), 0);

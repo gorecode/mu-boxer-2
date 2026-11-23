@@ -1,0 +1,26 @@
+[
+  {
+    "frame": 0,
+    "source_sha256": "ce1f69cf00005261a25593cdbde43c4cab1a0ead21e8459e82faa1c9b16f6746",
+    "runtime_sha256": "3aa8139d9e4041b1b0c997ff6eb69db2e0c97f196544ddd18547d8ee5941e7dc",
+    "rgba_matches_preview": true
+  },
+  {
+    "frame": 1,
+    "source_sha256": "581126ab615b940f9927aabf294e36ad3655d53ce5ba7faefe929a276966d928",
+    "runtime_sha256": "76d9be444513849e0cefd025662d23c0f04091f1af862a10de36911d1a73d648",
+    "rgba_matches_preview": true
+  },
+  {
+    "frame": 2,
+    "source_sha256": "e4fdf0f620d5c84ddb74a229080b05cbc51d1b6e48ef66eec111c0690f4e22e0",
+    "runtime_sha256": "4a737ecf51c30657e252d1f7c26efc490877c60cdf91438955be32d13ff29779",
+    "rgba_matches_preview": true
+  },
+  {
+    "frame": 3,
+    "source_sha256": "b5556697941347e465fab8e5c45bb51737ffb76fbfc21ebcc09bb452e9f0b651",
+    "runtime_sha256": "f6c5101f205a9ba944ebc3dbada769819cc22ac16528945a6a0470b1f221439d",
+    "rgba_matches_preview": true
+  }
+]

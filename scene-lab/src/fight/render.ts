@@ -1,10 +1,10 @@
-import { boxerPose, jabFrame } from './boxer-animation.ts';
+import { boxerPose, jabFrame, walkFrame } from './boxer-animation.ts';
 import { celAt, strikeAt } from './moves.ts';
 import { fighterGeometry } from './geometry.ts';
 import { endingTiming, moves, type Fight, type Fighter, type FightEvent } from './model.ts';
 
 type Frame = { width: number; height: number; anchorX: number; anchorY: number; scale: number };
-interface Assets { arena: HTMLImageElement; boxer: HTMLImageElement[]; worker: HTMLImageElement[]; jab: HTMLImageElement[]; manifest: { boxer: Frame[]; worker: Frame[]; jab: Frame[] } }
+interface Assets { arena: HTMLImageElement; boxer: HTMLImageElement[]; worker: HTMLImageElement[]; jab: HTMLImageElement[]; walk: HTMLImageElement[]; manifest: { boxer: Frame[]; worker: Frame[]; jab: Frame[]; walk: Frame[] } }
 interface Particle { x: number; y: number; vx: number; vy: number; life: number; max: number; color: string; size: number }
 const assetBase = `${import.meta.env.BASE_URL}art/fight/`;
 function loadImage(url: string): Promise<HTMLImageElement> {
@@ -19,15 +19,16 @@ export async function loadAssets(): Promise<Assets> {
   const response = await fetch(`${assetBase}manifest.json`, { cache: 'no-cache' });
   if (!response.ok) throw new Error('Не загрузился список рисунков.');
   const manifest = await response.json() as Assets['manifest'];
-  for (const name of ['boxer', 'worker', 'jab'] as const) {
-    if (!Array.isArray(manifest[name]) || manifest[name].length !== (name === 'jab' ? 2 : 12) || manifest[name].some(f =>
+  for (const name of ['boxer', 'worker', 'jab', 'walk'] as const) {
+    if (!Array.isArray(manifest[name]) || manifest[name].length !== ({ boxer: 12, worker: 12, jab: 2, walk: 4 }[name]) || manifest[name].some(f =>
       ![f.width, f.height, f.anchorX, f.anchorY, f.scale].every(Number.isFinite) || f.width <= 0 || f.height <= 0 || f.scale <= 0 || f.scale > 3)) {
       throw new Error('Повреждён список поз бойцов.');
     }
   }
   const images = await Promise.all(['arena.webp', ...Array.from({ length: 12 }, (_, i) => `boxer-${i}.webp`),
-    ...Array.from({ length: 12 }, (_, i) => `worker-${i}.webp`), ...Array.from({ length: 2 }, (_, i) => `jab-hybrid/jab-${i}.webp`)].map(path => loadImage(assetBase + path)));
-  return { arena: images[0], boxer: images.slice(1, 13), worker: images.slice(13, 25), jab: images.slice(25), manifest };
+    ...Array.from({ length: 12 }, (_, i) => `worker-${i}.webp`), ...Array.from({ length: 2 }, (_, i) => `jab-hybrid/jab-${i}.webp`),
+    ...Array.from({ length: 4 }, (_, i) => `walk/walk-${i}.webp`)].map(path => loadImage(assetBase + path)));
+  return { arena: images[0], boxer: images.slice(1, 13), worker: images.slice(13, 25), jab: images.slice(25, 27), walk: images.slice(27), manifest };
 }
 export class FightRenderer {
   private ctx: CanvasRenderingContext2D;
@@ -118,8 +119,11 @@ export class FightRenderer {
     if (f.hp === 0) { this.defeated(f, worker, ending); return; }
     const c = this.ctx, key = worker ? 'worker' : 'boxer', index = changing && !f.reaction ? 5 : this.pose(f, worker);
     const clip = worker ? null : jabFrame(f);
-    const frame = clip === null ? this.assets.manifest[key][index] : this.assets.manifest.jab[clip];
-    const image = clip === null ? this.assets[key][index] : this.assets.jab[clip];
+    const step = worker ? null : walkFrame(f);
+    const category = clip !== null ? 'jab' : step !== null ? 'walk' : key;
+    const selected = clip ?? step ?? index;
+    const frame = this.assets.manifest[category][selected];
+    const image = this.assets[category][selected];
     const facing = worker ? -f.facing : f.facing;
     const idle = !f.action && !f.reaction && f.stun <= 0 && f.y === 0 && !f.crouch;
     const breath = this.reducedMotion || !worker ? 0 : idle ? Math.sin(time * 3.7 + (worker ? 2 : 0)) * 2 : 0;
