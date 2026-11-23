@@ -216,5 +216,14 @@
       "anchorY": 495,
       "scale": 1.19
     }
+  ],
+  "cross": [
+    {
+      "width": 500,
+      "height": 530,
+      "anchorX": 228,
+      "anchorY": 495,
+      "scale": 1.19
+    }
   ]
 }

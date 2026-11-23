@@ -63,6 +63,10 @@ export const jabHurtByFrame: Box[][] = [
     box(elbow[0] - 10, Math.min(elbow[1], wristY) - 10, tip - 12, Math.max(elbow[1], wristY) + 14),
   ];
 });
+export const crossHurt = [
+  box(-175, 0, -25, 220), box(15, 0, 120, 225), box(-110, 220, 40, 450), box(-35, 465, 65, 585),
+  box(20, 345, 85, 405), box(-80, 385, 5, 460), box(-35, 390, 125, 470),
+];
 export const walkHurtByFrame: Box[][] = [
   [0, 0, 0, 0], [33.5, 4.76, 7.14, 0], [67, 9.52, 0, 0], [33.5, 4.76, 0, 5.95],
 ].map(([spread, drop, frontLift, rearLift]) => [

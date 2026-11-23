@@ -1,0 +1,25 @@
+{
+  "comparison.gif": {
+    "decoded_states": 5,
+    "duration_ms": 1210,
+    "sha256": "42e2ce905d80a8b0fb76058e7a7ac8039f583eb18192d49196c3e75628ff6d8f"
+  },
+  "comparison-slow.gif": {
+    "decoded_states": 5,
+    "duration_ms": 4840,
+    "sha256": "ea1d6816dfd62172a80e4ad5d1ed311017f81ad47700c02c5c20e4b9033753d1"
+  },
+  "sprites": {
+    "idle": "ce1f69cf00005261a25593cdbde43c4cab1a0ead21e8459e82faa1c9b16f6746",
+    "outgoing": "1772707dbbde76fdc74263a48734323b6e55629d206e2be8adadfcce65168304",
+    "contact": "d757c52978d1082252c2497b50fc25629e8a2dac5e00ffc6c1960e327d8b01df",
+    "return": "067fda89d3561482b5442c430bc59ddbcb671ef687499a326f844b1b5ed3c4d4"
+  },
+  "checks": [
+    "fixed lower body in new frames",
+    "original face pixels in checked region",
+    "original idle/contact unchanged",
+    "in-between reach below original contact",
+    "decoded GIF duration and loop"
+  ]
+}
