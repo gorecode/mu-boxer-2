@@ -8,9 +8,9 @@ test('boxer keeps his ground anchor and facing through attacks, walk, recovery a
     CanvasRenderingContext2D.prototype.drawImage = new Proxy(CanvasRenderingContext2D.prototype.drawImage, {
       apply(draw, context: CanvasRenderingContext2D, args) {
         const image = args[0];
-        if (image instanceof HTMLImageElement && /(?:boxer-|jab-hybrid\/jab-)\d+\.webp$/.test(image.src)) {
+        if (image instanceof HTMLImageElement && /(?:boxer-|jab-hybrid\/jab-|walk\/walk-)\d+\.webp$/.test(image.src)) {
           const m = context.getTransform();
-          samples.push({ pose: Number(image.src.match(/(?:boxer-|jab-)(\d+)/)![1]), a: m.a, b: m.b, c: m.c, d: m.d, x: m.e, y: m.f });
+          samples.push({ pose: Number(image.src.match(/(?:boxer-|jab-|walk-)(\d+)\.webp$/)![1]), a: m.a, b: m.b, c: m.c, d: m.d, x: m.e, y: m.f });
         }
         return Reflect.apply(draw, context, args);
       },
@@ -40,7 +40,7 @@ test('boxer keeps his ground anchor and facing through attacks, walk, recovery a
   await page.evaluate(() => { (window as Window & { boxerFrames?: unknown[] }).boxerFrames!.length = 0; });
   await page.keyboard.down('d'); await page.clock.runFor(800); await page.keyboard.up('d');
   const poses = await page.evaluate(() => [...new Set((window as Window & { boxerFrames?: { pose: number }[] }).boxerFrames!.map(f => f.pose))]);
-  expect(poses.sort()).toEqual([0, 1]);
+  expect(poses.sort()).toEqual([0, 1, 2, 3]);
   await page.keyboard.press('Escape');
   const before = await arena.evaluate((c: HTMLCanvasElement) => c.toDataURL()); await page.clock.runFor(500);
   expect(await arena.evaluate((c: HTMLCanvasElement) => c.toDataURL())).toBe(before);

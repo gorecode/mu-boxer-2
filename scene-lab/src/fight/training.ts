@@ -44,7 +44,7 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
     stop();
     const s = host.fight(), m = moves[kind()], time = m.cels.slice(0, index()).reduce((n, c) => n + c.duration, 0);
     for (const [i, f] of [s.player, s.worker].entries()) {
-      Object.assign(f, { x: i ? 900 : 600, y: 0, vy: 0, facing: i ? -1 : 1, action: null, reaction: null, stun: 0, stop: 0, hurt: 0, invulnerable: 0, knockback: 0, velocity: 0, dodge: 0, blocking: false, crouch: false });
+      Object.assign(f, { x: i ? 900 : 600, y: 0, vy: 0, facing: i ? -1 : 1, action: null, reaction: null, stun: 0, stop: 0, hurt: 0, invulnerable: 0, knockback: 0, velocity: 0, walk: null, dodge: 0, blocking: false, crouch: false });
     }
     actor().action = { kind: kind(), time: time + (kind() === 'spin' && index() === 1 ? m.active * .2 : Math.min(1/120, m.cels[index()].duration / 2)), connected: false };
     dummy.value = 'idle'; s.training.dummy = 'idle'; s.training.firstHit = false; s.training.gap = false;

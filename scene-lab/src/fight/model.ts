@@ -1,5 +1,6 @@
 import { commandState, observeDirections, heavyCommand, type CommandState } from './commands.ts';
 import { fighterGeometry, overlaps } from './geometry.ts';
+import { canWalk, walkStride } from './boxer-animation.ts';
 
 import { moves, strikeAt, type Attack, type Move } from './moves.ts';
 export { moves, type Attack, type Move } from './moves.ts';
@@ -14,7 +15,7 @@ export interface Fighter {
   x: number; y: number; vy: number; velocity: number; facing: 1 | -1;
   hp: number; maxHp: number; guard: number; crouch: boolean; blocking: boolean;
   guardDelay: number; dodge: number; dodgeCooldown: number; dodgeDirection: number; stun: number; invulnerable: number; action: { kind: Attack; time: number; connected: boolean; contacts?: number[]; result?: 'hit' | 'block'; chain?: number; lunge?: number } | null;
-  travel: number; hurt: number; stop: number; knockback: number; reaction: Move['reaction'] | 'guard' | null;
+  travel: number; walk: number | null; hurt: number; stop: number; knockback: number; reaction: Move['reaction'] | 'guard' | null;
 }
 export interface FightEvent { type: 'hit' | 'block' | 'break' | 'miss' | 'jump' | 'land' | 'start' | 'finish'; target: 'player' | 'worker'; x: number; y: number; power: number; attack?: Attack; direction?: number }
 export interface Fight {
@@ -30,7 +31,7 @@ export interface Fight {
 }
 function fighter(x: number, hp: number, facing: 1 | -1): Fighter {
   return { x, y: 0, vy: 0, velocity: 0, facing, hp, maxHp: hp, guard: 100, crouch: false, blocking: false,
-    guardDelay: 0, dodge: 0, dodgeCooldown: 0, dodgeDirection: 0, stun: 0, invulnerable: 0, action: null, travel: 0, hurt: 0, stop: 0, knockback: 0, reaction: null };
+    guardDelay: 0, dodge: 0, dodgeCooldown: 0, dodgeDirection: 0, stun: 0, invulnerable: 0, action: null, travel: 0, walk: null, hurt: 0, stop: 0, knockback: 0, reaction: null };
 }
 export function createFight(difficulty: Difficulty = 'street', training = false): Fight {
   return { phase: 'menu', resume: 'countdown', difficulty, ending: null, player: fighter(430, 100, 1), worker: fighter(1170, 120, -1),
@@ -352,6 +353,7 @@ export function stepFight(s: Fight, input: Input, dt: number): void {
     return;
   }
   readInput(s, input, dt);
+  const beforeWalk = s.player.x;
   const frozen = s.hitstop > 0;
   s.hitstop = Math.max(0, s.hitstop - dt);
   if (!frozen) { s.time += dt; if (!s.training.enabled) s.remaining = Math.max(0, s.remaining - dt); s.comboTime = Math.max(0, s.comboTime - dt); }
@@ -360,8 +362,14 @@ export function stepFight(s: Fight, input: Input, dt: number): void {
   if (playerReady) control(s, input, dt);
   if (workerReady) ai(s, dt);
   separate(s);
+  if (playerReady) {
+    const p = s.player, delta = p.x - beforeWalk;
+    p.walk = canWalk(p) && Math.abs(p.velocity) > 1 && Math.abs(delta) > 1e-9
+      ? (((p.walk ?? 0) + delta * p.facing) % walkStride + walkStride) % walkStride : null;
+  }
   const contacts = [contact(s, 'player', 'worker'), contact(s, 'worker', 'player')];
   for (const c of contacts) if (c) applyContact(s, c);
   s.hitstop = Math.max(s.player.stop, s.worker.stop);
   separate(s); finish(s);
+  if (!canWalk(s.player) || s.ending) s.player.walk = null;
 }
