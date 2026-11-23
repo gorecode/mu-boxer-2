@@ -8,20 +8,22 @@ async function begin(page: Page): Promise<void> {
 }
 const num = async (page: Page, key: string) => Number(await page.locator('#arena').getAttribute(`data-${key}`));
 
-test('standalone uppercut closes normal spacing with a real step, launches once and still whiffs from afar', async ({ page }, info) => {
-  await begin(page); const arena = page.locator('#arena'); await arena.focus();
-  await page.keyboard.down('d'); await page.clock.runFor(1200); await page.keyboard.up('d');
-  const x = await num(page, 'player-x'), distance = await num(page, 'worker-x') - x;
-  expect(distance).toBeGreaterThan(300); expect(distance).toBeLessThan(320);
-  await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(150);
-  await expect(arena).toHaveAttribute('data-player-action', 'upper'); await expect(page.locator('#worker-hp')).toHaveText('120 / 120');
-  expect(await num(page, 'player-x') - x).toBeCloseTo(distance - 268, 1);
-  await page.clock.runFor(220); await expect(page.locator('#worker-hp')).toHaveText('97 / 120'); expect(await num(page, 'worker-y')).toBeGreaterThan(0);
-  await page.locator('.arena-shell').screenshot({ path: info.outputPath('uppercut-step.png') });
-  await page.clock.runFor(700); await expect(page.locator('#worker-hp')).toHaveText('97 / 120');
-  await page.keyboard.press('r'); await page.clock.runFor(1800);
-  const farX = await num(page, 'player-x'); await page.keyboard.down('s'); await page.keyboard.press('k'); await page.keyboard.up('s'); await page.clock.runFor(850);
-  expect(await num(page, 'player-x') - farX).toBeCloseTo(70, 1); await expect(page.locator('#worker-hp')).toHaveText('120 / 120');
+test('crouching uppercut stays planted, launches only within reach and does not chase a distant target', async ({ page }, info) => {
+  await begin(page); const arena = page.locator('#arena');
+  for (const [walk, expected] of [[1200,'120 / 120'],[1290,'97 / 120'],[0,'120 / 120']] as const) {
+    await arena.focus();await page.keyboard.press('r');await page.clock.runFor(1800);
+    if(walk){await page.keyboard.down('d');await page.clock.runFor(walk);await page.keyboard.up('d');}
+    const x=await num(page,'player-x');
+    await page.keyboard.down('s');await page.clock.runFor(20);await page.keyboard.press('k');
+    await page.keyboard.down('d');await page.clock.runFor(150);await page.keyboard.up('d');
+    await expect(arena).toHaveAttribute('data-player-action','upper');expect(await num(page,'player-x')).toBe(x);
+    await expect(page.locator('#worker-hp')).toHaveText('120 / 120');
+    await page.clock.runFor(220);expect(await num(page,'player-x')).toBe(x);
+    await expect(page.locator('#worker-hp')).toHaveText(expected);
+    if(walk===1290){expect(await num(page,'worker-y')).toBeGreaterThan(0);await page.locator('.arena-shell').screenshot({path:info.outputPath('stationary-uppercut.png')});}
+    await page.clock.runFor(600);expect(await num(page,'player-x')).toBe(x);
+    await expect(page.locator('#worker-hp')).toHaveText(expected);await page.keyboard.up('s');
+  }
 });
 
 test('held high and low guard visibly match real blocks, explain unavailable states and clear on pause or restart', async ({ page }, info) => {

@@ -146,12 +146,11 @@ function control(s: Fight, input: Input, dt: number): void {
         a.time <= moves[a.kind].windup + moves[a.kind].active + .12 && cancelTargets[a.kind]?.includes(requested);
       if (!a || cancel) {
         const chain = cancel && a ? (a.chain ?? 0) + 1 : 0;
-        const lunge = cancel && p.y === 0 && s.worker.y === 0 && (s.worker.x - p.x) * p.facing > 0
+        const lunge = requested === 'upper' ? 0 : cancel && p.y === 0 && s.worker.y === 0 && (s.worker.x - p.x) * p.facing > 0
           ? clamp(Math.abs(s.worker.x - p.x) + Math.abs(s.worker.knockback) / 12 - moves[requested].range + 20, 24, 120)
           : requested === 'long' && p.y === 0 && (s.worker.x - p.x) * p.facing > 0
             ? clamp(Math.abs(s.worker.x - p.x) - 220, 0, 110)
-          : requested === 'upper' && p.y === 0 && (s.worker.x - p.x) * p.facing > 0
-            ? clamp(Math.abs(s.worker.x - p.x) - moves.upper.range + 20, 0, 70) : 0;
+            : 0;
         if (requested === 'jab' || requested === 'cross') s.lightHand = requested === 'jab' ? 'cross' : 'jab';
         p.action = { kind: requested, time: 0, connected: false, chain, lunge };
         p.blocking = false; p.velocity = 0;

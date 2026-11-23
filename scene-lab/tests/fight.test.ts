@@ -158,15 +158,16 @@ test('jump buffers before landing; pause and a fresh match discard pending attac
   assert.equal(paused.player.action, null); assert.equal(paused.buffered, null); assert.equal(createFight().buffered, null);
 });
 
-test('hit-only cancels form a real jab-heavy-upper combo with scaling, lunge and launch', () => {
+test('hit-only cancels form a real jab-heavy-upper combo with scaling and a stationary launcher', () => {
   const s = duel(); advance(s, .09, { light: true }); assert.equal(s.hits, 1);
   advance(s, .02, { heavy: true }); assert.deepEqual(s.comboQueue, ['heavy']);
   advance(s, .29); assert.equal(s.player.action?.kind, 'heavy'); assert.equal(s.hits, 2); assert.equal(s.combo, 2);
   assert.equal(s.worker.hp, 95);
+  const upperX = s.player.x;
   advance(s, .02, { attackPressed: 'upper' }); advance(s, .34);
   assert.equal(s.player.action?.kind, 'upper'); assert.equal(s.combo, 3); assert.equal(s.hits, 3);
   assert.equal(s.worker.hp, 78); assert.equal(s.worker.reaction, 'launch'); assert.ok(s.worker.y > 0);
-  assert.ok(s.player.x > 630);
+  assert.equal(s.player.x, upperX);
   advance(s, 1.4); assert.equal(s.comboActive, false); assert.equal(s.worker.y, 0); assert.equal(s.worker.reaction, null);
 });
 

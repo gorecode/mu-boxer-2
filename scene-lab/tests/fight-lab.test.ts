@@ -54,16 +54,18 @@ test('training has no timeout or knockout and dummy guard modes detect a real ga
   assert.equal(low.worker.hp, 112); assert.equal(low.player.action?.result, 'block'); assert.equal(low.training.gap, true);
 });
 
-test('confirmed chains chase within a bounded distance at max jab range, mirrored and at walls', () => {
-  for (const [x, facing] of [[600, 1], [900, -1], [1065, 1], [535, -1]] as const) {
+test('only the heavy follows a max-range jab; the stationary upper connects in the corner', () => {
+  for (const [x, facing, hits] of [[600, 1, 2], [900, -1, 2], [1065, 1, 3], [535, -1, 3]] as const) {
     const s = ready(); s.training.dummy = 'after-hit'; s.player.x = x; s.worker.x = x + facing * 320;
     s.player.facing = facing; s.worker.facing = facing === 1 ? -1 : 1;
     advance(s, .12, { light: true }); assert.equal(s.hits, 1);
     advance(s, .02, { heavy: true }); advance(s, .29); assert.equal(s.hits, 2);
     assert.ok((s.player.action?.lunge ?? 0) <= 120);
+    const upperX = s.player.x;
     advance(s, .02, { attackPressed: 'upper' }); advance(s, .34);
-    assert.equal(s.hits, 3); assert.equal(s.worker.hp, 78); assert.equal(s.training.gap, false);
-    assert.ok(Math.abs(s.player.x - x) <= 240); assert.ok(Math.abs(s.player.x - s.worker.x) >= 140);
+    assert.equal(s.player.x, upperX);
+    assert.equal(s.hits, hits); assert.equal(s.worker.hp, hits === 3 ? 78 : 95); assert.equal(s.training.gap, false);
+    assert.ok(Math.abs(s.player.x - x) <= 120); assert.ok(Math.abs(s.player.x - s.worker.x) >= 140);
   }
 });
 
