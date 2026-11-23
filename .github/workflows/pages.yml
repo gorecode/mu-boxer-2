@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Download runtime WebP assets from LFS
+      - name: Download runtime assets and walk reference frames from LFS
         working-directory: .
         env:
           LFS_USERNAME: ${{ secrets.LFS_USERNAME }}
@@ -35,7 +35,7 @@ jobs:
           git config --add credential.helper '!f() { printf "username=%s\npassword=%s\n" "$LFS_USERNAME" "$LFS_PASSWORD"; }; f'
           git config credential.useHttpPath true
           git config lfs.https://lfs.77-42-113-122.nip.io/api/gorecode/mu-boxer-2.locksverify false
-          git lfs pull --include="*.webp" --exclude=""
+          git lfs pull --include="*.webp,assets/prototypes/gameplay/walk-keypose-preview/frames/*.png" --exclude=""
           python3 - <<'PYTHON'
           from pathlib import Path
           images = list(Path('scene-lab/public').rglob('*.webp'))
@@ -43,7 +43,10 @@ jobs:
           for image in images:
               header = image.read_bytes()[:12]
               assert header[:4] == b'RIFF' and header[8:12] == b'WEBP', f'LFS asset not hydrated: {image}'
-          print(f'Validated {len(images)} runtime WebP assets')
+          for i in range(4):
+              source = Path(f'assets/prototypes/gameplay/walk-keypose-preview/frames/{i}.png')
+              assert source.read_bytes()[:8] == b'\x89PNG\r\n\x1a\n', f'LFS reference not hydrated: {source}'
+          print(f'Validated {len(images)} runtime WebP assets and four walk reference PNGs')
           PYTHON
       - uses: actions/setup-node@v4
         with:

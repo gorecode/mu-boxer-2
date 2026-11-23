@@ -49,7 +49,7 @@ git lfs pull
 В GitHub Actions используются repository secrets `LFS_USERNAME` и `LFS_PASSWORD`.
 Проверка LFS скачивает исходный PNG и сверяет SHA-256. Workflow приложения
 скачивает WebP из LFS перед сборкой и проверяет, что это изображения, а не указатели.
-Исходные PNG для сборки не скачиваются. Для CI в PR из fork потребуется отдельно
+Для проверки соответствия ходьбы утверждённым кадрам workflow приложения также скачивает четыре PNG из `walk-keypose-preview/frames/`; остальные исходные PNG для сборки не скачиваются. Для CI в PR из fork потребуется отдельно
 решить доступ к LFS: repository secrets в такие PR не передаются.
 
 Основной workflow также публикует успешный `main` в GitHub Pages.
