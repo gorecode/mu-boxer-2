@@ -26,13 +26,13 @@
     {
       "kind": "heavy",
       "actor": "boxer",
-      "pose": 3,
-      "asset": "boxer-3.webp",
-      "sha256": "d791ebd68928c26ec5b3031ccd2528957636ed5d7b3e3a9d18060e449ae0153e",
+      "pose": 12,
+      "asset": "boxer-12.webp",
+      "sha256": "aed7160f7e44a56567f7d3380c553a3b383e2bca2a0245f6735ba9190e621536",
       "minHeight": 300,
-      "visibleRight": 227.29,
-      "visibleBottom": 404.59999999999997,
-      "visibleTop": 460.53
+      "visibleRight": 139.23,
+      "visibleBottom": 434.35,
+      "visibleTop": 520.03
     },
     {
       "kind": "low",

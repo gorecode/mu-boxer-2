@@ -15,7 +15,7 @@ function move(timing: number[], poses: number[], height: number[], low: boolean,
 export const moves: Record<Attack, Move> = {
   jab: move([.08, .08, .08, .10], [0, 2, 0, 0], [420, 493], false, { range: 338, damage: 8, level: 'mid', push: 18, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
   cross: move([.14, .09, .08, .12], [0, 3, 0, 0], [397, 469], false, { range: 310, damage: 9, level: 'mid', push: 22, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
-  heavy: move([.25, .12, .09, .19], [0, 3, 0, 0], [397, 469], false, { range: 310, damage: 20, level: 'mid', push: 60, hitstun: .42, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
+  heavy: move([.25, .12, .09, .19], [0, 12, 0, 0], [397, 525], false, { range: 243, damage: 20, level: 'mid', push: 60, hitstun: .42, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
   low: move([.17, .1, .09, .15], [5, 8, 5, 5], [153, 223], true, { range: 403, damage: 10, level: 'low', push: 25, hitstun: .38, stop: [.04, .065], reaction: 'light', lift: 0 }),
   upper: move([.2, .12, .09, 0.31], [5, 9, 9, 0], [210, 548], true, { range: 288, damage: 23, level: 'overhead', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
   long: move([.23, .09, .1, .27], [0, 2, 0, 0], [435, 493], false, { range: 338, damage: 14, level: 'mid', push: 45, hitstun: .36, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
@@ -27,11 +27,13 @@ export const moves: Record<Attack, Move> = {
   spin: move([.65, .9, .16, .65], [3, 4, 1, 7], [125, 400], false, { range: 320, damage: 16, level: 'mid', push: 35, hitstun: .25, stop: [.035, .055], reaction: 'light', lift: 0 }),
   overhead: move([.6, .12, .09, .41], [3, 8, 8, 7], [0, 490], false, { range: 421, damage: 22, level: 'overhead', push: 65, hitstun: .5, stop: [.075, .1], reaction: 'heavy', lift: 0 }),
 };
-const boxerHurtByPose: Partial<Record<number, Box[]>> = {
+export const boxerHurtByPose: Partial<Record<number, Box[]>> = {
   2: [box(-175, 0, -55, 220), box(45, 0, 170, 220), box(-80, 180, 55, 455), box(-10, 480, 60, 565), box(35, 430, 240, 480)],
   3: [box(-65, 0, 90, 180), box(-60, 180, 90, 450), box(15, 465, 95, 550), box(45, 410, 215, 450)],
   8: [box(-100, 0, 80, 110), box(-100, 100, 50, 275), box(20, 285, 100, 355), box(50, 160, 305, 210)],
   9: [box(-100, 0, 100, 150), box(-80, 170, 60, 345), box(-25, 345, 60, 480), box(40, 430, 190, 520)],
+  12: [box(-245, 0, -120, 250), box(-50, 0, 145, 270), box(-160, 260, 50, 480), box(-100, 470, 10, 585), box(-100, 385, -20, 480), box(0, 435, 130, 525)],
+  13: [box(-255, 0, -120, 250), box(-50, 0, 145, 270), box(-145, 260, 40, 480), box(-90, 470, 25, 585), box(-55, 355, 55, 475), box(0, 440, 145, 515)],
 };
 const workerHurtByPose: Partial<Record<number, Box[]>> = {
   2: [...standing, box(55, 335, 165, 400)],
@@ -96,7 +98,7 @@ export function resetCels(): void {
 export function editCel(kind: Attack, index: number, patch: Partial<Pick<Cel, 'duration' | 'pose' | 'hit'>>): void {
   const cel = moves[kind]?.cels[index];
   if (!cel || (patch.duration !== undefined && (!Number.isFinite(patch.duration) || patch.duration < 1/120 || patch.duration > 2)) ||
-    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > 11)) ||
+    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind) ? 11 : 13))) ||
     (patch.hit !== undefined && (cel.phase !== 'active' || patch.hit.length !== 1 || patch.hit.some(b =>
       ![b.left, b.right, b.bottom, b.top].every(Number.isFinite) || b.left < -600 || b.right > 600 || b.bottom < 0 || b.top > 800 || b.left >= b.right || b.bottom >= b.top)))) {
     throw new RangeError('Недопустимые параметры фазы.');

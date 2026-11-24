@@ -99,6 +99,7 @@ function update(): void {
     canvas.dataset[`${name}Reaction`] = fighter.reaction ?? '';
     canvas.dataset[`${name}Stop`] = fighter.stop.toFixed(3);
     canvas.dataset[`${name}ActionTime`] = String(fighter.action?.time ?? 0);
+    canvas.dataset[`${name}Hand`] = fighter.action?.hand ?? '';
     canvas.dataset[`${name}Cel`] = fighter.action ? celAt(fighter.action.kind, fighter.action.time).cel.phase : '';
     canvas.dataset[`${name}Guard`] = String(fighter.guard);
     element(`${name}-guard-value`).textContent = `${Math.round(fighter.guard)}%`;
@@ -119,7 +120,8 @@ function update(): void {
   guardStatus.dataset.state = guardState;
   if (guardStatus.textContent !== guardText) guardStatus.textContent = guardText;
   const names = { jab: 'ДЖЕБ', cross: 'ВТОРОЙ ЛЁГКИЙ', heavy: 'ТЯЖЁЛЫЙ', low: 'ПО НОГАМ', upper: 'АППЕРКОТ', long: 'ДЛИННЫЙ ПРЯМОЙ', overhand: 'СВЕРХУ', backfist: 'БЭКФИСТ', poke: 'ТЫЧОК', sweep: 'ПОДСЕЧКА', overhead: 'СВЕРХУ', thrust: 'ВЫПАД', spin: 'ВЕРТУШКА' };
-  const technique = fight.player.action ? names[fight.player.action.kind] : 'СТОЙКА';
+  const technique = fight.player.action?.kind === 'heavy' ? fight.player.action.hand === 'right' ? 'ПРАВЫЙ БОКОВОЙ' : 'ЛЕВЫЙ БОКОВОЙ'
+    : fight.player.action ? names[fight.player.action.kind] : 'СТОЙКА';
   element('player-technique').textContent = `ПРИЁМ: ${technique}${fight.comboQueue.length ? ' → ' + fight.comboQueue.map(kind => names[kind]).join(' → ') : ''}`;
   canvas.dataset.playerBlock = guardState; canvas.dataset.workerBlock = String(fight.worker.blocking);
   element('timer').textContent = String(Math.ceil(fight.remaining)).padStart(2, '0');

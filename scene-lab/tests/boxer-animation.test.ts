@@ -4,7 +4,7 @@ import { boxerPose } from '../src/fight/boxer-animation.ts';
 import { createFight, moves } from '../src/fight/model.ts';
 
 test('straight punches anticipate from stance and retract on the first non-contact frame', () => {
-  for (const kind of ['jab', 'cross', 'heavy', 'long', 'backfist'] as const) {
+  for (const kind of ['jab', 'cross', 'long', 'backfist'] as const) {
     const f = createFight().player, m = moves[kind];
     assert.equal(boxerPose(f), 0);
     f.action = { kind, time: 0, connected: false }; assert.equal(boxerPose(f), 0);

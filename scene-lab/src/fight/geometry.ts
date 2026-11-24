@@ -1,5 +1,5 @@
-import { celAt, strikeAt, crouching, standing, jabHurtByFrame, crossHurt, walkHurtByFrame, type Box } from './moves.ts';
-import { jabFrame, crossFrame, walkFrame } from './boxer-animation.ts';
+import { celAt, strikeAt, crouching, standing, jabHurtByFrame, crossHurt, walkHurtByFrame, boxerHurtByPose, type Box } from './moves.ts';
+import { boxerPose, jabFrame, crossFrame, walkFrame } from './boxer-animation.ts';
 import type { Fighter } from './model.ts';
 export type { Box } from './moves.ts';
 export interface Geometry { hurt: Box[]; hit: Box[] }
@@ -15,6 +15,7 @@ export function fighterGeometry(f: Fighter): Geometry {
     : frame !== null ? jabHurtByFrame[frame]
     : crossFrame(f) !== null ? crossHurt
     : step !== null ? walkHurtByFrame[step]
+    : f.action?.kind === 'heavy' && cel?.pose === 12 ? boxerHurtByPose[boxerPose(f)] ?? cel.hurt
     : f.action?.kind === 'jab' && cel?.phase === 'recovery' && f.crouch ? crouching
     : cel?.hurt ?? (f.crouch ? crouching : standing);
   const world = (b: Box): Box => ({

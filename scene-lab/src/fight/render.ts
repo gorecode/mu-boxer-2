@@ -20,15 +20,15 @@ export async function loadAssets(): Promise<Assets> {
   if (!response.ok) throw new Error('Не загрузился список рисунков.');
   const manifest = await response.json() as Assets['manifest'];
   for (const name of ['boxer', 'worker', 'jab', 'walk', 'cross'] as const) {
-    if (!Array.isArray(manifest[name]) || manifest[name].length !== ({ boxer: 12, worker: 12, jab: 2, walk: 4, cross: 1 }[name]) || manifest[name].some(f =>
+    if (!Array.isArray(manifest[name]) || manifest[name].length !== ({ boxer: 14, worker: 12, jab: 2, walk: 4, cross: 1 }[name]) || manifest[name].some(f =>
       ![f.width, f.height, f.anchorX, f.anchorY, f.scale].every(Number.isFinite) || f.width <= 0 || f.height <= 0 || f.scale <= 0 || f.scale > 3)) {
       throw new Error('Повреждён список поз бойцов.');
     }
   }
-  const images = await Promise.all(['arena.webp', ...Array.from({ length: 12 }, (_, i) => `boxer-${i}.webp`),
+  const images = await Promise.all(['arena.webp', ...Array.from({ length: 14 }, (_, i) => `boxer-${i}.webp`),
     ...Array.from({ length: 12 }, (_, i) => `worker-${i}.webp`), ...Array.from({ length: 2 }, (_, i) => `jab-hybrid/jab-${i}.webp`),
     ...Array.from({ length: 4 }, (_, i) => `walk/walk-${i}.webp`), 'cross-hybrid/cross-0.webp'].map(path => loadImage(assetBase + path)));
-  return { arena: images[0], boxer: images.slice(1, 13), worker: images.slice(13, 25), jab: images.slice(25, 27), walk: images.slice(27, 31), cross: images.slice(31), manifest };
+  return { arena: images[0], boxer: images.slice(1, 15), worker: images.slice(15, 27), jab: images.slice(27, 29), walk: images.slice(29, 33), cross: images.slice(33), manifest };
 }
 export class FightRenderer {
   private ctx: CanvasRenderingContext2D;
