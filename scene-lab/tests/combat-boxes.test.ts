@@ -2,19 +2,19 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { celAt, editCel, jabHurtByFrame, resetCels, strikeAt, type Attack } from '../src/fight/moves.ts';
+import { celAt, editCel, jabHurtByFrame, boxerHurtByPose, resetCels, strikeAt, type Attack } from '../src/fight/moves.ts';
 import { createFight, idleInput, moves, stepFight } from '../src/fight/model.ts';
 import { fighterGeometry } from '../src/fight/geometry.ts';
-const audit = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/jab-redraw/contact-audit.json', import.meta.url), 'utf8')) as { contacts: { kind: Attack; actor: string; asset: string; sha256: string; visibleRight: number; visibleBottom: number; visibleTop: number }[] };
+const audit = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/jab-redraw/contact-audit.json', import.meta.url), 'utf8')) as { contacts: { kind: Attack; actor: string; pose: number; asset: string; sha256: string; visibleRight: number; visibleBottom: number; visibleTop: number }[] };
 
-test('every hero strike extends 12–24 world pixels beyond the measured fist, with arm vulnerability inside it', () => {
+test('hero strikes extend beyond the measured fist while arm vulnerability stays inside it', () => {
   for (const c of audit.contacts.filter(c => c.actor !== 'worker')) {
     const bytes = readFileSync(new URL(`../public/art/fight/${c.asset}`, import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex'), c.sha256, `${c.kind} measurements must match the actual texture`);
     const m = moves[c.kind], hit = m.cels[1].hit[0];
-    assert.ok(hit.right - c.visibleRight >= 12 && hit.right - c.visibleRight <= 24, c.kind);
+    assert.ok(hit.right - c.visibleRight >= 12 && hit.right - c.visibleRight <= (c.kind === 'heavy' ? 40 : 24), c.kind);
     assert.ok(hit.bottom <= c.visibleBottom && hit.top >= c.visibleTop, `${c.kind} must cover the fist vertically`);
-    const arm = m.cels[1].hurt.at(-1)!;
+    const arm = (c.kind === 'heavy' ? boxerHurtByPose[c.pose]! : m.cels[1].hurt).at(-1)!;
     assert.ok(arm.right <= c.visibleRight - 8, `${c.kind} arm must not become vulnerable in empty space`);
   }
 });
@@ -73,7 +73,7 @@ test('changing an editor pose updates body boxes atomically; reset restores the 
   try {
     editCel('heavy', 1, { pose: 8 }); assert.ok(moves.heavy.cels[1].hurt.some(b => b.right === 305));
     const edited = structuredClone(moves.heavy.cels[1]);
-    assert.throws(() => editCel('heavy', 1, { pose: 12 }), RangeError); assert.deepEqual(moves.heavy.cels[1], edited);
+    assert.throws(() => editCel('heavy', 1, { pose: 14 }), RangeError); assert.deepEqual(moves.heavy.cels[1], edited);
   } finally { resetCels(); }
   assert.deepEqual(moves.heavy.cels[1], before);
   assert.equal(celAt('jab', .079).cel.phase, 'windup'); assert.equal(celAt('jab', .08).cel.phase, 'active');

@@ -32,7 +32,8 @@ test('cel duration, pose and collision share one source, including active bounda
 test('editor rejects invalid duration, pose, phase and rectangles atomically', () => {
   const before = JSON.stringify(moves.jab.cels);
   for (const duration of [NaN, Infinity, 0, 1/121, 2.01]) assert.throws(() => editCel('jab', 0, { duration, pose: 2 }), RangeError);
-  for (const pose of [-1, 12, .5, NaN]) assert.throws(() => editCel('jab', 1, { pose }), RangeError);
+  for (const pose of [-1, 14, .5, NaN]) assert.throws(() => editCel('jab', 1, { pose }), RangeError);
+  assert.throws(() => editCel('poke', 1, { pose: 12 }), RangeError);
   assert.throws(() => editCel('jab', 7, { pose: 0 }), RangeError);
   for (const b of [{ left: 20, right: 10, bottom: 0, top: 10 }, { left: -601, right: 10, bottom: 0, top: 10 }, { left: 0, right: 10, bottom: 20, top: 10 }, { left: 0, right: 10, bottom: 0, top: 801 }]) assert.throws(() => editCel('jab', 1, { hit: [b] }), RangeError);
   assert.throws(() => editCel('jab', 0, { hit: [] }), RangeError);
@@ -54,8 +55,8 @@ test('training has no timeout or knockout and dummy guard modes detect a real ga
   assert.equal(low.worker.hp, 112); assert.equal(low.player.action?.result, 'block'); assert.equal(low.training.gap, true);
 });
 
-test('only the heavy follows a max-range jab; the stationary upper connects in the corner', () => {
-  for (const [x, facing, hits] of [[600, 1, 2], [900, -1, 2], [1065, 1, 3], [535, -1, 3]] as const) {
+test('the shorter hook closes a max-range jab combo without moving the following uppercut', () => {
+  for (const [x, facing, hits] of [[600, 1, 3], [900, -1, 3], [1065, 1, 3], [535, -1, 3]] as const) {
     const s = ready(); s.training.dummy = 'after-hit'; s.player.x = x; s.worker.x = x + facing * 320;
     s.player.facing = facing; s.worker.facing = facing === 1 ? -1 : 1;
     advance(s, .12, { light: true }); assert.equal(s.hits, 1);

@@ -14,7 +14,7 @@ export const idleInput = (): Input => ({ left: false, right: false, down: false,
 export interface Fighter {
   x: number; y: number; vy: number; velocity: number; facing: 1 | -1;
   hp: number; maxHp: number; guard: number; crouch: boolean; blocking: boolean;
-  guardDelay: number; dodge: number; dodgeCooldown: number; dodgeDirection: number; stun: number; invulnerable: number; action: { kind: Attack; time: number; connected: boolean; contacts?: number[]; result?: 'hit' | 'block'; chain?: number; lunge?: number } | null;
+  guardDelay: number; dodge: number; dodgeCooldown: number; dodgeDirection: number; stun: number; invulnerable: number; action: { kind: Attack; time: number; connected: boolean; contacts?: number[]; result?: 'hit' | 'block'; chain?: number; lunge?: number; hand?: 'left' | 'right' } | null;
   travel: number; walk: number | null; hurt: number; stop: number; knockback: number; reaction: Move['reaction'] | 'guard' | null;
 }
 export interface FightEvent { type: 'hit' | 'block' | 'break' | 'miss' | 'jump' | 'land' | 'start' | 'finish'; target: 'player' | 'worker'; x: number; y: number; power: number; attack?: Attack; direction?: number }
@@ -27,7 +27,7 @@ export interface Fight {
   brain: { timer: number; decisions: number; intent: 'retreat' | 'guard' | 'attack' | 'punish' | 'wait';
     defendUntil: number; counter: boolean; stage: 1 | 2 | 3; stageTime: number; pressure: number; crouching: number; waiting: number;
     observedCrouch: boolean; observedClosing: boolean; observedIdle: boolean; response: 'thrust' | 'sweep' | 'spin' | null; low: boolean; observedAttack: Attack | null; observedDistance: number; recovering: boolean };
-  comboQueue: Attack[]; commands: CommandState; lightHand: 'jab' | 'cross'; held: Input; buffered: { kind: Attack | 'jump' | 'dodge'; remaining: number } | null; comboActive: boolean;
+  comboQueue: Attack[]; commands: CommandState; lightHand: 'jab' | 'cross'; heavyHand: 'left' | 'right'; held: Input; buffered: { kind: Attack | 'jump' | 'dodge'; remaining: number } | null; comboActive: boolean;
 }
 function fighter(x: number, hp: number, facing: 1 | -1): Fighter {
   return { x, y: 0, vy: 0, velocity: 0, facing, hp, maxHp: hp, guard: 100, crouch: false, blocking: false,
@@ -35,7 +35,7 @@ function fighter(x: number, hp: number, facing: 1 | -1): Fighter {
 }
 export function createFight(difficulty: Difficulty = 'street', training = false): Fight {
   return { phase: 'menu', resume: 'countdown', difficulty, ending: null, player: fighter(430, 100, 1), worker: fighter(1170, 120, -1),
-    time: 0, remaining: 90, countdown: 1.6, hitstop: 0, aiWait: .65, aiTurn: 0, combo: 0, comboTime: 0, hits: 0, blocked: 0, events: [], training: { enabled: training, dummy: 'idle', firstHit: false, gap: false }, brain: { timer: difficulty === 'warmup' ? .24 : .10, decisions: 0, intent: 'wait', defendUntil: 0, counter: false, stage: 1, stageTime: 0, pressure: 0, crouching: 0, waiting: 0, observedCrouch: false, observedClosing: false, observedIdle: false, response: null, low: false, observedAttack: null, observedDistance: 740, recovering: false }, comboQueue: [], commands: commandState(), lightHand: 'jab', held: idleInput(), buffered: null, comboActive: false };
+    time: 0, remaining: 90, countdown: 1.6, hitstop: 0, aiWait: .65, aiTurn: 0, combo: 0, comboTime: 0, hits: 0, blocked: 0, events: [], training: { enabled: training, dummy: 'idle', firstHit: false, gap: false }, brain: { timer: difficulty === 'warmup' ? .24 : .10, decisions: 0, intent: 'wait', defendUntil: 0, counter: false, stage: 1, stageTime: 0, pressure: 0, crouching: 0, waiting: 0, observedCrouch: false, observedClosing: false, observedIdle: false, response: null, low: false, observedAttack: null, observedDistance: 740, recovering: false }, comboQueue: [], commands: commandState(), lightHand: 'jab', heavyHand: 'left', held: idleInput(), buffered: null, comboActive: false };
 }
 export function startFight(fight: Fight): void { if (fight.phase === 'menu') fight.phase = 'countdown'; }
 export function pauseFight(fight: Fight): void {
@@ -153,6 +153,10 @@ function control(s: Fight, input: Input, dt: number): void {
             : 0;
         if (requested === 'jab' || requested === 'cross') s.lightHand = requested === 'jab' ? 'cross' : 'jab';
         p.action = { kind: requested, time: 0, connected: false, chain, lunge };
+        if (requested === 'heavy') {
+          p.action.hand = s.heavyHand;
+          s.heavyHand = s.heavyHand === 'left' ? 'right' : 'left';
+        }
         p.blocking = false; p.velocity = 0;
         if (queued) s.comboQueue.shift();
         s.buffered = null;

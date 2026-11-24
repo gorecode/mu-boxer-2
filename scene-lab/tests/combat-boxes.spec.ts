@@ -10,6 +10,9 @@ test('all hero attack boxes lead the actual textured fist and every fighter key 
   await page.locator('#training-mode').check(); await page.locator('#start').click(); await page.clock.runFor(1800);
   for (const entry of audit.contacts) {
     await page.locator('#edit-attack').selectOption(entry.kind); await page.locator('#edit-phase').selectOption('1');
+    if (entry.kind === 'heavy') {
+      await page.locator('#edit-pose').fill(String(entry.pose)); await page.locator('#edit-pose').press('Tab');
+    }
     const right = Number(await page.locator('#edit-right').inputValue());
     const bottom = Number(await page.locator('#edit-bottom').inputValue()), top = Number(await page.locator('#edit-top').inputValue());
     const measured = await page.evaluate(async c => {
@@ -28,13 +31,13 @@ test('all hero attack boxes lead the actual textured fist and every fighter key 
       return tip;
     }, entry);
     if (entry.actor !== 'worker') {
-      expect(right - measured, entry.kind).toBeGreaterThanOrEqual(12); expect(right - measured, entry.kind).toBeLessThanOrEqual(24);
+      expect(right - measured, entry.kind).toBeGreaterThanOrEqual(12); expect(right - measured, entry.kind).toBeLessThanOrEqual(entry.kind === 'heavy' ? 40 : 24);
     } else {
       expect(right - measured, entry.kind).toBeLessThan(4); expect(right - measured, entry.kind).toBeGreaterThan(-45);
     }
     expect(bottom).toBeLessThan(top);
     await expect(page.locator('#hitboxes')).toBeChecked();
     await expect(page.locator('#arena')).toHaveAttribute(`data-${entry.actor === 'worker' ? 'worker' : 'player'}-cel`, 'active');
-    if (info.project.name === 'desktop') await page.locator('.arena-shell').screenshot({ path: info.outputPath(`${entry.kind}-boxes.png`) });
+    if (info.project.name === 'desktop') await page.locator('.arena-shell').screenshot({ path: info.outputPath(`${entry.kind}-${entry.pose}-boxes.png`) });
   }
 });

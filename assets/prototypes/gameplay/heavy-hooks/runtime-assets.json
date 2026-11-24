@@ -1,0 +1,21 @@
+{
+  "source_commit": "4957c56cd1df4a4f2ad69b6429d5de5aa3c0033c",
+  "frames": [
+    {
+      "pose": 12,
+      "name": "left",
+      "source_sha256": "f4c0d8846401b66c31e6abbf0a5ca34eb6dde877f9ed1c6432d163eebe036cc9",
+      "runtime_sha256": "aed7160f7e44a56567f7d3380c553a3b383e2bca2a0245f6735ba9190e621536",
+      "rgba_sha256": "754f8e021f2c5f9c9bd7b75640522c2768e3163c1ba7baeb2738ac1f99924e5e",
+      "rgba_matches_preview": true
+    },
+    {
+      "pose": 13,
+      "name": "right-b",
+      "source_sha256": "92f0027584f0cfb1b442a3c01f6dae1f78efd2531a98fec19cdecb75647d19b5",
+      "runtime_sha256": "10b0611ca22a25942aff9776df8a69f0b0b33833fceac8a783c4e22d9f7a2e37",
+      "rgba_sha256": "43cdef2ecbd8d6aba50a64d0a7599f607f61bc7ffefc3f5f01708aac186ace1a",
+      "rgba_matches_preview": true
+    }
+  ]
+}

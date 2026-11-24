@@ -33,15 +33,14 @@ test('earliest repeated standalone jabs leave a blockable gap at both walls, eve
   }
 });
 
-test('stationary uppercuts finish close or corner routes but do not bridge a distant combo gap', () => {
+test('hook follow-through closes jab routes while the uppercut itself stays stationary', () => {
   for (const facing of [1, -1] as const) for (const wall of [false, true]) {
     for (const distance of [140, 200, 280, 320]) {
       const s = ready(distance, facing, wall); s.training.dummy = 'after-hit';
       press(s, 'jab', .13); press(s, 'heavy', .31); const x = s.player.x; press(s, 'upper', .35);
       assert.equal(s.player.x, x);
-      const connects = wall || distance <= 200;
-      assert.equal(s.worker.hp, connects ? 78 : 95, `jab route: facing=${facing}, wall=${wall}, distance=${distance}`);
-      assert.equal(s.combo, connects ? 3 : 2); assert.equal(s.training.gap, false); assert.equal(s.worker.y > 0, connects);
+      assert.equal(s.worker.hp, 78, `jab route: facing=${facing}, wall=${wall}, distance=${distance}`);
+      assert.equal(s.combo, 3); assert.equal(s.training.gap, false); assert.ok(s.worker.y > 0);
     }
     for (const distance of [140, 200, 235]) {
       const s = ready(distance, facing, wall); s.training.dummy = 'after-hit';

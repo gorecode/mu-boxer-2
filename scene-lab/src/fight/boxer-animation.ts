@@ -18,6 +18,7 @@ export function boxerPose(f: Fighter): number {
   if (f.reaction || f.hurt > 0) return 6;
   if (f.action) {
     const cel = celAt(f.action.kind, f.action.time).cel;
+    if (f.action.kind === 'heavy' && cel.pose === 12 && f.action.hand === 'right') return 13;
     return cel.phase === 'recovery' && cel.pose === 0 && f.crouch ? 5 : cel.pose;
   }
   if (f.dodge > 0) return 1;
