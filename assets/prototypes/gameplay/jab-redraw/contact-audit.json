@@ -35,6 +35,17 @@
       "visibleTop": 520.03
     },
     {
+      "kind": "heavy",
+      "actor": "boxer",
+      "pose": 13,
+      "asset": "boxer-13.webp",
+      "sha256": "10b0611ca22a25942aff9776df8a69f0b0b33833fceac8a783c4e22d9f7a2e37",
+      "minHeight": 300,
+      "visibleRight": 155.89,
+      "visibleBottom": 446.25,
+      "visibleTop": 487.9
+    },
+    {
       "kind": "low",
       "actor": "boxer",
       "pose": 8,
