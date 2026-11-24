@@ -11,6 +11,7 @@ const inputs = {
   hook: 'assets/prototypes/gameplay/head-hook-preview/frames/left-contact.png',
   overhand: 'assets/prototypes/gameplay/heavy-two-pose/inputs/overhand.png',
   body: 'assets/prototypes/gameplay/heavy-two-pose/inputs/body.png',
+  right: 'assets/prototypes/gameplay/heavy-two-pose/inputs/right.png',
   arena: 'scene-lab/public/art/fight/arena.webp',
 };
 const urls = Object.fromEntries(await Promise.all(Object.entries(inputs).map(async ([key, path]) => [key,
@@ -26,7 +27,7 @@ try {
     const make = (width = 500, height = 530) => Object.assign(document.createElement('canvas'), { width, height });
     const png = canvas => canvas.toDataURL().split(',')[1];
     const frames = {}, registration = [];
-    for (const name of ['idle', 'hook', 'overhand', 'body']) {
+    for (const name of ['idle', 'hook', 'overhand', 'body', 'right']) {
       const image = images[name], c = make(), ctx = c.getContext('2d');
       if (name === 'idle' || name === 'hook') ctx.drawImage(image, 0, 0);
       else {
@@ -44,8 +45,10 @@ try {
         const scale = (name === 'body' ? 440 : 480) / (maxY - minY + 1);
         const x = 344 - toeX * scale, y = 485 - soleY * scale;
         ctx.imageSmoothingQuality = 'high'; ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
-        const headOffset = name === 'body' ? [13, 46] : [-9, 14];
-        const erase = name === 'body'
+        const headOffset = name === 'right' ? [5, 0] : name === 'body' ? [13, 46] : [-9, 14];
+        const erase = name === 'right'
+          ? [[192,0],[300,0],[300,65],[192,65]]
+          : name === 'body'
           ? [[201,31],[309,31],[309,113],[298,149],[269,145],[246,130],[217,124],[201,101]]
           : [[181,0],[286,0],[286,90],[273,119],[246,111],[226,102],[202,104],[181,82]];
         ctx.save(); ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath();
@@ -65,7 +68,7 @@ try {
       frames[name] = c;
     }
     const panels = {};
-    for (const name of ['idle', 'hook', 'overhand', 'body']) {
+    for (const name of ['idle', 'hook', 'overhand', 'body', 'right']) {
       const world = make(1600, 900), w = world.getContext('2d'); w.drawImage(images.arena, 0, 0, 1600, 900);
       w.save(); w.translate(530, 820); w.scale(1.19, 1.19); w.drawImage(frames[name], -228, -495); w.restore();
       const panel = make(500, 475); panel.getContext('2d').drawImage(world, 215, 175, 700, 665, 0, 0, 500, 475);
@@ -78,5 +81,5 @@ try {
     for (const [name, data] of Object.entries(result[folder])) await writeFile(resolve(root, folder, `${name}.png`), Buffer.from(data, 'base64'));
   }
   await writeFile(resolve(root, 'registration.json'), JSON.stringify(result.registration, null, 2) + '\n');
-  console.log('Rendered four native drawings and arena panels');
+  console.log('Rendered five native drawings and arena panels');
 } finally { await browser.close(); }

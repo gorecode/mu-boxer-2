@@ -1,6 +1,7 @@
 from pathlib import Path
 from PIL import Image, ImageSequence
 import json
+import hashlib
 import unittest
 
 ROOT = Path(__file__).resolve().parent
@@ -16,7 +17,7 @@ class TwoPosePreviewTests(unittest.TestCase):
             self.assertEqual(source.tobytes(), result.tobytes())
 
     def test_transparency_registration_and_unclipped_silhouettes(self):
-        for name in ['idle', 'hook', 'overhand', 'body']:
+        for name in ['idle', 'hook', 'overhand', 'body', 'right']:
             with self.subTest(name=name):
                 frame = Image.open(ROOT / f'frames/{name}.png').convert('RGBA')
                 self.assertEqual(frame.size, (500, 530))
@@ -61,6 +62,29 @@ class TwoPosePreviewTests(unittest.TestCase):
                 self.assertNotEqual(frames[0].tobytes(), frames[1].tobytes())
                 for frame, board in zip(frames, compared):
                     self.assertEqual(frame.tobytes(), board.crop((i * 500, 0, (i + 1) * 500, 560)).tobytes())
+
+    def test_original_three_option_previews_are_unchanged(self):
+        records = json.loads((ROOT / 'verification.json').read_text())
+        self.assertEqual(len(records), 8)
+        for record in records:
+            self.assertEqual(hashlib.sha256((PUBLIC / record['file']).read_bytes()).hexdigest(), record['sha256'])
+
+    def test_opposite_hand_pair_shares_timing_and_exact_right_panel(self):
+        for suffix, speed in [('', 1), ('-slow', 4)]:
+            with Image.open(PUBLIC / f'hook-pair{suffix}.gif') as gif:
+                board = [frame.convert('RGB').copy() for frame in ImageSequence.Iterator(gif)]
+                times = [frame.info['duration'] for frame in ImageSequence.Iterator(gif)]
+                self.assertEqual(gif.info['loop'], 0)
+            self.assertEqual(times, [550 * speed, 120 * speed, 540 * speed])
+            self.assertEqual(board[0].tobytes(), board[2].tobytes())
+            self.assertNotEqual(board[0].tobytes(), board[1].tobytes())
+            with Image.open(PUBLIC / f'right-hook{suffix}.gif') as gif:
+                right = [frame.convert('RGB').copy() for frame in ImageSequence.Iterator(gif)]
+                self.assertEqual([frame.info['duration'] for frame in ImageSequence.Iterator(gif)], times)
+            self.assertEqual(len(right), 3)
+            for a, b in zip(board, right):
+                self.assertEqual(a.crop((500, 0, 1000, 560)).tobytes(), b.tobytes())
+            self.assertEqual(board[0].crop((0, 45, 500, 520)).tobytes(), board[0].crop((500, 45, 1000, 520)).tobytes())
 
 
 if __name__ == '__main__':

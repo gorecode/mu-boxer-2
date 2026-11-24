@@ -1,0 +1,42 @@
+[
+  {
+    "file": "hook-pair.gif",
+    "durationsMs": [
+      550,
+      120,
+      540
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "576f8b2e6bef9d9b598d90bf0355489d773096d0d8750752005a9a99659d7e34"
+  },
+  {
+    "file": "hook-pair-slow.gif",
+    "durationsMs": [
+      2200,
+      480,
+      2160
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "d981cfb38bf49804d3103efb2cf8324d4203ca051eb362c5e3c304f5049c5291"
+  },
+  {
+    "file": "right-hook.gif",
+    "durationsMs": [
+      550,
+      120,
+      540
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "a18a07c424d1c7c391f4775e2a9bf9e28498ac41b3ee8c1fe685f26b2f0e853e"
+  },
+  {
+    "file": "right-hook-slow.gif",
+    "durationsMs": [
+      2200,
+      480,
+      2160
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "f99d359ec4ddce314b277041284a6747660d902cd67483857e42d72a3241c9fe"
+  }
+]
