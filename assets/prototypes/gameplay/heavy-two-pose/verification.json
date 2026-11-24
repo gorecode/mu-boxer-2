@@ -1,0 +1,82 @@
+[
+  {
+    "file": "comparison.gif",
+    "durationsMs": [
+      550,
+      120,
+      540
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "7848a89da52cc324306e9b5e9e05b219755325d08900d86d5d74082f2dfd2db9"
+  },
+  {
+    "file": "comparison-slow.gif",
+    "durationsMs": [
+      2200,
+      480,
+      2160
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "6c31941f9ee3ab76aaddc80711b424b3d83cc420e7fb46b17fe81beb69441b7f"
+  },
+  {
+    "file": "hook.gif",
+    "durationsMs": [
+      550,
+      120,
+      540
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "9f28b7bec8aba7d5896b4de1dd8709655fd28289fd949add7e07efe24d02a7d6"
+  },
+  {
+    "file": "hook-slow.gif",
+    "durationsMs": [
+      2200,
+      480,
+      2160
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "d4ebb6f7fc77443c38a86b6a261cba7888fb45da85ea1b049c2a5d1ae69c2717"
+  },
+  {
+    "file": "overhand.gif",
+    "durationsMs": [
+      550,
+      120,
+      540
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "3b75abd46926e1cc9176c7feff09dd292723c16fca18f08e5a328922cf020008"
+  },
+  {
+    "file": "overhand-slow.gif",
+    "durationsMs": [
+      2200,
+      480,
+      2160
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "8985922785e96c54ffd6f0c33ca0d80056c2d863719b1fe7783826333a1c9fcb"
+  },
+  {
+    "file": "body.gif",
+    "durationsMs": [
+      550,
+      120,
+      540
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "3c9dfed40a8d747a5003edebc2322a4e685c3fe2ba2361c205490e47d089a61e"
+  },
+  {
+    "file": "body-slow.gif",
+    "durationsMs": [
+      2200,
+      480,
+      2160
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "5227f006df58b4e1590b551282d1bbcb14da991b0fa709abc851393ec048173c"
+  }
+]
