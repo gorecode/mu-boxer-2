@@ -1,0 +1,82 @@
+[
+  {
+    "file": "comparison.gif",
+    "durationsMs": [
+      550,
+      120,
+      540
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "75d0dc8491f6daf4c9f0067d3f7a2c2ce89b6f8cecde2f481cb9752f41febf33"
+  },
+  {
+    "file": "comparison-slow.gif",
+    "durationsMs": [
+      2200,
+      480,
+      2160
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "e0dd6c7c7e10adf321e25e9cbb606e3a0c5dfdeb95f2946e260c2f1450fca06e"
+  },
+  {
+    "file": "a.gif",
+    "durationsMs": [
+      550,
+      120,
+      540
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "3e620876a658b897543beffef99f7cd5c6424faad4abf8b308a2aae57f739f15"
+  },
+  {
+    "file": "a-slow.gif",
+    "durationsMs": [
+      2200,
+      480,
+      2160
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "99550b2fac688e873d82037ef9c8c0da0a1a84cee030ba10edebafe8fd35c452"
+  },
+  {
+    "file": "b.gif",
+    "durationsMs": [
+      550,
+      120,
+      540
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "295358c7154a0799aee70b47a208e43900286e5890b6de5cf0ace6537a5473c6"
+  },
+  {
+    "file": "b-slow.gif",
+    "durationsMs": [
+      2200,
+      480,
+      2160
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "d70519cf57b89d1a8da5e9aa51df59328623b72ead1d8db90296be4c65c2af57"
+  },
+  {
+    "file": "c.gif",
+    "durationsMs": [
+      550,
+      120,
+      540
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "4f606fb7c3ce8600308a711635395b0dae8b15b32bb38402b5e8221ada0f3a27"
+  },
+  {
+    "file": "c-slow.gif",
+    "durationsMs": [
+      2200,
+      480,
+      2160
+    ],
+    "uniqueDrawings": 2,
+    "sha256": "5c7671c436eb3363d4c0c61ac670120cce18ef008a8215ceba7c2a9c1e5548d7"
+  }
+]
