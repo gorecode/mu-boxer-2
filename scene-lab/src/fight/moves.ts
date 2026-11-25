@@ -1,8 +1,8 @@
-export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist';
+export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter';
 export interface Box { left: number; bottom: number; right: number; top: number }
 export type CelPhase = 'windup' | 'active' | 'settle' | 'recovery';
 export interface Cel { phase: CelPhase; duration: number; pose: number; hurt: Box[]; hit: Box[] }
-export interface Move { cels: Cel[]; readonly windup: number; readonly active: number; readonly recovery: number; readonly range: number; damage: number; level: 'high' | 'mid' | 'low' | 'overhead'; push: number; hitstun: number; stop: [number, number]; reaction: 'light' | 'heavy' | 'launch' | 'down'; lift: number }
+export interface Move { cels: Cel[]; readonly windup: number; readonly active: number; readonly recovery: number; readonly range: number; damage: number; level: 'high' | 'mid' | 'low' | 'overhead'; push: number; hitstun: number; stop: [number, number]; reaction: 'light' | 'heavy' | 'launch' | 'down'; lift: number; strikes?: Partial<Pick<Move, 'damage' | 'push' | 'hitstun' | 'stop' | 'reaction' | 'lift'>>[] }
 const box = (left: number, bottom: number, right: number, top: number): Box => ({ left, bottom, right, top });
 export const standing = [box(-65, 0, 65, 180), box(-65, 180, 65, 450), box(-45, 450, 50, 570)];
 export const crouching = [box(-65, 0, 65, 155), box(-55, 155, 75, 265)];
@@ -10,7 +10,16 @@ function move(timing: number[], poses: number[], height: number[], low: boolean,
   const phases: CelPhase[] = ['windup', 'active', 'settle', 'recovery'];
   const cels = phases.map((phase, i): Cel => ({ phase, duration: timing[i], pose: poses[i], hurt: structuredClone(low ? crouching : standing), hit: [] }));
   cels[1].hit.push(box(55, height[0], data.range - 65, height[1]));
-  return { ...data, cels, get range() { return Math.max(0, cels[1].hit[0]?.right ?? 0) + 65; }, get windup() { return cels[0].duration; }, get active() { return cels[1].duration; }, get recovery() { return cels[2].duration + cels[3].duration; } };
+  return sequence(cels, data);
+}
+function sequence(cels: Cel[], data: Omit<Move, 'cels' | 'windup' | 'active' | 'recovery'>): Move {
+  const sum = (from: number, to = cels.length) => cels.slice(from, to).reduce((n, c) => n + c.duration, 0);
+  const first = () => cels.findIndex(c => c.phase === 'active'), last = () => cels.findLastIndex(c => c.phase === 'active');
+  return { ...data, cels, get range() { return Math.max(0, ...cels.flatMap(c => c.hit.map(b => b.right))) + 65; },
+    get windup() { return sum(0, first()); }, get active() { return sum(first(), last() + 1); }, get recovery() { return sum(last() + 1); } };
+}
+function cel(phase: CelPhase, duration: number, pose: number, hit: Box[] = []): Cel {
+  return { phase, duration, pose, hit, hurt: structuredClone(standing) };
 }
 export const moves: Record<Attack, Move> = {
   jab: move([.08, .08, .08, .10], [0, 2, 0, 0], [420, 493], false, { range: 338, damage: 8, level: 'mid', push: 18, hitstun: .32, stop: [.04, .065], reaction: 'light', lift: 0 }),
@@ -21,6 +30,19 @@ export const moves: Record<Attack, Move> = {
   long: move([.23, .09, .1, .27], [0, 2, 0, 0], [435, 493], false, { range: 338, damage: 14, level: 'mid', push: 45, hitstun: .36, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
   overhand: move([.38, .12, .12, .34], [4, 3, 0, 0], [205, 490], false, { range: 310, damage: 22, level: 'overhead', push: 45, hitstun: .65, stop: [.075, .10], reaction: 'down', lift: 0 }),
   backfist: move([.2, .1, .1, .32], [0, 3, 0, 0], [397, 469], false, { range: 310, damage: 18, level: 'high', push: 85, hitstun: .4, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
+  ram: sequence([
+    cel('windup', .04, 0), cel('active', .32, 2, [box(55, 420, 273, 493)]),
+    cel('settle', .06, 2), cel('settle', .04, 0), cel('active', .12, 3, [box(55, 397, 251, 469)]),
+    cel('settle', .12, 3), cel('recovery', .26, 0),
+  ], { range: 338, damage: 10, level: 'mid', push: 0, hitstun: .38, stop: [.02, .03], reaction: 'light', lift: 0,
+    strikes: [{}, { damage: 18, push: 150, hitstun: .85, stop: [.065, .09], reaction: 'down', lift: 300 }] }),
+  counter: sequence([
+    cel('windup', .1, 0), cel('windup', .2, 0), cel('windup', .02, 3),
+    cel('active', .08, 3, [box(55, 397, 245, 469)]), cel('settle', .02, 3), cel('settle', .04, 0),
+    cel('settle', .02, 12), cel('active', .12, 12, [box(55, 397, 178, 525)]),
+    cel('settle', .06, 12), cel('recovery', .24, 0),
+  ], { range: 310, damage: 9, level: 'mid', push: 10, hitstun: .38, stop: [.025, .04], reaction: 'light', lift: 0,
+    strikes: [{}, { damage: 16, push: 24, hitstun: .38, stop: [.045, .06], reaction: 'heavy' }] }),
   poke: move([.22, .12, .09, .21], [1, 2, 2, 7], [330, 410], false, { range: 320, damage: 12, level: 'high', push: 38, hitstun: .36, stop: [.045, .07], reaction: 'light', lift: 0 }),
   sweep: move([.5, .14, .09, .37], [7, 9, 9, 7], [0, 65], false, { range: 497, damage: 17, level: 'low', push: 65, hitstun: .65, stop: [.055, .085], reaction: 'down', lift: 0 }),
   thrust: move([.42, .13, .12, .65], [1, 2, 2, 7], [290, 420], false, { range: 340, damage: 14, level: 'mid', push: 55, hitstun: .38, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
@@ -77,10 +99,17 @@ export const walkHurtByFrame: Box[][] = [
   box(-65, 180 - drop, 65, 450 - drop), box(-45, 450 - drop, 50, 570 - drop),
 ]);
 export function strikeAt(kind: Attack, time: number): number {
+  if (kind === 'ram' || kind === 'counter') {
+    const { cel, index } = celAt(kind, time);
+    return cel.phase === 'active' ? moves[kind].cels.slice(0, index).filter(c => c.phase === 'active').length : -1;
+  }
   const m = moves[kind], t = (time - m.windup) / m.active;
   if (t < -1e-9 || t >= 1 - 1e-9) return -1;
   if (kind !== 'spin') return 0;
   return t >= .15 - 1e-9 && t < .35 - 1e-9 ? 0 : t >= .65 - 1e-9 && t < .85 - 1e-9 ? 1 : -1;
+}
+export function strikeMove(kind: Attack, strike: number): Move {
+  return { ...moves[kind], ...moves[kind].strikes?.[strike] };
 }
 export function celAt(kind: Attack, time: number): { cel: Cel; index: number; elapsed: number } {
   const cels = moves[kind].cels;
@@ -93,7 +122,7 @@ export function celAt(kind: Attack, time: number): { cel: Cel; index: number; el
 }
 const defaults = Object.fromEntries(Object.entries(moves).map(([kind, m]) => [kind, structuredClone(m.cels)])) as Record<Attack, Cel[]>;
 export function resetCels(): void {
-  for (const kind of Object.keys(moves) as Attack[]) moves[kind].cels.splice(0, 4, ...structuredClone(defaults[kind]));
+  for (const kind of Object.keys(moves) as Attack[]) moves[kind].cels.splice(0, moves[kind].cels.length, ...structuredClone(defaults[kind]));
 }
 export function editCel(kind: Attack, index: number, patch: Partial<Pick<Cel, 'duration' | 'pose' | 'hit'>>): void {
   const cel = moves[kind]?.cels[index];

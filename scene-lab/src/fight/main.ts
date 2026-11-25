@@ -1,4 +1,4 @@
-import { commandState, observeDirections, heavyCommand } from './commands.ts';
+import { commandState, observeDirections, heavyCommand, lightCommand } from './commands.ts';
 import './style.css';
 import { mountTraining } from './training.ts';
 import { celAt } from './moves.ts';
@@ -58,12 +58,12 @@ function directions(): void { observeDirections(commands, heldInput(), fight.pla
 function queueAttack(action: Button): void {
   directions();
   if (action === 'dodge') pendingDodge = true;
-  if (action === 'long' || action === 'overhand' || action === 'backfist') { if (pendingAttacks.length < 3) pendingAttacks.push(action); return; }
+  if (action === 'long' || action === 'overhand' || action === 'backfist' || action === 'ram' || action === 'counter') { if (pendingAttacks.length < 3) pendingAttacks.push(action); return; }
   if (action !== 'light' && action !== 'heavy') return;
   const held = heldInput();
   if (pendingAttacks.length >= 3) return;
   pendingAttacks.push(action === 'heavy' ? heavyCommand(commands, { ...held, down: held.down && fight.player.y === 0 }, fight.player.facing, performance.now() / 1000, fight.player.y === 0)
-    : held.down && fight.player.y === 0 ? 'low' : 'light');
+    : lightCommand(commands, held, fight.player.facing, performance.now() / 1000, fight.player.y === 0));
 }
 function reset(play = true): void {
   const chosen = difficulty.value === 'warmup' ? 'warmup' : 'street';
@@ -100,6 +100,8 @@ function update(): void {
     canvas.dataset[`${name}Stop`] = fighter.stop.toFixed(3);
     canvas.dataset[`${name}ActionTime`] = String(fighter.action?.time ?? 0);
     canvas.dataset[`${name}Hand`] = fighter.action?.hand ?? '';
+    canvas.dataset[`${name}Facing`] = String(fighter.facing);
+    canvas.dataset[`${name}Contacts`] = fighter.action?.contacts?.join(',') ?? '';
     canvas.dataset[`${name}Cel`] = fighter.action ? celAt(fighter.action.kind, fighter.action.time).cel.phase : '';
     canvas.dataset[`${name}Guard`] = String(fighter.guard);
     element(`${name}-guard-value`).textContent = `${Math.round(fighter.guard)}%`;
@@ -119,7 +121,7 @@ function update(): void {
   }
   guardStatus.dataset.state = guardState;
   if (guardStatus.textContent !== guardText) guardStatus.textContent = guardText;
-  const names = { jab: 'ДЖЕБ', cross: 'ВТОРОЙ ЛЁГКИЙ', heavy: 'ТЯЖЁЛЫЙ', low: 'ПО НОГАМ', upper: 'АППЕРКОТ', long: 'ДЛИННЫЙ ПРЯМОЙ', overhand: 'СВЕРХУ', backfist: 'БЭКФИСТ', poke: 'ТЫЧОК', sweep: 'ПОДСЕЧКА', overhead: 'СВЕРХУ', thrust: 'ВЫПАД', spin: 'ВЕРТУШКА' };
+  const names = { jab: 'ДЖЕБ', cross: 'ВТОРОЙ ЛЁГКИЙ', heavy: 'ТЯЖЁЛЫЙ', low: 'ПО НОГАМ', upper: 'АППЕРКОТ', long: 'ДЛИННЫЙ ПРЯМОЙ', overhand: 'СВЕРХУ', backfist: 'БЭКФИСТ', ram: 'ТАРАННЫЙ ПРЯМОЙ', counter: 'ПОДШАГ → ДВОЙКА', poke: 'ТЫЧОК', sweep: 'ПОДСЕЧКА', overhead: 'СВЕРХУ', thrust: 'ВЫПАД', spin: 'ВЕРТУШКА' };
   const technique = fight.player.action?.kind === 'heavy' ? fight.player.action.hand === 'right' ? 'ПРАВЫЙ БОКОВОЙ' : 'ЛЕВЫЙ БОКОВОЙ'
     : fight.player.action ? names[fight.player.action.kind] : 'СТОЙКА';
   element('player-technique').textContent = `ПРИЁМ: ${technique}${fight.comboQueue.length ? ' → ' + fight.comboQueue.map(kind => names[kind]).join(' → ') : ''}`;

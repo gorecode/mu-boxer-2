@@ -1,20 +1,20 @@
-import { commandState, observeDirections, heavyCommand, type CommandState } from './commands.ts';
+import { commandState, observeDirections, heavyCommand, lightCommand, type CommandState } from './commands.ts';
 import { fighterGeometry, overlaps } from './geometry.ts';
 import { canWalk, walkStride } from './boxer-animation.ts';
 
-import { moves, strikeAt, type Attack, type Move } from './moves.ts';
+import { moves, strikeAt, strikeMove, type Attack, type Move } from './moves.ts';
 export { moves, type Attack, type Move } from './moves.ts';
 export type Outcome = 'win' | 'loss' | 'draw';
 export type Phase = 'menu' | 'countdown' | 'fighting' | 'ending' | 'paused' | Outcome;
 export const endingTiming = { fall: .7, ko: 1.1, fade: .55 } as const;
 export interface Ending { result: Outcome; reason: 'ko' | 'time'; stage: 'fall' | 'ko' | 'fade'; elapsed: number }
 export type Difficulty = 'warmup' | 'street';
-export interface Input { left: boolean; right: boolean; down: boolean; block: boolean; jump: boolean; light: boolean; heavy: boolean; up?: boolean; dodge?: boolean; long?: boolean; overhand?: boolean; backfist?: boolean; attackPresses?: ('light' | NonNullable<Input['attackPressed']>)[]; attackPressed?: 'cross' | 'jab' | 'heavy' | 'low' | 'upper' | 'long' | 'overhand' | 'backfist' }
+export interface Input { left: boolean; right: boolean; down: boolean; block: boolean; jump: boolean; light: boolean; heavy: boolean; up?: boolean; dodge?: boolean; long?: boolean; overhand?: boolean; backfist?: boolean; ram?: boolean; counter?: boolean; attackPresses?: ('light' | NonNullable<Input['attackPressed']>)[]; attackPressed?: 'cross' | 'jab' | 'heavy' | 'low' | 'upper' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' }
 export const idleInput = (): Input => ({ left: false, right: false, down: false, block: false, jump: false, light: false, heavy: false });
 export interface Fighter {
   x: number; y: number; vy: number; velocity: number; facing: 1 | -1;
   hp: number; maxHp: number; guard: number; crouch: boolean; blocking: boolean;
-  guardDelay: number; dodge: number; dodgeCooldown: number; dodgeDirection: number; stun: number; invulnerable: number; action: { kind: Attack; time: number; connected: boolean; contacts?: number[]; result?: 'hit' | 'block'; chain?: number; lunge?: number; hand?: 'left' | 'right' } | null;
+  guardDelay: number; dodge: number; dodgeCooldown: number; dodgeDirection: number; stun: number; invulnerable: number; action: { kind: Attack; time: number; connected: boolean; contacts?: number[]; result?: 'hit' | 'block'; opening?: 'hit' | 'block'; chain?: number; lunge?: number; hand?: 'left' | 'right' } | null;
   travel: number; walk: number | null; hurt: number; stop: number; knockback: number; reaction: Move['reaction'] | 'guard' | null;
 }
 export interface FightEvent { type: 'hit' | 'block' | 'break' | 'miss' | 'jump' | 'land' | 'start' | 'finish'; target: 'player' | 'worker'; x: number; y: number; power: number; attack?: Attack; direction?: number }
@@ -70,6 +70,9 @@ function body(f: Fighter, dt: number, s: Fight, name: 'player' | 'worker'): bool
   if (f.action) {
     f.action.time += dt;
     const m = moves[f.action.kind];
+    if (f.action.kind === 'ram' && !f.action.contacts?.includes(0) && f.action.time - dt >= m.cels[0].duration + m.cels[1].duration - 1e-9) {
+      f.action.time = Math.max(f.action.time, m.windup + m.active + m.cels[5].duration);
+    }
     if (f.action.time >= m.windup + m.active + m.recovery) {
       if (!f.action.connected) emit(s, 'miss', name);
       f.action = null;
@@ -111,9 +114,12 @@ function readInput(s: Fight, input: Input, dt: number): void {
   let kind: Attack | 'jump' | 'dodge' | undefined;
   if (input.jump && !s.held.jump) kind = 'jump';
   const crouch = input.down && s.player.y === 0;
-  if (input.light && !s.held.light) kind = crouch ? 'low' : s.lightHand;
+  if (input.light && !s.held.light) {
+    const command = lightCommand(s.commands, input, s.player.facing, s.time, s.player.y === 0);
+    kind = command === 'light' ? s.lightHand : command;
+  }
   if (input.heavy && !s.held.heavy) kind = heavyCommand(s.commands, { ...input, down: crouch }, s.player.facing, s.time, s.player.y === 0);
-  for (const move of ['long', 'overhand', 'backfist'] as const) if (input[move] && !s.held[move]) kind = move;
+  for (const move of ['long', 'overhand', 'backfist', 'ram', 'counter'] as const) if (input[move] && !s.held[move]) kind = move;
   if (input.attackPressed) kind = input.attackPressed;
   if (input.dodge && !s.held.dodge) kind = 'dodge';
   const presses = input.attackPresses?.slice(0, 3);
@@ -124,7 +130,7 @@ function readInput(s: Fight, input: Input, dt: number): void {
 }
 function control(s: Fight, input: Input, dt: number): void {
   const p = s.player;
-  if (p.stun > 0 || p.reaction) { p.blocking = false; if (p.reaction !== 'guard') p.crouch = false; return; }
+  if (p.stun > 0 || p.reaction) { p.blocking = p.reaction === 'guard' && input.block && p.y === 0; if (p.reaction !== 'guard') p.crouch = false; return; }
   p.crouch = input.down && p.y === 0;
   p.blocking = input.block && p.y === 0 && !p.action;
   if (p.dodge > 0) { p.blocking = false; p.crouch = false; move(p, p.dodgeDirection * 500, dt); return; }
@@ -140,7 +146,7 @@ function control(s: Fight, input: Input, dt: number): void {
       if (p.y === 0 && !p.action) {
         p.vy = 950; p.y = .1; p.crouch = false; emit(s, 'jump', 'player'); s.buffered = null;
       }
-    } else if (p.y === 0 || !['long', 'overhand', 'backfist'].includes(requested)) {
+    } else if (p.y === 0 || !['long', 'overhand', 'backfist', 'ram', 'counter'].includes(requested)) {
       const a = p.action;
       const cancel = a?.result === 'hit' && (a.chain ?? 0) < 2 &&
         a.time <= moves[a.kind].windup + moves[a.kind].active + .12 && cancelTargets[a.kind]?.includes(requested);
@@ -163,6 +169,22 @@ function control(s: Fight, input: Input, dt: number): void {
       }
     }
   }
+  if (p.action?.kind === 'ram' || p.action?.kind === 'counter') {
+    p.crouch = false;
+    const a = p.action, cels = moves[a.kind].cels;
+    const end = (index: number) => cels.slice(0, index).reduce((sum, c) => sum + c.duration, 0);
+    const progress = (t: number, from: number, to: number) => clamp((t - from) / (to - from), 0, 1);
+    const offset = (t: number) => a.kind === 'counter'
+      ? -80 * progress(t, 0, end(1)) + 160 * progress(t, end(1), end(3)) + 100 * progress(t, end(5), end(7))
+      : 250 * progress(t, end(1), end(2)) + (a.opening === 'hit' ? 190 * progress(t, end(2), end(6)) : 0) + (a.contacts?.includes(0) ? 27 * progress(t, end(3), end(4)) : 0);
+    const before = p.x, delta = offset(a.time) - offset(Math.max(0, a.time - dt));
+    move(p, p.facing * delta / dt, dt);
+    if (a.kind === 'ram' && a.opening === 'hit' && !a.contacts?.includes(1) && s.worker.stop <= 0 && s.worker.stun > 0 && s.worker.reaction !== 'down') {
+      const push = 190 * (progress(a.time, end(2), end(6)) - progress(Math.max(0, a.time - dt), end(2), end(6)));
+      move(s.worker, p.facing * Math.min(push, Math.max(0, (p.x - before) * p.facing)) / dt, dt);
+    }
+    return;
+  }
   const direction = Number(input.right) - Number(input.left);
   const stepTime = (p.action?.chain ?? 0) > 0 ? .08 : p.action?.kind === 'long' ? .16 : .12;
   const follow = p.action && (p.action.lunge ?? 0) > 0 && p.action.time < stepTime;
@@ -171,7 +193,8 @@ function control(s: Fight, input: Input, dt: number): void {
 }
 function ai(s: Fight, dt: number): void {
   const w = s.worker, p = s.player, brain = s.brain;
-  w.blocking = false; w.crouch = false; w.velocity = 0;
+  if (w.reaction !== 'guard' || w.stun <= 0) { w.blocking = false; w.crouch = false; }
+  w.velocity = 0;
   if (!s.training.enabled || s.training.dummy === 'cpu') {
     brain.timer -= dt;
     if (brain.timer <= 0) {
@@ -255,7 +278,7 @@ interface Contact {
 }
 function contact(s: Fight, from: Contact['from'], to: Contact['to']): Contact | null {
   const a = s[from], b = s[to], attack = a.action;
-  if (!attack || (attack.connected && attack.kind !== 'spin') || a.stop > 0 || b.hp <= 0 || b.invulnerable > 0) return null;
+  if (!attack || (attack.connected && !['spin', 'ram', 'counter'].includes(attack.kind)) || a.stop > 0 || b.hp <= 0 || b.invulnerable > 0 || b.reaction === 'down') return null;
   const strike = strikeAt(attack.kind, attack.time);
   if (strike < 0 || attack.contacts?.includes(strike)) return null;
   const geometry = fighterGeometry(a), target = fighterGeometry(b);
@@ -270,8 +293,12 @@ function contact(s: Fight, from: Contact['from'], to: Contact['to']): Contact | 
     y: (Math.max(hit.bottom, hurt.bottom) + Math.min(hit.top, hurt.top)) / 2 };
 }
 function applyContact(s: Fight, c: Contact): void {
-  const a = s[c.from], b = s[c.to], m = moves[c.kind];
+  const a = s[c.from], b = s[c.to], m = strikeMove(c.kind, c.strike);
   if (a.action) { (a.action.contacts ??= []).push(c.strike); a.action.connected = true; a.action.result = c.defended ? 'block' : 'hit'; }
+  if (a.action && (c.kind === 'ram' || c.kind === 'counter') && c.strike === 0) {
+    a.action.opening = c.defended ? 'block' : 'hit';
+    if (c.kind === 'ram') a.action.time = moves.ram.cels[0].duration + moves.ram.cels[1].duration;
+  }
   const event = (type: FightEvent['type'], power: number) => s.events.push({
     type, target: c.to, x: c.x, y: c.y, power, attack: c.kind, direction: c.direction,
   });
@@ -290,7 +317,7 @@ function applyContact(s: Fight, c: Contact): void {
   }
   const damage = Math.ceil(m.damage * (c.from === 'worker' && s.difficulty === 'warmup' ? .65 : 1) * (1 - c.chain * .15));
   b.hp = Math.max(s.training.enabled ? 1 : 0, b.hp - damage); b.stun = m.hitstun; b.dodge = 0;
-  b.hurt = .28; b.invulnerable = .19; b.action = null; b.blocking = false; b.crouch = false;
+  b.hurt = .28; b.invulnerable = (c.kind === 'ram' || c.kind === 'counter') && c.strike === 0 ? .06 : .19; b.action = null; b.blocking = false; b.crouch = false;
   b.reaction = m.reaction; b.knockback = c.direction * m.push * 12;
   if (m.lift) { b.vy = m.lift; b.y = Math.max(.1, b.y); }
   a.stop = Math.max(a.stop, m.stop[0]); b.stop = Math.max(b.stop, m.stop[1]);

@@ -14,12 +14,19 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
   const edges = ['left', 'bottom', 'right', 'top'] as const;
   const inputs = edges.map(edge => get<HTMLInputElement>(`edit-${edge}`));
   let frozen = false, saved: Fight | null = null;
-  let drag: { id: number; x: number; y: number; box: Box } | null = null;
+  let drag: { id: number; index: number; x: number; y: number; box: Box } | null = null;
   const kind = () => attack.value as Attack;
   const index = () => Number(phase.value);
   const actor = () => ['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind()) ? host.fight().worker : host.fight().player;
   const active = () => mode.checked && host.fight().phase === 'fighting';
   function fields(): void {
+    const selected = Math.min(index(), moves[kind()].cels.length - 1);
+    const labels = { windup: 'Замах', active: 'Контакт', settle: 'Выдержка', recovery: 'Возврат' };
+    phase.replaceChildren(...moves[kind()].cels.map((cel, i, cels) => {
+      const option = document.createElement('option'); option.value = String(i);
+      option.textContent = `${cels.length > 4 ? `${i + 1}. ` : ''}${labels[cel.phase]}`; return option;
+    }));
+    phase.value = String(selected);
     const cel = moves[kind()].cels[index()];
     duration.value = String(Math.round(cel.duration * 1000)); pose.value = String(cel.pose);
     pose.max = actor() === host.fight().worker ? '11' : '13';
@@ -48,6 +55,7 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
       Object.assign(f, { x: i ? 900 : 600, y: 0, vy: 0, facing: i ? -1 : 1, action: null, reaction: null, stun: 0, stop: 0, hurt: 0, invulnerable: 0, knockback: 0, velocity: 0, walk: null, dodge: 0, blocking: false, crouch: false });
     }
     actor().action = { kind: kind(), time: time + (kind() === 'spin' && index() === 1 ? m.active * .2 : Math.min(1/120, m.cels[index()].duration / 2)), connected: false };
+    if (kind() === 'ram' && index() >= 2) Object.assign(actor().action!, { contacts: [0], connected: true, result: 'hit', opening: 'hit' });
     dummy.value = 'idle'; s.training.dummy = 'idle'; s.training.firstHit = false; s.training.gap = false;
     s.combo = 0; s.comboActive = false; s.hitstop = 0; s.events = [];
     get<HTMLInputElement>('hitboxes').checked = true;
@@ -69,7 +77,7 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
   });
   get('training-save').addEventListener('click', () => { if (active()) { saved = copyTraining(host.fight()); status.textContent = 'Момент сохранён.'; refresh(); } });
   get('training-load').addEventListener('click', () => { if (active() && saved) { stop(); const restored = copyTraining(saved); dummy.value = restored.training.dummy; host.replace(restored); status.textContent = 'Момент восстановлен. Выполните шаг или пустите бой.'; refresh(); } });
-  for (const select of [attack, phase]) select.addEventListener('change', () => { fields(); preview(); });
+  for (const select of [attack, phase]) select.addEventListener('change', () => { drag = null; fields(); preview(); });
   get('edit-preview').addEventListener('click', preview);
   for (const input of [duration, pose, ...inputs]) input.addEventListener('change', () => {
     try {
@@ -91,15 +99,15 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
     return { x: (e.clientX - r.left - (r.width - width)/2) * 1600 / width, y: 820 - (e.clientY - r.top - (r.height - height)/2) * 900 / height };
   };
   canvas.addEventListener('pointerdown', e => {
-    if (!active() || !frozen || !get<HTMLInputElement>('hitboxes').checked || index() !== 1 || actor().action?.kind !== kind() || celAt(kind(), actor().action!.time).index !== 1) return;
+    if (!active() || !frozen || !get<HTMLInputElement>('hitboxes').checked || moves[kind()].cels[index()].phase !== 'active' || actor().action?.kind !== kind() || celAt(kind(), actor().action!.time).index !== index()) return;
     const p = point(e), b = fighterGeometry(actor()).hit[0];
     if (!b || p.x < b.left || p.x > b.right || p.y < b.bottom || p.y > b.top) return;
-    e.preventDefault(); canvas.setPointerCapture(e.pointerId); drag = { id: e.pointerId, ...p, box: { ...moves[kind()].cels[1].hit[0] } };
+    e.preventDefault(); canvas.setPointerCapture(e.pointerId); drag = { id: e.pointerId, index: index(), ...p, box: { ...moves[kind()].cels[index()].hit[0] } };
   });
   canvas.addEventListener('pointermove', e => {
     if (!drag || drag.id !== e.pointerId || !active() || !frozen) return;
     const p = point(e), dx = (p.x - drag.x) * actor().facing, dy = p.y - drag.y, b = drag.box;
-    try { editCel(kind(), 1, { hit: [{ left: Math.round(b.left + dx), right: Math.round(b.right + dx), bottom: Math.round(b.bottom + dy), top: Math.round(b.top + dy) }] }); fields(); host.draw(); }
+    try { editCel(kind(), drag.index, { hit: [{ left: Math.round(b.left + dx), right: Math.round(b.right + dx), bottom: Math.round(b.bottom + dy), top: Math.round(b.top + dy) }] }); fields(); host.draw(); }
     catch { status.textContent = 'Зона должна оставаться в пределах редактора.'; }
   });
   for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) canvas.addEventListener(event, () => { drag = null; });
