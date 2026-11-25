@@ -16,8 +16,8 @@
     "sha256": "d791ebd68928c26ec5b3031ccd2528957636ed5d7b3e3a9d18060e449ae0153e"
   },
   {
-    "name": "boxer-5.webp",
-    "sha256": "fd4f51b1d006fca0243c2cc7ae912432b466c85d732a2471cd98da4d1a6ab89f"
+    "name": "boxer-7.webp",
+    "sha256": "96ac445c5de9293102b589f51924e59163781773fc16d0ea1661b595c6746d2e"
   },
   {
     "name": "boxer-12.webp",
@@ -36,16 +36,8 @@
     "sha256": "27b7e169cd17a1fb5b0a91dfc787358d0741b32405f91a984b4d425cebf8befc"
   },
   {
-    "name": "worker-3.webp",
-    "sha256": "c444c8022caa7a6a1c15113ee34069920ea210c806fed25f0cdc5390812ede97"
-  },
-  {
     "name": "worker-6.webp",
     "sha256": "293f24f45131dbe5412376b0c54b2b5393572d0367b1fbe4347181802c4f989b"
-  },
-  {
-    "name": "worker-7.webp",
-    "sha256": "adcbf1f12a2b01ea4f3bd9d9b4fdb04c179f83ed6893832c07a5bd166e48e775"
   },
   {
     "name": "walk/walk-0.webp",
@@ -66,5 +58,9 @@
   {
     "name": "jab-hybrid/jab-0.webp",
     "sha256": "413f81e3aa4ea97703054453267f99b1d6a21433d012024ac8e66a0ec4765ca1"
+  },
+  {
+    "name": "cross-hybrid/cross-0.webp",
+    "sha256": "cfbff9f3120ff22ba3aeca0a218fc53ef02dea207a60939d1c5e7125f2c49491"
   }
 ]

@@ -6,7 +6,7 @@ import json
 ROOT = Path(__file__).resolve().parent
 PROJECT = ROOT.parents[3]
 PUBLIC = PROJECT / 'scene-lab/public/previews/special-move-preview'
-IDS = ['dash-straight', 'pullback-hook', 'duck-body']
+IDS = ['dash-straight', 'pullback-hook']
 
 
 def main():
@@ -27,39 +27,56 @@ def main():
         assert len({frame.tobytes() for frame in frames}) > 20
         timeline = timelines[name]
         assert all(frame['ground'] == 820 for frame in timeline)
-        assert sum(frame['impact'] for frame in timeline) * 20 == 120
         assert timeline[0]['x'] == timeline[-1]['x']
         assert timeline[0]['key'] == timeline[-1]['key'] == 'boxer-0.webp'
         assert all(frame['anchorY'] > 0 and frame['scale'] > 0 for frame in timeline)
         at = {frame['t']: frame for frame in timeline}
-        expected_contact = {'dash-straight': ('boxer-2.webp', 650),
-                            'pullback-hook': ('boxer-12.webp', 780),
-                            'duck-body': ('boxer-3.webp', 720)}[name]
-        assert (at[1120]['key'], at[1120]['x']) == expected_contact
-        assert not at[1100]['impact'] and at[1120]['impact']
-        assert at[1220]['impact'] and not at[1240]['impact']
         assert at[1300]['key'] == 'boxer-0.webp'
-        assert at[1300]['x'] == at[1740]['x'] == expected_contact[1]
+        assert at[1300]['x'] == at[1740]['x']
+        assert not any(frame['active'] or frame['contact'] for frame in timeline if frame['t'] >= 1300)
+        assert all(not frame['contact'] or frame['active'] for frame in timeline)
+        if name == 'dash-straight':
+            assert at[600]['key'] == at[620]['key'] == 'jab-hybrid/jab-0.webp'
+            assert not at[620]['active'] and at[640]['active']
+            assert all(frame['key'] == 'boxer-2.webp' for frame in timeline if 640 <= frame['t'] < 1300)
+            assert at[640]['x'] == 400 and at[900]['x'] == 650
+            assert at[1240]['x'] == 840 and at[1240]['wx'] == 1130
+            assert at[1220]['active'] and not at[1240]['active']
+            assert sum(frame['impact'] for frame in timeline) * 20 == 60
+            assert {frame['contact'] for frame in timeline if frame['contact']} == {1}
+            push = [frame for frame in timeline if 900 <= frame['t'] <= 1240]
+            assert all(abs(frame['wx'] - frame['x'] - 290) < 1e-6 for frame in push)
+            assert all(b['x'] > a['x'] and b['wx'] > a['wx'] for a, b in zip(push, push[1:]))
         if name == 'pullback-hook':
-            assert at[840]['x'] < at[0]['x'] < at[1120]['x']
-            assert at[840]['worker'] == 'worker-2.webp'
-        if name == 'duck-body':
-            assert at[800]['key'] == at[960]['key'] == 'boxer-5.webp'
-            assert at[800]['x'] < at[960]['x'] < at[1120]['x']
+            assert at[800]['x'] < at[0]['x'] < at[960]['x']
+            assert at[800]['x'] == 430 and at[960]['x'] == 780
+            assert at[760]['worker'] == 'worker-2.webp' and at[820]['worker'] == 'worker-1.webp'
+            assert at[720]['lift'] == 55 and at[800]['lift'] == 0
+            assert all(frame['key'] == 'boxer-7.webp' for frame in timeline if 640 <= frame['t'] < 800)
+            assert not any(frame['active'] for frame in timeline if frame['lift'] > 0)
+            assert at[800]['key'].startswith('walk/') and at[800]['lift'] == 0
+            assert not at[940]['contact'] and at[960]['contact'] == 1
+            assert at[1020]['contact'] == 1 and at[1040]['contact'] == 0
+            assert at[1100]['contact'] == 0 and at[1120]['contact'] == 2
+            assert at[1220]['contact'] == 2 and at[1240]['contact'] == 0
+            assert at[960]['key'] == 'boxer-12.webp' and at[960]['hand'] == 'left-hook'
+            assert at[1120]['key'] == 'boxer-3.webp' and at[1120]['hand'] == 'right-straight'
+            assert at[1060]['key'] == 'cross-hybrid/cross-0.webp'
+            assert sum(frame['impact'] for frame in timeline) * 20 == 200
         originals[name] = frames
-    sheet = Image.new('RGB', (1200, 402))
-    selected = [0, 40, 50, 56, 62, 66]
+    sheet = Image.new('RGB', (1200, 134 * len(IDS)))
+    selected = [30, 36, 40, 48, 56, 65]
     for row, name in enumerate(IDS):
         for col, index in enumerate(selected):
             thumb = originals[name][index].resize((200, 134), Image.Resampling.LANCZOS)
             sheet.paste(thumb, (col * 200, row * 134))
-    palette_source = Image.new('RGB', (800 * 3, 534 * 4))
+    palette_source = Image.new('RGB', (800 * len(IDS), 534 * 4))
     for col, name in enumerate(IDS):
         for row, index in enumerate([0, 45, 56, 66]):
             palette_source.paste(originals[name][index], (col * 800, row * 534))
     palette = palette_source.quantize(colors=256)
     report = []
-    decoded_sheet = Image.new('RGB', (1600, 534 * 3))
+    decoded_sheet = Image.new('RGB', (1600, 534 * len(IDS)))
     for row, name in enumerate(IDS):
         frames = [frame.quantize(palette=palette, dither=Image.Dither.NONE) for frame in originals[name]]
         normal_signature = None
@@ -83,7 +100,7 @@ def main():
                 if not suffix:
                     elapsed = 0
                     for frame, duration in zip(decoded, durations):
-                        if elapsed <= 1000 < elapsed + duration:
+                        if elapsed <= (900 if name == 'dash-straight' else 980) < elapsed + duration:
                             decoded_sheet.paste(frame, (0, row * 534))
                         if elapsed <= 1140 < elapsed + duration:
                             decoded_sheet.paste(frame, (800, row * 534))
@@ -93,7 +110,9 @@ def main():
     decoded_sheet.save(PUBLIC / 'decoded-sheet.png')
     sheet.save(PUBLIC / 'contact-sheet.png')
     (ROOT / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
-    print('Verified six decoded GIFs: sources, registration, motion boundaries, 120ms contact, idle return and identical slow frames')
+    assert set(timelines) == set(IDS)
+    assert not list(PUBLIC.glob('duck-body*.gif'))
+    print('Verified four decoded GIFs: early active slide + push, back hop + two hands, contact boundaries, idle return and identical slow frames')
 
 
 if __name__ == '__main__':

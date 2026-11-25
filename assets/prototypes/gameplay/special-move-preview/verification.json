@@ -2,37 +2,25 @@
   {
     "file": "dash-straight.gif",
     "durationMs": 2600,
-    "frames": 51,
-    "sha256": "5d0d723c75cdf3f1f4d3c95d2f8ab1250f617993965a29b1aa4d55b542294fc4"
+    "frames": 54,
+    "sha256": "8b635f42769ad5aaef81d85fd210a021e2bb57ce2295bb81eaac1c647ebf8a29"
   },
   {
     "file": "dash-straight-slow.gif",
     "durationMs": 10400,
-    "frames": 51,
-    "sha256": "9d7a2a7b24d6f9ff17f68ee75e36f8c50fca37b3b45ea6595dd894c89edb53d8"
+    "frames": 54,
+    "sha256": "2ca894fafade673363c5355164435e4fbbaa1761f8f29c0747f0a7c3a96cef45"
   },
   {
     "file": "pullback-hook.gif",
     "durationMs": 2600,
-    "frames": 57,
-    "sha256": "a6c8a5c0d05ad7825c84bdf3c778c194589253dd61c5f236460e3e4dd855b2cd"
+    "frames": 60,
+    "sha256": "ffbb23821ce28ab4c0e2e5f51de3c0856e3f5f044607e16714a2ee653a725666"
   },
   {
     "file": "pullback-hook-slow.gif",
     "durationMs": 10400,
-    "frames": 57,
-    "sha256": "1b940b48df50e435583cb394e1c03c0ccaaee71785c506210a85fe3bbea9c531"
-  },
-  {
-    "file": "duck-body.gif",
-    "durationMs": 2600,
-    "frames": 55,
-    "sha256": "ab342bf92ae8f9ec0f57a0e3247cae595c74053f8dbc4352633b368a3da0105e"
-  },
-  {
-    "file": "duck-body-slow.gif",
-    "durationMs": 10400,
-    "frames": 55,
-    "sha256": "650defceedcd773e8719775be883de1dbb7e3097af77f9f9ce7c358ca9ca1664"
+    "frames": 60,
+    "sha256": "5bc4b5bd4757a790410667d73b9d079124466e6f43bbe649503a617d974be51e"
   }
 ]

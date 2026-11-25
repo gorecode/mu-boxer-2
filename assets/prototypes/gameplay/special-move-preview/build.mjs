@@ -9,9 +9,9 @@ const root = fileURLToPath(new URL('./', import.meta.url));
 const project = resolve(root, '../../../..');
 const art = resolve(project, 'scene-lab/public/art/fight');
 const manifest = JSON.parse(await readFile(resolve(art, 'manifest.json'), 'utf8'));
-const names = ['arena.webp', ...[0, 2, 3, 5, 12].map(i => `boxer-${i}.webp`),
-  ...[0, 1, 2, 3, 6, 7].map(i => `worker-${i}.webp`),
-  ...[0, 1, 2, 3].map(i => `walk/walk-${i}.webp`), 'jab-hybrid/jab-0.webp'];
+const names = ['arena.webp', ...[0, 2, 3, 7, 12].map(i => `boxer-${i}.webp`),
+  ...[0, 1, 2, 6].map(i => `worker-${i}.webp`),
+  ...[0, 1, 2, 3].map(i => `walk/walk-${i}.webp`), 'jab-hybrid/jab-0.webp', 'cross-hybrid/cross-0.webp'];
 const sources = await Promise.all(names.map(async name => {
   const bytes = await readFile(resolve(art, name));
   assert(bytes.length > 200, `Missing source: ${name}`);
@@ -28,54 +28,61 @@ try {
       const image = new Image(); image.src = source.url; await image.decode(); images[source.name] = image;
     }
     const make = (w, h) => Object.assign(document.createElement('canvas'), { width: w, height: h });
-    const titles = ['ТАРАННЫЙ ПРЯМОЙ', 'ОТТЯЖКА → БОКОВОЙ', 'НЫРОК → УДАР В КОРПУС'];
-    const subtitles = ['Поймать восстановление после лопаты', 'Выманить тычок и ответить с шагом', 'Войти под замах и подняться в прямой'];
-    const ids = ['dash-straight', 'pullback-hook', 'duck-body'];
+    const titles = ['ТАРАННЫЙ ПРЯМОЙ · V2', 'ОТСКОК → ДВОЙКА · V2'];
+    const subtitles = ['Рука сразу вперёд → скольжение с отталкиванием', 'Короткий прыжок назад → боковой → прямой другой рукой'];
+    const ids = ['dash-straight', 'pullback-hook'];
     const lerp = (a, b, t, start, end) => a + (b - a) * Math.max(0, Math.min(1, (t - start) / (end - start)));
     function state(index, t) {
-      const startX = [400, 620, 470][index];
-      let x = startX, key = 'boxer-0.webp', worker = 'worker-0.webp', wx = 940, phase = 'ИСХОДНАЯ СТОЙКА', impact = false;
+      const startX = [400, 620][index];
+      let x = startX, key = 'boxer-0.webp', worker = 'worker-0.webp', wx = 940;
+      let phase = 'ИСХОДНАЯ СТОЙКА', impact = false, lift = 0, active = false, contact = 0, hand = null;
       if (index === 0) {
-        if (t >= 600 && t < 780) { worker = 'worker-1.webp'; phase = 'ЛОПАТА: ЗАМАХ'; }
-        if (t >= 780 && t < 940) { worker = 'worker-2.webp'; phase = 'ПРОМАХ ПРОТИВНИКА'; }
-        if (t >= 940 && t < 1040) worker = 'worker-1.webp';
-        if (t >= 900 && t < 1020) { key = `walk/walk-${[1, 2, 3][Math.min(2, Math.floor((t - 900) / 40))]}.webp`; phase = 'РЫВОК'; }
-        if (t >= 900 && t < 1120) x = lerp(400, 650, t, 900, 1120);
-        if (t >= 1020 && t < 1060) key = 'jab-hybrid/jab-0.webp';
-        if (t >= 1060 && t < 1300) { key = 'boxer-2.webp'; phase = 'ПРЯМОЙ'; }
-        if (t >= 1120) x = 650;
-      } else if (index === 1) {
-        if (t >= 560 && t < 760) { worker = 'worker-1.webp'; phase = 'ЛОПАТА: ЗАМАХ'; }
-        if (t >= 680 && t < 840) { x = lerp(620, 510, t, 680, 840); key = `walk/walk-${[3, 2, 1, 0][Math.floor((t - 680) / 40)]}.webp`; phase = 'ОТТЯЖКА'; }
-        if (t >= 760 && t < 940) worker = 'worker-2.webp';
-        if (t >= 840 && t < 940) { x = 510; phase = 'ЛОПАТА ПРОХОДИТ МИМО'; }
-        if (t >= 940 && t < 1120) { worker = t < 1040 ? 'worker-1.webp' : 'worker-0.webp'; x = lerp(510, 780, t, 940, 1120); key = `walk/walk-${Math.min(3, Math.floor((t - 940) / 45))}.webp`; phase = 'ОТВЕТ С ШАГОМ'; }
-        if (t >= 1120) x = 780;
-        if (t >= 1100 && t < 1300) key = 'boxer-12.webp';
+        if (t >= 600 && t < 640) { key = 'jab-hybrid/jab-0.webp'; phase = 'ВЫХОД РУКИ · 40 мс'; }
+        if (t >= 640 && t < 1300) key = 'boxer-2.webp';
+        if (t >= 640 && t < 1240) { active = true; hand = 'jab'; phase = 'СКОЛЬЖЕНИЕ · УДАР АКТИВЕН'; }
+        x = lerp(400, 650, t, 640, 900);
+        const push = lerp(0, 190, t, 900, 1240);
+        if (t >= 900) { x = 650 + push; wx = 940 + push; worker = 'worker-6.webp'; phase = 'ПОПАДАНИЕ → НЕПРЕРЫВНЫЙ ТОЛЧОК'; }
+        if (t >= 900 && t < 960) { worker = 'worker-0.webp'; impact = true; contact = 1; }
+        if (t >= 1240) phase = 'ВОЗВРАТ В СТОЙКУ';
+        if (t >= 1740) { worker = 'worker-0.webp'; phase = 'СТОЙКА'; }
       } else {
-        if (t >= 600 && t < 1120) { worker = 'worker-3.webp'; phase = 'ЛОПАТА: ВЕРХНИЙ ЗАМАХ'; }
-        if (t >= 780 && t < 980) { key = 'boxer-5.webp'; x = lerp(470, 650, t, 800, 980); phase = 'ПРИСЕД + ВХОД'; }
-        if (t >= 980 && t < 1060) { key = 'walk/walk-2.webp'; x = lerp(650, 700, t, 980, 1060); phase = 'ПОДЪЁМ В УДАР'; }
-        if (t >= 1060 && t < 1120) { key = 'boxer-3.webp'; x = lerp(700, 720, t, 1060, 1120); }
-        if (t >= 1120) x = 720;
-        if (t >= 1120 && t < 1300) key = 'boxer-3.webp';
+        if (t >= 560 && t < 740) { worker = 'worker-1.webp'; phase = 'ЛОПАТА: ЗАМАХ'; }
+        if (t >= 640 && t < 800) {
+          x = lerp(620, 430, t, 640, 800); lift = 55 * Math.sin(Math.PI * (t - 640) / 160);
+          key = 'boxer-7.webp'; phase = 'ПРЫЖОК НАЗАД · 160 мс';
+        }
+        if (t >= 740 && t < 820) worker = 'worker-2.webp';
+        if (t >= 800 && t < 960) {
+          x = lerp(430, 780, t, 800, 960); key = `walk/walk-${Math.min(3, Math.floor((t - 800) / 40))}.webp`;
+          phase = 'СРАЗУ В ОТВЕТ';
+        }
+        if (t >= 820 && t < 960) worker = 'worker-1.webp';
+        if (t >= 960) x = 780;
+        if (t >= 940 && t < 1060) { key = 'boxer-12.webp'; active = true; hand = 'left-hook'; phase = 'БОКОВОЙ В ГОЛОВУ'; }
+        if (t >= 960 && t < 1040) { contact = 1; impact = true; worker = t < 1000 ? 'worker-0.webp' : 'worker-6.webp'; }
+        if (t >= 1040) { worker = 'worker-6.webp'; wx = lerp(940, 960, t, 1040, 1120); }
+        if (t >= 1060 && t < 1100) { key = 'cross-hybrid/cross-0.webp'; phase = 'СМЕНА РУКИ · 40 мс'; }
+        if (t >= 1100 && t < 1300) { key = 'boxer-3.webp'; hand = 'right-straight'; phase = 'ПРЯМОЙ ДРУГОЙ РУКОЙ'; }
+        if (t >= 1100 && t < 1240) active = true;
+        if (t >= 1120 && t < 1240) { contact = 2; impact = true; }
+        if (t >= 1240) { wx = lerp(960, 1040, t, 1240, 1510); phase = 'ВОЗВРАТ В СТОЙКУ'; }
+        if (t >= 1740) { worker = 'worker-0.webp'; phase = 'СТОЙКА'; }
       }
-      if (t >= 1120 && t < 1240) { worker = t < 1180 ? 'worker-0.webp' : 'worker-6.webp'; phase = 'КОНТАКТ · 120 мс'; impact = true; }
-      if (t >= 1240 && t < 1740) { worker = 'worker-6.webp'; wx = lerp(940, 1020, t, 1240, 1510); phase = 'ВОЗВРАТ В СТОЙКУ'; }
-      if (t >= 1740) { wx = 1020; phase = 'СТОЙКА'; }
       if (t >= 2000) { x = startX; wx = 940; key = 'boxer-0.webp'; worker = 'worker-0.webp'; phase = 'ПОВТОР'; }
       const opacity = t >= 1800 && t < 2000 ? lerp(1, 0, t, 1800, 1980)
         : t >= 2000 && t < 2200 ? lerp(0, 1, t, 2020, 2200) : 1;
-      return { x, key, worker, wx, phase, impact, opacity };
+      return { x, key, worker, wx, phase, impact, opacity, lift, active, contact, hand };
     }
     function metadata(key) {
       if (key.startsWith('walk/')) return manifest.walk[Number(key.match(/(\d+)\.webp$/)[1])];
       if (key.startsWith('jab-hybrid/')) return manifest.jab[0];
+      if (key.startsWith('cross-hybrid/')) return manifest.cross[0];
       const [kind, number] = key.replace('.webp', '').split('-'); return manifest[kind][Number(number)];
     }
-    function drawSprite(c, key, x, alpha = 1) {
+    function drawSprite(c, key, x, alpha = 1, lift = 0) {
       const m = metadata(key);
-      c.save(); c.globalAlpha = alpha; c.translate(x, 820); c.scale(m.scale, m.scale);
+      c.save(); c.globalAlpha = alpha; c.translate(x, 820 - lift); c.scale(m.scale, m.scale);
       c.drawImage(images[key], -m.anchorX, -m.anchorY, m.width, m.height); c.restore();
     }
     const frames = {}, timeline = {};
@@ -87,11 +94,11 @@ try {
         w.fillStyle = '#120e1680'; w.fillRect(0, 0, 1600, 900);
         w.fillStyle = '#09060b80';
         for (const x of [s.x, s.wx]) { w.beginPath(); w.ellipse(x, 816, 120, 14, 0, 0, Math.PI * 2); w.fill(); }
-        if (index === 0 && t >= 960 && t < 1120) drawSprite(w, 'boxer-2.webp', s.x - 85, .15);
-        drawSprite(w, s.worker, s.wx); drawSprite(w, s.key, s.x);
+        if (index === 0 && s.active) drawSprite(w, 'boxer-2.webp', s.x - 85, .15);
+        drawSprite(w, s.worker, s.wx); drawSprite(w, s.key, s.x, 1, s.lift);
         if (s.impact) {
-          const px = index === 0 ? 905 : index === 1 ? 919 : 947;
-          const py = index === 1 ? 354 : index === 2 ? 391 : 358;
+          const px = s.x + (index === 0 ? 254.66 : s.contact === 1 ? 139.23 : 227.29);
+          const py = index === 0 ? 358 : s.contact === 1 ? 354 : 391;
           w.strokeStyle = '#ffe3b0'; w.lineWidth = 4;
           for (let j = 0; j < 7; j++) {
             const a = j * Math.PI * 2 / 7;
@@ -125,5 +132,5 @@ try {
     `  "${id}": [\n${states.map(s => '    ' + JSON.stringify(s)).join(',\n')}\n  ]`).join(',\n') + '\n}\n';
   await writeFile(resolve(root, 'timeline.json'), timeline);
   await writeFile(resolve(root, 'source-manifest.json'), JSON.stringify(sources.map(({ url: _, ...s }) => s), null, 2) + '\n');
-  console.log('Rendered 3 × 130 frames from original runtime sprites and anchors');
+  console.log('Rendered 2 × 130 frames from original runtime sprites and anchors');
 } finally { await browser.close(); }
