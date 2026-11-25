@@ -38,18 +38,28 @@ def main():
         if name == 'dash-straight':
             assert at[600]['key'] == at[620]['key'] == 'jab-hybrid/jab-0.webp'
             assert not at[620]['active'] and at[640]['active']
-            assert all(frame['key'] == 'boxer-2.webp' for frame in timeline if 640 <= frame['t'] < 1300)
+            assert all(frame['key'] == 'boxer-2.webp' and frame['hand'] == 'jab' for frame in timeline if 640 <= frame['t'] < 960)
+            assert at[960]['key'] == at[980]['key'] == 'cross-hybrid/cross-0.webp'
+            assert not at[960]['active'] and not at[980]['active']
+            assert all(frame['key'] == 'boxer-3.webp' and frame['hand'] == 'right-straight' for frame in timeline if 1000 <= frame['t'] < 1300)
             assert at[640]['x'] == 400 and at[900]['x'] == 650
-            assert at[1240]['x'] == 840 and at[1240]['wx'] == 1130
+            assert at[1240]['x'] == 867 and at[1240]['wx'] == 1130
             assert at[1220]['active'] and not at[1240]['active']
-            assert sum(frame['impact'] for frame in timeline) * 20 == 60
-            assert {frame['contact'] for frame in timeline if frame['contact']} == {1}
+            assert at[880]['contact'] == 0 and at[900]['contact'] == 1
+            assert at[940]['contact'] == 1 and at[960]['contact'] == 0
+            assert at[980]['contact'] == 0 and at[1000]['contact'] == 2
+            assert at[1100]['contact'] == 2 and at[1120]['contact'] == 0
+            assert sum(frame['impact'] for frame in timeline) * 20 == 180
+            assert {frame['contact'] for frame in timeline if frame['contact']} == {1, 2}
             push = [frame for frame in timeline if 900 <= frame['t'] <= 1240]
-            assert all(abs(frame['wx'] - frame['x'] - 290) < 1e-6 for frame in push)
+            for frame in push:
+                follow = 27 * max(0, min(1, (frame['t'] - 960) / 40))
+                assert abs(frame['wx'] - frame['x'] - (290 - follow)) < 1e-6
             assert all(b['x'] > a['x'] and b['wx'] > a['wx'] for a, b in zip(push, push[1:]))
         if name == 'pullback-hook':
             assert at[800]['x'] < at[0]['x'] < at[960]['x']
-            assert at[800]['x'] == 430 and at[960]['x'] == 780
+            assert at[800]['x'] == 430 and at[960]['x'] == 700 and at[1120]['x'] == 800
+            assert at[1040]['x'] == 700 < at[1080]['x'] < at[1120]['x']
             assert at[760]['worker'] == 'worker-2.webp' and at[820]['worker'] == 'worker-1.webp'
             assert at[720]['lift'] == 55 and at[800]['lift'] == 0
             assert all(frame['key'] == 'boxer-7.webp' for frame in timeline if 640 <= frame['t'] < 800)
@@ -59,8 +69,8 @@ def main():
             assert at[1020]['contact'] == 1 and at[1040]['contact'] == 0
             assert at[1100]['contact'] == 0 and at[1120]['contact'] == 2
             assert at[1220]['contact'] == 2 and at[1240]['contact'] == 0
-            assert at[960]['key'] == 'boxer-12.webp' and at[960]['hand'] == 'left-hook'
-            assert at[1120]['key'] == 'boxer-3.webp' and at[1120]['hand'] == 'right-straight'
+            assert at[960]['key'] == 'boxer-3.webp' and at[960]['hand'] == 'right-straight'
+            assert at[1120]['key'] == 'boxer-12.webp' and at[1120]['hand'] == 'left-hook'
             assert at[1060]['key'] == 'cross-hybrid/cross-0.webp'
             assert sum(frame['impact'] for frame in timeline) * 20 == 200
         originals[name] = frames
@@ -112,7 +122,7 @@ def main():
     (ROOT / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
     assert set(timelines) == set(IDS)
     assert not list(PUBLIC.glob('duck-body*.gif'))
-    print('Verified four decoded GIFs: early active slide + push, back hop + two hands, contact boundaries, idle return and identical slow frames')
+    print('Verified four decoded GIFs: slide into opposite-hand second hit, straight-then-hook counter, contact boundaries, idle return and identical slow frames')
 
 
 if __name__ == '__main__':

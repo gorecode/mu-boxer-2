@@ -3,24 +3,24 @@
     "file": "dash-straight.gif",
     "durationMs": 2600,
     "frames": 54,
-    "sha256": "8b635f42769ad5aaef81d85fd210a021e2bb57ce2295bb81eaac1c647ebf8a29"
+    "sha256": "7a8046ff739dcc603ec3de9985179c605a25a5ade76b8a956302b8a54a59fd3f"
   },
   {
     "file": "dash-straight-slow.gif",
     "durationMs": 10400,
     "frames": 54,
-    "sha256": "2ca894fafade673363c5355164435e4fbbaa1761f8f29c0747f0a7c3a96cef45"
+    "sha256": "c315e3073c2c8cf5a1816d40326b84cdacf02ab64df974e6433733b20185fa27"
   },
   {
     "file": "pullback-hook.gif",
     "durationMs": 2600,
-    "frames": 60,
-    "sha256": "ffbb23821ce28ab4c0e2e5f51de3c0856e3f5f044607e16714a2ee653a725666"
+    "frames": 61,
+    "sha256": "4147eb63b84243298ea19454af1dc3ef152a1b3083eb2ad927dbc6fd3050e944"
   },
   {
     "file": "pullback-hook-slow.gif",
     "durationMs": 10400,
-    "frames": 60,
-    "sha256": "5bc4b5bd4757a790410667d73b9d079124466e6f43bbe649503a617d974be51e"
+    "frames": 61,
+    "sha256": "1786fc54e621c23ca5ebebb38eeb6bb4ee452e1becf65ae23eec3f1b972ae4d4"
   }
 ]

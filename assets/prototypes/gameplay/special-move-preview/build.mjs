@@ -28,8 +28,8 @@ try {
       const image = new Image(); image.src = source.url; await image.decode(); images[source.name] = image;
     }
     const make = (w, h) => Object.assign(document.createElement('canvas'), { width: w, height: h });
-    const titles = ['ТАРАННЫЙ ПРЯМОЙ · V2', 'ОТСКОК → ДВОЙКА · V2'];
-    const subtitles = ['Рука сразу вперёд → скольжение с отталкиванием', 'Короткий прыжок назад → боковой → прямой другой рукой'];
+    const titles = ['ТАРАННЫЙ ПРЯМОЙ · V3', 'ОТСКОК → ДВОЙКА · V3'];
+    const subtitles = ['Скольжение → контакт → сразу прямой другой рукой', 'Короткий прыжок назад → прямой → боковой в голову'];
     const ids = ['dash-straight', 'pullback-hook'];
     const lerp = (a, b, t, start, end) => a + (b - a) * Math.max(0, Math.min(1, (t - start) / (end - start)));
     function state(index, t) {
@@ -38,12 +38,16 @@ try {
       let phase = 'ИСХОДНАЯ СТОЙКА', impact = false, lift = 0, active = false, contact = 0, hand = null;
       if (index === 0) {
         if (t >= 600 && t < 640) { key = 'jab-hybrid/jab-0.webp'; phase = 'ВЫХОД РУКИ · 40 мс'; }
-        if (t >= 640 && t < 1300) key = 'boxer-2.webp';
-        if (t >= 640 && t < 1240) { active = true; hand = 'jab'; phase = 'СКОЛЬЖЕНИЕ · УДАР АКТИВЕН'; }
+        if (t >= 640 && t < 960) key = 'boxer-2.webp';
+        if (t >= 640 && t < 960) { active = true; hand = 'jab'; phase = 'СКОЛЬЖЕНИЕ · УДАР АКТИВЕН'; }
         x = lerp(400, 650, t, 640, 900);
         const push = lerp(0, 190, t, 900, 1240);
-        if (t >= 900) { x = 650 + push; wx = 940 + push; worker = 'worker-6.webp'; phase = 'ПОПАДАНИЕ → НЕПРЕРЫВНЫЙ ТОЛЧОК'; }
+        if (t >= 900) { x = 650 + push + lerp(0, 27, t, 960, 1000); wx = 940 + push; worker = 'worker-6.webp'; phase = 'ПОПАДАНИЕ → НЕПРЕРЫВНЫЙ ТОЛЧОК'; }
         if (t >= 900 && t < 960) { worker = 'worker-0.webp'; impact = true; contact = 1; }
+        if (t >= 960 && t < 1000) { key = 'cross-hybrid/cross-0.webp'; phase = 'СРАЗУ ДРУГОЙ РУКОЙ · 40 мс'; }
+        if (t >= 1000 && t < 1300) { key = 'boxer-3.webp'; hand = 'right-straight'; phase = 'ВТОРОЙ ПРЯМОЙ → ТОЛЧОК'; }
+        if (t >= 1000 && t < 1240) active = true;
+        if (t >= 1000 && t < 1120) { impact = true; contact = 2; }
         if (t >= 1240) phase = 'ВОЗВРАТ В СТОЙКУ';
         if (t >= 1740) { worker = 'worker-0.webp'; phase = 'СТОЙКА'; }
       } else {
@@ -54,18 +58,18 @@ try {
         }
         if (t >= 740 && t < 820) worker = 'worker-2.webp';
         if (t >= 800 && t < 960) {
-          x = lerp(430, 780, t, 800, 960); key = `walk/walk-${Math.min(3, Math.floor((t - 800) / 40))}.webp`;
+          x = lerp(430, 700, t, 800, 960); key = `walk/walk-${Math.min(3, Math.floor((t - 800) / 40))}.webp`;
           phase = 'СРАЗУ В ОТВЕТ';
         }
         if (t >= 820 && t < 960) worker = 'worker-1.webp';
-        if (t >= 960) x = 780;
-        if (t >= 940 && t < 1060) { key = 'boxer-12.webp'; active = true; hand = 'left-hook'; phase = 'БОКОВОЙ В ГОЛОВУ'; }
+        if (t >= 960) x = lerp(700, 800, t, 1060, 1120);
+        if (t >= 940 && t < 1060) { key = 'boxer-3.webp'; active = true; hand = 'right-straight'; phase = 'ПЕРВЫЙ · ПРЯМОЙ'; }
         if (t >= 960 && t < 1040) { contact = 1; impact = true; worker = t < 1000 ? 'worker-0.webp' : 'worker-6.webp'; }
         if (t >= 1040) { worker = 'worker-6.webp'; wx = lerp(940, 960, t, 1040, 1120); }
-        if (t >= 1060 && t < 1100) { key = 'cross-hybrid/cross-0.webp'; phase = 'СМЕНА РУКИ · 40 мс'; }
-        if (t >= 1100 && t < 1300) { key = 'boxer-3.webp'; hand = 'right-straight'; phase = 'ПРЯМОЙ ДРУГОЙ РУКОЙ'; }
+        if (t >= 1060 && t < 1100) { key = 'cross-hybrid/cross-0.webp'; phase = 'ВОЗВРАТ ПЕРВОЙ РУКИ · 40 мс'; }
+        if (t >= 1100 && t < 1300) { key = 'boxer-12.webp'; hand = 'left-hook'; phase = 'ВТОРОЙ · БОКОВОЙ В ГОЛОВУ'; }
         if (t >= 1100 && t < 1240) active = true;
-        if (t >= 1120 && t < 1240) { contact = 2; impact = true; }
+        if (t >= 1120 && t < 1240) { contact = 2; impact = true; if (t < 1180) worker = 'worker-0.webp'; }
         if (t >= 1240) { wx = lerp(960, 1040, t, 1240, 1510); phase = 'ВОЗВРАТ В СТОЙКУ'; }
         if (t >= 1740) { worker = 'worker-0.webp'; phase = 'СТОЙКА'; }
       }
@@ -94,11 +98,11 @@ try {
         w.fillStyle = '#120e1680'; w.fillRect(0, 0, 1600, 900);
         w.fillStyle = '#09060b80';
         for (const x of [s.x, s.wx]) { w.beginPath(); w.ellipse(x, 816, 120, 14, 0, 0, Math.PI * 2); w.fill(); }
-        if (index === 0 && s.active) drawSprite(w, 'boxer-2.webp', s.x - 85, .15);
+        if (index === 0 && s.active) drawSprite(w, s.key, s.x - 85, .15);
         drawSprite(w, s.worker, s.wx); drawSprite(w, s.key, s.x, 1, s.lift);
         if (s.impact) {
-          const px = s.x + (index === 0 ? 254.66 : s.contact === 1 ? 139.23 : 227.29);
-          const py = index === 0 ? 358 : s.contact === 1 ? 354 : 391;
+          const [tipX, py] = { 'boxer-2.webp': [254.66, 358], 'boxer-3.webp': [227.29, 391], 'boxer-12.webp': [139.23, 354] }[s.key];
+          const px = s.x + tipX;
           w.strokeStyle = '#ffe3b0'; w.lineWidth = 4;
           for (let j = 0; j < 7; j++) {
             const a = j * Math.PI * 2 / 7;
