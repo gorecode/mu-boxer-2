@@ -15,12 +15,12 @@
     "file": "pullback-hook.gif",
     "durationMs": 2600,
     "frames": 61,
-    "sha256": "4147eb63b84243298ea19454af1dc3ef152a1b3083eb2ad927dbc6fd3050e944"
+    "sha256": "4481c95d43e86e35fb00022732f0914b308ca2ce2696002f70c967cb288895e7"
   },
   {
     "file": "pullback-hook-slow.gif",
     "durationMs": 10400,
     "frames": 61,
-    "sha256": "1786fc54e621c23ca5ebebb38eeb6bb4ee452e1becf65ae23eec3f1b972ae4d4"
+    "sha256": "23de4ec0081a0f981f4b9b31a44ff1551223128069f2d4fff851c4fa05ab217c"
   }
 ]

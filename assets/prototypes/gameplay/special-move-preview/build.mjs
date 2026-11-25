@@ -28,8 +28,8 @@ try {
       const image = new Image(); image.src = source.url; await image.decode(); images[source.name] = image;
     }
     const make = (w, h) => Object.assign(document.createElement('canvas'), { width: w, height: h });
-    const titles = ['ТАРАННЫЙ ПРЯМОЙ · V3', 'ОТСКОК → ДВОЙКА · V3'];
-    const subtitles = ['Скольжение → контакт → сразу прямой другой рукой', 'Короткий прыжок назад → прямой → боковой в голову'];
+    const titles = ['ТАРАННЫЙ ПРЯМОЙ · V3', 'ПОДШАГ → ДВОЙКА · V4'];
+    const subtitles = ['Скольжение → контакт → сразу прямой другой рукой', 'Быстрый подшаг назад → прямой → боковой в голову'];
     const ids = ['dash-straight', 'pullback-hook'];
     const lerp = (a, b, t, start, end) => a + (b - a) * Math.max(0, Math.min(1, (t - start) / (end - start)));
     function state(index, t) {
@@ -51,17 +51,17 @@ try {
         if (t >= 1240) phase = 'ВОЗВРАТ В СТОЙКУ';
         if (t >= 1740) { worker = 'worker-0.webp'; phase = 'СТОЙКА'; }
       } else {
-        if (t >= 560 && t < 740) { worker = 'worker-1.webp'; phase = 'ЛОПАТА: ЗАМАХ'; }
-        if (t >= 640 && t < 800) {
-          x = lerp(620, 430, t, 640, 800); lift = 55 * Math.sin(Math.PI * (t - 640) / 160);
-          key = 'boxer-7.webp'; phase = 'ПРЫЖОК НАЗАД · 160 мс';
+        if (t >= 560 && t < 700) { worker = 'worker-1.webp'; phase = 'ЛОПАТА: ЗАМАХ'; }
+        if (t >= 640 && t < 740) {
+          x = lerp(620, 540, t, 640, 740);
+          key = `walk/walk-${[3, 2, 1, 0][Math.floor((t - 640) / 25)]}.webp`; phase = 'ПОДШАГ НАЗАД · 100 мс';
         }
-        if (t >= 740 && t < 820) worker = 'worker-2.webp';
-        if (t >= 800 && t < 960) {
-          x = lerp(430, 700, t, 800, 960); key = `walk/walk-${Math.min(3, Math.floor((t - 800) / 40))}.webp`;
+        if (t >= 700 && t < 780) worker = 'worker-2.webp';
+        if (t >= 740 && t < 960) {
+          x = lerp(540, 700, t, 740, 960); key = `walk/walk-${Math.min(3, Math.floor((t - 740) / 55))}.webp`;
           phase = 'СРАЗУ В ОТВЕТ';
         }
-        if (t >= 820 && t < 960) worker = 'worker-1.webp';
+        if (t >= 780 && t < 960) worker = 'worker-1.webp';
         if (t >= 960) x = lerp(700, 800, t, 1060, 1120);
         if (t >= 940 && t < 1060) { key = 'boxer-3.webp'; active = true; hand = 'right-straight'; phase = 'ПЕРВЫЙ · ПРЯМОЙ'; }
         if (t >= 960 && t < 1040) { contact = 1; impact = true; worker = t < 1000 ? 'worker-0.webp' : 'worker-6.webp'; }

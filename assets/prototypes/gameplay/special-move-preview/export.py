@@ -12,6 +12,9 @@ IDS = ['dash-straight', 'pullback-hook']
 def main():
     PUBLIC.mkdir(parents=True, exist_ok=True)
     timelines = json.loads((ROOT / 'timeline.json').read_text())
+    approved = json.loads((ROOT / 'approved-dash.json').read_text())
+    for name, digest in approved['gifs'].items():
+        assert hashlib.sha256((PUBLIC / name).read_bytes()).hexdigest() == digest
     originals = {}
     for item in json.loads((ROOT / 'source-manifest.json').read_text()):
         source = PROJECT / 'scene-lab/public/art/fight' / item['name']
@@ -36,6 +39,9 @@ def main():
         assert not any(frame['active'] or frame['contact'] for frame in timeline if frame['t'] >= 1300)
         assert all(not frame['contact'] or frame['active'] for frame in timeline)
         if name == 'dash-straight':
+            canonical = json.dumps(timeline, sort_keys=True, separators=(',', ':'), ensure_ascii=False)
+            assert hashlib.sha256(canonical.encode()).hexdigest() == approved['timelineSha256']
+            assert [hashlib.sha256(frame.tobytes()).hexdigest() for frame in frames] == approved['nativeRgbSha256']
             assert at[600]['key'] == at[620]['key'] == 'jab-hybrid/jab-0.webp'
             assert not at[620]['active'] and at[640]['active']
             assert all(frame['key'] == 'boxer-2.webp' and frame['hand'] == 'jab' for frame in timeline if 640 <= frame['t'] < 960)
@@ -57,14 +63,19 @@ def main():
                 assert abs(frame['wx'] - frame['x'] - (290 - follow)) < 1e-6
             assert all(b['x'] > a['x'] and b['wx'] > a['wx'] for a, b in zip(push, push[1:]))
         if name == 'pullback-hook':
-            assert at[800]['x'] < at[0]['x'] < at[960]['x']
-            assert at[800]['x'] == 430 and at[960]['x'] == 700 and at[1120]['x'] == 800
+            assert at[740]['x'] < at[0]['x'] < at[960]['x']
+            assert at[640]['x'] == 620 and at[740]['x'] == 540
+            assert at[960]['x'] == 700 and at[1120]['x'] == 800
             assert at[1040]['x'] == 700 < at[1080]['x'] < at[1120]['x']
-            assert at[760]['worker'] == 'worker-2.webp' and at[820]['worker'] == 'worker-1.webp'
-            assert at[720]['lift'] == 55 and at[800]['lift'] == 0
-            assert all(frame['key'] == 'boxer-7.webp' for frame in timeline if 640 <= frame['t'] < 800)
-            assert not any(frame['active'] for frame in timeline if frame['lift'] > 0)
-            assert at[800]['key'].startswith('walk/') and at[800]['lift'] == 0
+            assert at[760]['worker'] == 'worker-2.webp' and at[780]['worker'] == 'worker-1.webp'
+            assert all(frame['lift'] == 0 and frame['key'] != 'boxer-7.webp' for frame in timeline)
+            assert [at[t]['key'] for t in [640, 680, 700, 720]] == [f'walk/walk-{i}.webp' for i in [3, 2, 1, 0]]
+            assert at[620]['key'] == 'boxer-0.webp' and at[740]['key'] == 'walk/walk-0.webp'
+            back = [frame for frame in timeline if 640 <= frame['t'] <= 740]
+            forward = [frame for frame in timeline if 740 <= frame['t'] <= 960]
+            assert all(b['x'] < a['x'] for a, b in zip(back, back[1:]))
+            assert all(b['x'] > a['x'] for a, b in zip(forward, forward[1:]))
+            assert not any(frame['active'] or frame['contact'] for frame in timeline if frame['t'] < 940)
             assert not at[940]['contact'] and at[960]['contact'] == 1
             assert at[1020]['contact'] == 1 and at[1040]['contact'] == 0
             assert at[1100]['contact'] == 0 and at[1120]['contact'] == 2
@@ -80,11 +91,8 @@ def main():
         for col, index in enumerate(selected):
             thumb = originals[name][index].resize((200, 134), Image.Resampling.LANCZOS)
             sheet.paste(thumb, (col * 200, row * 134))
-    palette_source = Image.new('RGB', (800 * len(IDS), 534 * 4))
-    for col, name in enumerate(IDS):
-        for row, index in enumerate([0, 45, 56, 66]):
-            palette_source.paste(originals[name][index], (col * 800, row * 534))
-    palette = palette_source.quantize(colors=256)
+    with Image.open(PUBLIC / 'dash-straight.gif') as gif:
+        palette = gif.copy()
     report = []
     decoded_sheet = Image.new('RGB', (1600, 534 * len(IDS)))
     for row, name in enumerate(IDS):
@@ -92,8 +100,9 @@ def main():
         normal_signature = None
         for suffix, speed in [('', 1), ('-slow', 4)]:
             path = PUBLIC / f'{name}{suffix}.gif'
-            frames[0].save(path, save_all=True, append_images=frames[1:], duration=20 * speed,
-                           loop=0, optimize=False, disposal=1)
+            if name != 'dash-straight':
+                frames[0].save(path, save_all=True, append_images=frames[1:], duration=20 * speed,
+                               loop=0, optimize=False, disposal=1)
             with Image.open(path) as gif:
                 decoded = [frame.convert('RGB').copy() for frame in ImageSequence.Iterator(gif)]
                 durations = [frame.info['duration'] for frame in ImageSequence.Iterator(gif)]
@@ -122,7 +131,9 @@ def main():
     (ROOT / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
     assert set(timelines) == set(IDS)
     assert not list(PUBLIC.glob('duck-body*.gif'))
-    print('Verified four decoded GIFs: slide into opposite-hand second hit, straight-then-hook counter, contact boundaries, idle return and identical slow frames')
+    for name, digest in approved['gifs'].items():
+        assert hashlib.sha256((PUBLIC / name).read_bytes()).hexdigest() == digest
+    print('Verified approved dash bytes/timeline/130 native frames unchanged; grounded 80px/100ms backstep, two-hit order, contact boundaries and decoded slow frames')
 
 
 if __name__ == '__main__':
