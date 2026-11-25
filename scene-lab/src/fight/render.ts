@@ -83,7 +83,7 @@ export class FightRenderer {
     if (!worker) return boxerPose(f);
     if (f.hp === 0) return 11;
     if (f.reaction === 'guard') return worker ? 5 : f.crouch ? 5 : 4;
-    if (f.reaction === 'down') return 11;
+    if (f.reaction === 'down') return f.y > 0 ? 6 : 11;
     if (f.reaction || f.hurt > 0) return 6;
     if (f.action) {
       if (f.action.kind === 'spin') {
@@ -147,7 +147,7 @@ export class FightRenderer {
           : 10 * Math.max(0, 1 - (t - m.windup) / (m.active + m.recovery));
         tilt = offset * .002;
       } else if (f.reaction) {
-        tilt = f.reaction === 'heavy' ? -.13 : f.reaction === 'launch' ? -.22 : f.reaction === 'guard' ? -.035 : -.06;
+        tilt = f.reaction === 'heavy' ? -.13 : f.reaction === 'launch' || f.reaction === 'down' && f.y > 0 ? -.22 : f.reaction === 'guard' ? -.035 : -.06;
         offset = -Math.min(10, f.stun * 24);
       }
       const mirror = worker ? -1 : 1;

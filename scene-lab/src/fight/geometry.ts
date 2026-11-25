@@ -11,7 +11,7 @@ export function fighterGeometry(f: Fighter): Geometry {
   const cel = f.action ? celAt(f.action.kind, f.action.time).cel : null;
   const frame = jabFrame(f);
   const step = walkFrame(f);
-  const hurt = f.reaction === 'down' ? [{ left: -105, bottom: 0, right: 105, top: 85 }]
+  const hurt = f.reaction === 'down' && f.y === 0 ? [{ left: -105, bottom: 0, right: 105, top: 85 }]
     : frame !== null ? jabHurtByFrame[frame]
     : crossFrame(f) !== null ? crossHurt
     : step !== null ? walkHurtByFrame[step]
