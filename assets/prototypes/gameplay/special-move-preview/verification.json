@@ -1,0 +1,38 @@
+[
+  {
+    "file": "dash-straight.gif",
+    "durationMs": 2600,
+    "frames": 51,
+    "sha256": "5d0d723c75cdf3f1f4d3c95d2f8ab1250f617993965a29b1aa4d55b542294fc4"
+  },
+  {
+    "file": "dash-straight-slow.gif",
+    "durationMs": 10400,
+    "frames": 51,
+    "sha256": "9d7a2a7b24d6f9ff17f68ee75e36f8c50fca37b3b45ea6595dd894c89edb53d8"
+  },
+  {
+    "file": "pullback-hook.gif",
+    "durationMs": 2600,
+    "frames": 57,
+    "sha256": "a6c8a5c0d05ad7825c84bdf3c778c194589253dd61c5f236460e3e4dd855b2cd"
+  },
+  {
+    "file": "pullback-hook-slow.gif",
+    "durationMs": 10400,
+    "frames": 57,
+    "sha256": "1b940b48df50e435583cb394e1c03c0ccaaee71785c506210a85fe3bbea9c531"
+  },
+  {
+    "file": "duck-body.gif",
+    "durationMs": 2600,
+    "frames": 55,
+    "sha256": "ab342bf92ae8f9ec0f57a0e3247cae595c74053f8dbc4352633b368a3da0105e"
+  },
+  {
+    "file": "duck-body-slow.gif",
+    "durationMs": 10400,
+    "frames": 55,
+    "sha256": "650defceedcd773e8719775be883de1dbb7e3097af77f9f9ce7c358ca9ca1664"
+  }
+]
