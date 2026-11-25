@@ -83,7 +83,7 @@ export class FightRenderer {
     if (!worker) return boxerPose(f);
     if (f.hp === 0) return 11;
     if (f.reaction === 'guard') return worker ? 5 : f.crouch ? 5 : 4;
-    if (f.reaction === 'down') return f.y > 0 ? 6 : 11;
+    if (f.reaction === 'down') return 11;
     if (f.reaction || f.hurt > 0) return 6;
     if (f.action) {
       if (f.action.kind === 'spin') {
@@ -101,7 +101,8 @@ export class FightRenderer {
   }
   private defeated(f: Fighter, worker: boolean, ending: Fight['ending']): void {
     const c = this.ctx, key = worker ? 'worker' : 'boxer';
-    const progress = ending?.stage === 'fall' ? Math.min(1, ending.elapsed / endingTiming.fall) : 1;
+    const progress = ending?.stage === 'fall' ? Math.min(1, ending.elapsed / endingTiming.fall)
+      : f.hp > 0 && f.y > 0 ? Math.max(0, Math.min(1, (300 - f.vy) / 600)) : 1;
     const x = f.x + (Math.max(350, Math.min(1250, f.x)) - f.x) * progress;
     const blend = f.y === 0 ? 1 : this.reducedMotion ? 0 : Math.max(0, Math.min(1, (70 - f.y) / 70)) * Math.max(0, Math.min(1, -f.vy / 450));
     const tilt = this.reducedMotion ? 0 : Math.min(1, progress * 1.3) * 1.05 * (worker ? 1 : -1);
@@ -116,7 +117,7 @@ export class FightRenderer {
     }
   }
   private fighter(f: Fighter, worker: boolean, time: number, ending: Fight['ending'], changing = false): void {
-    if (f.hp === 0) { this.defeated(f, worker, ending); return; }
+    if (f.hp === 0 || f.reaction === 'down') { this.defeated(f, worker, ending); return; }
     const c = this.ctx, key = worker ? 'worker' : 'boxer', index = changing && !f.reaction ? 5 : this.pose(f, worker);
     const clip = worker ? null : jabFrame(f);
     const cross = worker ? null : crossFrame(f);
@@ -147,7 +148,7 @@ export class FightRenderer {
           : 10 * Math.max(0, 1 - (t - m.windup) / (m.active + m.recovery));
         tilt = offset * .002;
       } else if (f.reaction) {
-        tilt = f.reaction === 'heavy' ? -.13 : f.reaction === 'launch' || f.reaction === 'down' && f.y > 0 ? -.22 : f.reaction === 'guard' ? -.035 : -.06;
+        tilt = f.reaction === 'heavy' ? -.13 : f.reaction === 'launch' ? -.22 : f.reaction === 'guard' ? -.035 : -.06;
         offset = -Math.min(10, f.stun * 24);
       }
       const mirror = worker ? -1 : 1;

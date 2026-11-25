@@ -2,15 +2,20 @@ import { expect, test, type Page } from '@playwright/test';
 
 test.setTimeout(60_000);
 type Draw = { kind: string; file: string; hp: string; reaction: string; time: number; x: number; y: number };
-type Recorded = Window & { specialDraws?: Draw[] };
+type Recorded = Window & { specialDraws?: Draw[]; fallenDraws?: { left: number; right: number }[] };
 async function begin(page: Page, training = true) {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.clock.install({ time: new Date('2026-11-25T09:00:00Z') });
   await page.addInitScript(() => {
     (window as Recorded).specialDraws = [];
+    (window as Recorded).fallenDraws = [];
     CanvasRenderingContext2D.prototype.drawImage = new Proxy(CanvasRenderingContext2D.prototype.drawImage, {
       apply(draw, context: CanvasRenderingContext2D, args) {
         const arena = document.querySelector<HTMLCanvasElement>('#arena'), image = args[0];
+        if (context.canvas === arena && image instanceof HTMLImageElement && image.src.endsWith('/worker-11.webp') && arena.dataset.workerReaction === 'down' && Number(arena.dataset.workerY) === 0) {
+          const m = context.getTransform(), a = m.e + args[1] * m.a, b = m.e + (args[1] + image.width) * m.a;
+          (window as Recorded).fallenDraws!.push({ left: Math.min(a,b), right: Math.max(a,b) });
+        }
         if (context.canvas === arena && image instanceof HTMLImageElement && ['ram', 'counter'].includes(arena.dataset.playerAction ?? '')) {
           const file = image.src.split('/art/fight/')[1];
           if (file && /^(boxer-|walk\/|jab-hybrid\/|cross-hybrid\/)/.test(file)) {
@@ -36,7 +41,7 @@ async function reset(page: Page, walk = 0, mirror = false) {
     await expect(page.locator('#arena')).toHaveAttribute('data-player-facing', '-1');
   }
   await page.clock.runFor(350);
-  await page.evaluate(() => { (window as Recorded).specialDraws!.length = 0; });
+  await page.evaluate(() => { (window as Recorded).specialDraws!.length = 0; (window as Recorded).fallenDraws!.length = 0; });
 }
 async function perform(page: Page, kind: 'ram' | 'counter', touch = false, mirror = false) {
   const forward = mirror ? 'left' : 'right', back = mirror ? 'right' : 'left', dir = kind === 'ram' ? forward : back;
@@ -66,6 +71,10 @@ test('real MK direction sequences hit twice with the approved drawings, on keybo
     for (const file of kind === 'ram' ? ['jab-hybrid/jab-0.webp', 'boxer-2.webp', 'cross-hybrid/cross-0.webp', 'boxer-3.webp'] : ['walk/walk-3.webp', 'boxer-3.webp', 'cross-hybrid/cross-0.webp', 'boxer-12.webp']) expect(files.has(file), file).toBe(true);
     expect(frames.some(f => f.hp === (kind === 'ram' ? '110 / 120' : '111 / 120'))).toBe(true);
     expect(frames.some(f => f.reaction === 'down')).toBe(kind === 'ram');
+    if (kind === 'ram') {
+      const fallen = await page.evaluate(() => (window as Recorded).fallenDraws!);
+      expect(fallen.length).toBeGreaterThan(0); expect(fallen.every(f => f.left >= 0 && f.right <= 1600)).toBe(true);
+    }
     for (const f of frames) expect(f.y).toBe(820);
     await page.clock.runFor(600); await expect(page.locator('#worker-hp')).toHaveText(kind === 'ram' ? '92 / 120' : '95 / 120');
   }
@@ -79,6 +88,10 @@ test('facing-left commands are mirrored through real movement and jumping past t
     await expect(page.locator('#worker-hp')).toHaveText(kind === 'ram' ? '92 / 120' : '95 / 120');
     const frames = await page.evaluate(() => (window as Recorded).specialDraws!);
     expect(frames.length).toBeGreaterThan(10); expect(frames.every(f => f.y === 820)).toBe(true);
+    if (kind === 'ram') {
+      const fallen = await page.evaluate(() => (window as Recorded).fallenDraws!);
+      expect(fallen.length).toBeGreaterThan(0); expect(fallen.every(f => f.left >= 0 && f.right <= 1600)).toBe(true);
+    }
   }
 });
 

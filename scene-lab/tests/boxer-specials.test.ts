@@ -182,3 +182,24 @@ test('multi-stage editor changes remain atomic and reset restores every stage wi
   } finally { resetCels(); }
   assert.deepEqual(moves.counter.cels, before); resetCels(); assert.deepEqual(moves.counter.cels, before);
 });
+
+test('held player guard also survives the stun between two closely spaced weapon contacts', () => {
+  try {
+    editCel('spin', 1, { duration: .2 });
+    for (const facing of [1, -1] as const) {
+      const s = ready(200, facing); s.worker.action = { kind: 'spin', time: moves.spin.windup, connected: false };
+      advance(s, .6, { block: true }); assert.equal(s.blocked, 2); assert.equal(s.player.hp, 100);
+    }
+  } finally { resetCels(); }
+});
+
+test('both finishers can end a real round and enter the existing visible KO sequence', () => {
+  for (const kind of ['ram', 'counter'] as const) {
+    const s = ready(280); s.training.enabled = false; s.brain.timer = 999; s.aiWait = 999;
+    s.worker.hp = kind === 'ram' ? 28 : 25;
+    advance(s, dt, { attackPressed: kind });
+    for (let i = 0; i < 180 && s.phase === 'fighting'; i++) advance(s, dt);
+    assert.equal(s.hits, 2); assert.equal(s.worker.hp, 0); assert.equal(s.phase, 'ending');
+    assert.equal(s.ending?.reason, 'ko'); assert.equal(s.ending?.stage, 'fall');
+  }
+});
