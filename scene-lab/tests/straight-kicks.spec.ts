@@ -49,9 +49,9 @@ test('N/M play the exact chosen keys with planted support, quick return and no r
   expect(errors).toEqual([]);
 });
 
-test('real kicks damage once, freeze at contact and restore from training save; guard absorbs them', async ({ page }, info) => {
-  await begin(page); const arena = page.locator('#arena');
-  for (const [key, kind, hp] of [['n','leadKick',106],['m','rearKick',100]] as const) {
+for (const [key, kind, hp] of [['n','leadKick',106],['m','rearKick',100]] as const) {
+  test(`${kind} damages once, freezes and restores at contact; guard absorbs it`, async ({ page }, info) => {
+    await begin(page); const arena = page.locator('#arena');
     await page.keyboard.down('d'); await page.clock.runFor(1550); await page.keyboard.up('d');
     await page.locator('#hitboxes').check(); await arena.focus();
     const x = await arena.getAttribute('data-player-x');
@@ -77,10 +77,8 @@ test('real kicks damage once, freeze at contact and restore from training save; 
     await expect(page.locator('#worker-hp')).toHaveText('120 / 120');
     await expect(arena).toHaveAttribute('data-worker-reaction', 'guard');
     expect(Number(await arena.getAttribute('data-worker-guard'))).toBeLessThan(100);
-    await page.locator('#training-dummy').selectOption('idle'); await arena.focus();
-    await page.keyboard.press('r'); await page.clock.runFor(1800);
-  }
-});
+  });
+}
 
 test('touch kicks and editor keys work in training; both keyboard keys work in a regular fight', async ({ page }, info) => {
   await begin(page);
