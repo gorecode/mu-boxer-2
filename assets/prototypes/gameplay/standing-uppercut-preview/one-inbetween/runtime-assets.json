@@ -1,0 +1,23 @@
+{
+  "source_commit": "5ebeecbe7145bf75ccd4bc9f533a95dafd38542d",
+  "frames": [
+    {
+      "pose": 14,
+      "name": "intermediate",
+      "source_sha256": "db17bdebdea043bf0bafb5aae5588560e603dd5cfd5cee4cfad9638b8a65f64f",
+      "runtime_sha256": "f40f3812f55f74761b5ed4dfc1d96f0145616103fcac9b8a76c8b7480cf59977",
+      "rgba_matches_preview": true,
+      "visible_tip": 129.71,
+      "contact_padding": null
+    },
+    {
+      "pose": 15,
+      "name": "contact",
+      "source_sha256": "f70587c80fbcf944f8b7f113fd95e795cd69c121307b13c383f1954100727082",
+      "runtime_sha256": "3744ffd922a94bf128f34c489d972d2e8825ee78927f308738df5d5db388c4d2",
+      "rgba_matches_preview": true,
+      "visible_tip": 126.14,
+      "contact_padding": 23.86
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter';
+export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising';
 export interface Box { left: number; bottom: number; right: number; top: number }
 export type CelPhase = 'windup' | 'active' | 'settle' | 'recovery';
 export interface Cel { phase: CelPhase; duration: number; pose: number; hurt: Box[]; hit: Box[] }
@@ -27,6 +27,10 @@ export const moves: Record<Attack, Move> = {
   heavy: move([.25, .12, .09, .19], [0, 12, 0, 0], [397, 525], false, { range: 243, damage: 20, level: 'mid', push: 60, hitstun: .42, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
   low: move([.17, .1, .09, .15], [5, 8, 5, 5], [153, 223], true, { range: 403, damage: 10, level: 'low', push: 25, hitstun: .38, stop: [.04, .065], reaction: 'light', lift: 0 }),
   upper: move([.2, .12, .09, 0.31], [5, 9, 9, 0], [210, 548], true, { range: 288, damage: 23, level: 'overhead', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
+  rising: sequence([
+    cel('windup', .04, 0), cel('windup', .04, 14), cel('active', .14, 15, [box(55, 435, 150, 540)]),
+    cel('settle', .02, 14), cel('recovery', .30, 0),
+  ], { range: 215, damage: 23, level: 'high', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
   long: move([.23, .09, .1, .27], [0, 2, 0, 0], [435, 493], false, { range: 338, damage: 14, level: 'mid', push: 45, hitstun: .36, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
   overhand: move([.38, .12, .12, .34], [4, 3, 0, 0], [205, 490], false, { range: 310, damage: 22, level: 'overhead', push: 45, hitstun: .65, stop: [.075, .10], reaction: 'down', lift: 0 }),
   backfist: move([.2, .1, .1, .32], [0, 3, 0, 0], [397, 469], false, { range: 310, damage: 18, level: 'high', push: 85, hitstun: .4, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
@@ -55,6 +59,8 @@ export const boxerHurtByPose: Partial<Record<number, Box[]>> = {
   8: [box(-100, 0, 80, 110), box(-100, 100, 50, 275), box(20, 285, 100, 355), box(50, 160, 305, 210)],
   9: [box(-100, 0, 100, 150), box(-80, 170, 60, 345), box(-25, 345, 60, 480), box(40, 430, 190, 520)],
   12: [box(-245, 0, -120, 250), box(-50, 0, 145, 270), box(-160, 260, 50, 480), box(-100, 470, 10, 585), box(-100, 385, -20, 480), box(0, 435, 130, 525)],
+  14: [box(-185, 0, -40, 270), box(-20, 0, 140, 270), box(-88, 270, 28, 480), box(-50, 470, 55, 585), box(15, 430, 60, 480), box(-10, 380, 75, 445), box(60, 400, 125, 520)],
+  15: [box(-185, 0, -40, 270), box(-20, 0, 140, 270), box(-95, 270, 20, 480), box(-70, 470, 35, 585), box(0, 440, 55, 490), box(-10, 395, 75, 455), box(55, 415, 120, 540)],
   13: [box(-255, 0, -120, 250), box(-50, 0, 145, 270), box(-145, 260, 40, 480), box(-90, 470, 25, 585), box(-55, 355, 55, 475), box(0, 440, 145, 515)],
 };
 const workerHurtByPose: Partial<Record<number, Box[]>> = {
@@ -127,7 +133,7 @@ export function resetCels(): void {
 export function editCel(kind: Attack, index: number, patch: Partial<Pick<Cel, 'duration' | 'pose' | 'hit'>>): void {
   const cel = moves[kind]?.cels[index];
   if (!cel || (patch.duration !== undefined && (!Number.isFinite(patch.duration) || patch.duration < 1/120 || patch.duration > 2)) ||
-    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind) ? 11 : 13))) ||
+    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind) ? 11 : 15))) ||
     (patch.hit !== undefined && (cel.phase !== 'active' || patch.hit.length !== 1 || patch.hit.some(b =>
       ![b.left, b.right, b.bottom, b.top].every(Number.isFinite) || b.left < -600 || b.right > 600 || b.bottom < 0 || b.top > 800 || b.left >= b.right || b.bottom >= b.top)))) {
     throw new RangeError('Недопустимые параметры фазы.');
