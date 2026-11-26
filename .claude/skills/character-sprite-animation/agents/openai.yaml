@@ -1,0 +1,4 @@
+interface:
+  display_name: "Анимация персонажей"
+  short_description: "Спрайтовая анимация с сохранением стиля и анатомии"
+  default_prompt: "Используй $character-sprite-animation: создай анимацию по утверждённой графике, сохрани персонажа и сначала покажи GIF."
