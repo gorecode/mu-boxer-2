@@ -1,15 +1,15 @@
-import { commandState, observeDirections, heavyCommand, lightCommand, type CommandState } from './commands.ts';
+import { commandState, observeDirections, heavyCommand, lightCommand, kickCommand, type CommandState } from './commands.ts';
 import { fighterGeometry, overlaps } from './geometry.ts';
 import { canWalk, walkStride } from './boxer-animation.ts';
 
-import { moves, risingHop, strikeAt, strikeMove, type Attack, type Move } from './moves.ts';
+import { moves, celAt, heelSlideOffset, risingHop, strikeAt, strikeMove, type Attack, type Move } from './moves.ts';
 export { moves, type Attack, type Move } from './moves.ts';
 export type Outcome = 'win' | 'loss' | 'draw';
 export type Phase = 'menu' | 'countdown' | 'fighting' | 'ending' | 'paused' | Outcome;
 export const endingTiming = { fall: .7, ko: 1.1, fade: .55 } as const;
 export interface Ending { result: Outcome; reason: 'ko' | 'time'; stage: 'fall' | 'ko' | 'fade'; elapsed: number }
 export type Difficulty = 'warmup' | 'street';
-export interface Input { left: boolean; right: boolean; down: boolean; block: boolean; jump: boolean; light: boolean; heavy: boolean; up?: boolean; dodge?: boolean; long?: boolean; overhand?: boolean; backfist?: boolean; ram?: boolean; counter?: boolean; leadKick?: boolean; rearKick?: boolean; attackPresses?: ('light' | NonNullable<Input['attackPressed']>)[]; attackPressed?: 'cross' | 'jab' | 'heavy' | 'low' | 'upper' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising' | 'leadKick' | 'rearKick' }
+export interface Input { left: boolean; right: boolean; down: boolean; block: boolean; jump: boolean; light: boolean; heavy: boolean; up?: boolean; dodge?: boolean; long?: boolean; overhand?: boolean; backfist?: boolean; ram?: boolean; counter?: boolean; leadKick?: boolean; rearKick?: boolean; doublePiston?: boolean; heelSlide?: boolean; attackPresses?: ('light' | NonNullable<Input['attackPressed']>)[]; attackPressed?: 'cross' | 'jab' | 'heavy' | 'low' | 'upper' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising' | 'leadKick' | 'rearKick' | 'doublePiston' | 'heelSlide' }
 export const idleInput = (): Input => ({ left: false, right: false, down: false, block: false, jump: false, light: false, heavy: false });
 export interface Fighter {
   x: number; y: number; vy: number; velocity: number; facing: 1 | -1;
@@ -125,7 +125,8 @@ function readInput(s: Fight, input: Input, dt: number): void {
     kind = command === 'light' ? s.lightHand : command;
   }
   if (input.heavy && !s.held.heavy) kind = heavyCommand(s.commands, { ...input, down: crouch }, s.player.facing, s.time, s.player.y === 0);
-  for (const move of ['long', 'overhand', 'backfist', 'ram', 'counter', 'leadKick', 'rearKick'] as const) if (input[move] && !s.held[move]) kind = move;
+  if (input.leadKick && !s.held.leadKick) kind = kickCommand(s.commands, input, s.player.facing, s.time, s.player.y === 0);
+  for (const move of ['long', 'overhand', 'backfist', 'ram', 'counter', 'rearKick', 'doublePiston', 'heelSlide'] as const) if (input[move] && !s.held[move]) kind = move;
   if (input.attackPressed) kind = input.attackPressed;
   if (input.dodge && !s.held.dodge) kind = 'dodge';
   const presses = input.attackPresses?.slice(0, 3);
@@ -152,7 +153,7 @@ function control(s: Fight, input: Input, dt: number): void {
       if (p.y === 0 && !p.action) {
         p.vy = 950; p.y = .1; p.crouch = false; emit(s, 'jump', 'player'); s.buffered = null;
       }
-    } else if (p.y === 0 || !['long', 'overhand', 'backfist', 'ram', 'counter', 'rising', 'leadKick', 'rearKick'].includes(requested)) {
+    } else if (p.y === 0 || !['long', 'overhand', 'backfist', 'ram', 'counter', 'rising', 'leadKick', 'rearKick', 'doublePiston', 'heelSlide'].includes(requested)) {
       const a = p.action;
       const cancel = a?.result === 'hit' && (a.chain ?? 0) < 2 &&
         a.time <= moves[a.kind].windup + moves[a.kind].active + .12 && cancelTargets[a.kind]?.includes(requested);
@@ -175,7 +176,13 @@ function control(s: Fight, input: Input, dt: number): void {
       }
     }
   }
-  if (p.action?.kind === 'rising' || p.action?.kind === 'leadKick' || p.action?.kind === 'rearKick') p.crouch = false;
+  if (p.action?.kind === 'rising' || p.action?.kind === 'leadKick' || p.action?.kind === 'rearKick' || p.action?.kind === 'doublePiston') p.crouch = false;
+  if (p.action?.kind === 'heelSlide') {
+    const time = p.action.time;
+    p.crouch = celAt('heelSlide', time).cel.pose !== 0;
+    move(p, p.facing * (heelSlideOffset(time) - heelSlideOffset(Math.max(0, time - dt))) / dt, dt);
+    return;
+  }
   if (p.action?.kind === 'ram' || p.action?.kind === 'counter') {
     p.crouch = false;
     const a = p.action, cels = moves[a.kind].cels;
@@ -216,7 +223,7 @@ function ai(s: Fight, dt: number): void {
       const mistake = brain.decisions % (s.difficulty === 'warmup' ? 3 : 7) === 0;
       brain.intent = brain.observedAttack && !recovering && !mistake ? 'guard'
         : recovering && !mistake ? 'punish' : distance < 210 ? 'retreat' : distance > 320 ? 'wait' : 'attack';
-      brain.low = brain.observedAttack === 'low';
+      brain.low = !!brain.observedAttack && moves[brain.observedAttack].level === 'low';
       const action = p.action;
       brain.observedDistance = Math.abs(p.x - w.x);
       brain.observedAttack = action && action.time >= .06 ? action.kind : null;
@@ -243,7 +250,7 @@ function ai(s: Fight, dt: number): void {
   if (w.stun > 0 || w.reaction || w.y > 0) return;
   if (s.training.enabled && s.training.dummy !== 'cpu') {
     w.blocking = s.training.dummy === 'guard' || s.training.dummy === 'after-hit' && s.training.firstHit;
-    w.crouch = w.blocking && p.action?.kind === 'low';
+    w.crouch = w.blocking && !!p.action && moves[p.action.kind].level === 'low';
     return;
   }
   s.aiWait -= dt;
@@ -285,7 +292,7 @@ interface Contact {
 }
 function contact(s: Fight, from: Contact['from'], to: Contact['to']): Contact | null {
   const a = s[from], b = s[to], attack = a.action;
-  if (!attack || (attack.connected && !['spin', 'ram', 'counter'].includes(attack.kind)) || a.stop > 0 || b.hp <= 0 || b.invulnerable > 0 || b.reaction === 'down') return null;
+  if (!attack || (attack.connected && attack.kind !== 'spin' && !moves[attack.kind].strikes) || a.stop > 0 || b.hp <= 0 || b.invulnerable > 0 || b.reaction === 'down') return null;
   const strike = strikeAt(attack.kind, attack.time);
   if (strike < 0 || attack.contacts?.includes(strike)) return null;
   const geometry = fighterGeometry(a), target = fighterGeometry(b);
@@ -324,7 +331,7 @@ function applyContact(s: Fight, c: Contact): void {
   }
   const damage = Math.ceil(m.damage * (c.from === 'worker' && s.difficulty === 'warmup' ? .65 : 1) * (1 - c.chain * .15));
   b.hp = Math.max(s.training.enabled ? 1 : 0, b.hp - damage); b.stun = m.hitstun; b.dodge = 0;
-  b.hurt = .28; b.invulnerable = (c.kind === 'ram' || c.kind === 'counter') && c.strike === 0 ? .06 : .19; b.action = null; b.blocking = false; b.crouch = false;
+  b.hurt = .28; b.invulnerable = moves[c.kind].strikes && c.strike === 0 ? .06 : .19; b.action = null; b.blocking = false; b.crouch = false;
   b.reaction = m.reaction; b.knockback = c.direction * m.push * 12;
   if (m.lift) { b.vy = m.lift; b.y = Math.max(.1, b.y); }
   a.stop = Math.max(a.stop, m.stop[0]); b.stop = Math.max(b.stop, m.stop[1]);

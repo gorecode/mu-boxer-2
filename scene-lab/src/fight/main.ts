@@ -1,4 +1,4 @@
-import { commandState, observeDirections, heavyCommand, lightCommand } from './commands.ts';
+import { commandState, observeDirections, heavyCommand, lightCommand, kickCommand } from './commands.ts';
 import './style.css';
 import { mountTraining } from './training.ts';
 import { celAt } from './moves.ts';
@@ -59,7 +59,11 @@ function directions(): void { observeDirections(commands, heldInput(), fight.pla
 function queueAttack(action: Button): void {
   directions();
   if (action === 'dodge') pendingDodge = true;
-  if (action === 'long' || action === 'overhand' || action === 'backfist' || action === 'ram' || action === 'counter' || action === 'leadKick' || action === 'rearKick') { if (pendingAttacks.length < 3) pendingAttacks.push(action); return; }
+  if (action === 'leadKick') {
+    if (pendingAttacks.length < 3) pendingAttacks.push(kickCommand(commands, heldInput(), fight.player.facing, performance.now() / 1000, fight.player.y === 0));
+    return;
+  }
+  if (action === 'long' || action === 'overhand' || action === 'backfist' || action === 'ram' || action === 'counter' || action === 'rearKick' || action === 'doublePiston' || action === 'heelSlide') { if (pendingAttacks.length < 3) pendingAttacks.push(action); return; }
   if (action !== 'light' && action !== 'heavy') return;
   const held = heldInput();
   if (pendingAttacks.length >= 3) return;
@@ -122,7 +126,7 @@ function update(): void {
   }
   guardStatus.dataset.state = guardState;
   if (guardStatus.textContent !== guardText) guardStatus.textContent = guardText;
-  const names = { jab: 'ДЖЕБ', cross: 'ВТОРОЙ ЛЁГКИЙ', heavy: 'ТЯЖЁЛЫЙ', low: 'ПО НОГАМ', upper: 'АППЕРКОТ', rising: 'АППЕРКОТ СТОЯ', leadKick: 'ПРЯМОЙ ПЕРЕДНЕЙ НОГОЙ', rearKick: 'ПРЯМОЙ ЗАДНЕЙ НОГОЙ', long: 'ДЛИННЫЙ ПРЯМОЙ', overhand: 'СВЕРХУ', backfist: 'БЭКФИСТ', ram: 'ТАРАННЫЙ ПРЯМОЙ', counter: 'ПОДШАГ → ДВОЙКА', poke: 'ТЫЧОК', sweep: 'ПОДСЕЧКА', overhead: 'СВЕРХУ', thrust: 'ВЫПАД', spin: 'ВЕРТУШКА' };
+  const names = { jab: 'ДЖЕБ', cross: 'ВТОРОЙ ЛЁГКИЙ', heavy: 'ТЯЖЁЛЫЙ', low: 'ПО НОГАМ', upper: 'АППЕРКОТ', rising: 'АППЕРКОТ СТОЯ', leadKick: 'ПРЯМОЙ ПЕРЕДНЕЙ НОГОЙ', rearKick: 'ПРЯМОЙ ЗАДНЕЙ НОГОЙ', doublePiston: 'ДВОЙНОЙ ПОРШЕНЬ', heelSlide: 'ПОДКАТ ПЯТКОЙ', long: 'ДЛИННЫЙ ПРЯМОЙ', overhand: 'СВЕРХУ', backfist: 'БЭКФИСТ', ram: 'ТАРАННЫЙ ПРЯМОЙ', counter: 'ПОДШАГ → ДВОЙКА', poke: 'ТЫЧОК', sweep: 'ПОДСЕЧКА', overhead: 'СВЕРХУ', thrust: 'ВЫПАД', spin: 'ВЕРТУШКА' };
   const technique = fight.player.action?.kind === 'heavy' ? fight.player.action.hand === 'right' ? 'ПРАВЫЙ БОКОВОЙ' : 'ЛЕВЫЙ БОКОВОЙ'
     : fight.player.action ? names[fight.player.action.kind] : 'СТОЙКА';
   element('player-technique').textContent = `ПРИЁМ: ${technique}${fight.comboQueue.length ? ' → ' + fight.comboQueue.map(kind => names[kind]).join(' → ') : ''}`;

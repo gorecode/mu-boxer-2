@@ -1,0 +1,96 @@
+{
+  "scope": "preview only, not integrated",
+  "dt_ms": 40,
+  "length_ms": 2400,
+  "sources": {
+    "idle": {
+      "path": "assets/prototypes/gameplay/kick-previews/frames/idle.png",
+      "sha256": "dd3b0eabf864cad5cdce89f2df0f102f30a3a03701afe39dbe061363d55ef1fb"
+    },
+    "lead-up": {
+      "path": "assets/prototypes/gameplay/kick-previews/frames/a-front-chamber.png",
+      "sha256": "a887b5da14a3a13e3339b65ad2c8b46109dd4f6181d0e88439a29d27f1555618"
+    },
+    "lead-hit": {
+      "path": "assets/prototypes/gameplay/kick-previews/frames/a-front-contact.png",
+      "sha256": "99f3230895c85529adec86c4b3b4fc91e87754ff984c098ef723ca02e4ca9f87"
+    },
+    "rear-up": {
+      "path": "assets/prototypes/gameplay/kick-previews/rear/frames/a-rear-front-chamber.png",
+      "sha256": "f94ee1bc688ff3eb5c173797e12e29ec0b034fc6a7edefc2edc3d3fac21fdc24"
+    },
+    "rear-hit": {
+      "path": "assets/prototypes/gameplay/kick-previews/rear/frames/a-rear-front-contact.png",
+      "sha256": "e1fa4f7d8dc4bb824ac9e36d83a85248f8866c30d830bfc8b7910f0006e7722c"
+    },
+    "slide-raw": {
+      "path": "assets/prototypes/gameplay/kick-special-previews/source/heel-slide-generated.png",
+      "sha256": "2bb5cc55650c353d630fecc13467b397c0d2ad2ebdb2ce926b67996b1ba1c475"
+    },
+    "crouch": {
+      "path": "scene-lab/public/art/fight/boxer-5.webp",
+      "sha256": "fd4f51b1d006fca0243c2cc7ae912432b466c85d732a2471cd98da4d1a6ab89f"
+    },
+    "worker": {
+      "path": "scene-lab/public/art/fight/worker-0.webp",
+      "sha256": "b0db4eb58a12047833da6b58cc68325b88c4a805f729aea2f86b93733bedf05f"
+    },
+    "hurt": {
+      "path": "scene-lab/public/art/fight/worker-6.webp",
+      "sha256": "293f24f45131dbe5412376b0c54b2b5393572d0367b1fbe4347181802c4f989b"
+    },
+    "down": {
+      "path": "scene-lab/public/art/fight/worker-11.webp",
+      "sha256": "2c478c008d5b02e96308cb4b89cc1eeb818f5cee98e7805866b94d2e7613cdaa"
+    }
+  },
+  "slide_registration": {
+    "scale": 0.29,
+    "offset": [
+      100,
+      290
+    ],
+    "anchor": [
+      268,
+      556
+    ],
+    "opaque_bounds": [
+      117,
+      302,
+      530,
+      556
+    ]
+  },
+  "gifs": {
+    "double-piston.gif": {
+      "duration_ms": 2400,
+      "records": 21,
+      "sha256": "60c5228ee166fe13ef2b030c193293d3e1e9573d61bd5b6ac82f09fc425a4013"
+    },
+    "double-piston-slow.gif": {
+      "duration_ms": 9600,
+      "records": 21,
+      "sha256": "d4c4fb7218d30dc58555f5be1d71bcb1eb96847bc957c8be69088250736e56b2"
+    },
+    "heel-slide.gif": {
+      "duration_ms": 2400,
+      "records": 20,
+      "sha256": "9cb5e8baadd6622890c04bccc0584e51f20e3969c40939182c425d39b1a6414d"
+    },
+    "heel-slide-slow.gif": {
+      "duration_ms": 9600,
+      "records": 20,
+      "sha256": "b66c9cf3ebb15497523a484c3f315b15fb1b3d8be461d22ff5cbce2d8a3d1793"
+    },
+    "comparison.gif": {
+      "duration_ms": 2400,
+      "records": 21,
+      "sha256": "4939ae9bd9e92367f195a11ea4214ea34c9091ffc3a933ff727f6b1d4c54734b"
+    },
+    "comparison-slow.gif": {
+      "duration_ms": 9600,
+      "records": 21,
+      "sha256": "ee2a33d277abc44b4cc01ea88b2295600b11972fe4709533454537c008edbeaf"
+    }
+  }
+}

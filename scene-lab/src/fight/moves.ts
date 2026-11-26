@@ -1,4 +1,4 @@
-export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising' | 'leadKick' | 'rearKick';
+export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising' | 'leadKick' | 'rearKick' | 'doublePiston' | 'heelSlide';
 export interface Box { left: number; bottom: number; right: number; top: number }
 export type CelPhase = 'windup' | 'active' | 'settle' | 'recovery';
 export interface Cel { phase: CelPhase; duration: number; pose: number; hurt: Box[]; hit: Box[] }
@@ -29,6 +29,14 @@ export const moves: Record<Attack, Move> = {
   upper: move([.2, .12, .09, 0.31], [5, 9, 9, 0], [210, 548], true, { range: 288, damage: 23, level: 'overhead', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
   leadKick: move([.08, .12, .04, .20], [16, 17, 16, 0], [285, 420], false, { range: 283, damage: 14, level: 'mid', push: 45, hitstun: .34, stop: [.045, .07], reaction: 'heavy', lift: 0 }),
   rearKick: move([.08, .12, .04, .32], [18, 19, 18, 0], [280, 418], false, { range: 431, damage: 20, level: 'mid', push: 95, hitstun: .42, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
+  doublePiston: sequence([
+    cel('windup', .08, 16), cel('active', .12, 17, [box(55, 285, 218, 420)]),
+    cel('settle', .04, 16), cel('settle', .04, 0), cel('settle', .08, 18),
+    cel('active', .16, 19, [box(55, 280, 366, 418)]), cel('settle', .04, 18), cel('recovery', .28, 0),
+  ], { range: 431, damage: 10, level: 'mid', push: 120, hitstun: .42, stop: [.045, .07], reaction: 'heavy', lift: 0,
+    strikes: [{}, { damage: 18, push: 180, hitstun: .5, stop: [.065, .09] }] }),
+  heelSlide: move([.08, .48, .16, .30], [5, 20, 5, 0], [0, 104], true,
+    { range: 397, damage: 19, level: 'low', push: 110, hitstun: .85, stop: [.055, .085], reaction: 'down', lift: 300 }),
   rising: sequence([
     cel('windup', .04, 0), cel('windup', .04, 14), cel('active', .14, 15, [box(55, 400, 175, 540)]),
     cel('settle', .02, 14), cel('recovery', .30, 0),
@@ -62,6 +70,11 @@ export function risingHop(time: number): number {
   const u = (time - start) / (end - start);
   return 48 * 4 * u * (1 - u);
 }
+export function heelSlideOffset(time: number): number {
+  const cels = moves.heelSlide.cels, start = cels[0].duration, end = start + cels[1].duration;
+  const ease = (from: number, to: number) => 1 - (1 - Math.max(0, Math.min(1, (time - from) / (to - from)))) ** 2;
+  return 160 * ease(start, start + cels[1].duration * 5 / 12) + 60 * ease(start + cels[1].duration / 2, end);
+}
 export const boxerHurtByPose: Partial<Record<number, Box[]>> = {
   2: [box(-175, 0, -55, 220), box(45, 0, 170, 220), box(-80, 180, 55, 455), box(-10, 480, 60, 565), box(35, 430, 240, 480)],
   3: [box(-65, 0, 90, 180), box(-60, 180, 90, 450), box(15, 465, 95, 550), box(45, 410, 215, 450)],
@@ -74,6 +87,7 @@ export const boxerHurtByPose: Partial<Record<number, Box[]>> = {
   17: [box(-195, 5, -100, 270), box(-150, 270, -75, 360), box(-245, 345, -95, 505), box(-215, 505, -120, 610), box(-175, 365, -65, 510), box(-115, 320, 70, 395), box(60, 300, 190, 405)],
   18: [box(30, 15, 130, 225), box(5, 225, 100, 330), box(-45, 350, 65, 510), box(10, 510, 100, 610), box(30, 365, 150, 510), box(35, 300, 185, 400), box(100, 190, 165, 315)],
   19: [box(30, 15, 130, 225), box(5, 225, 100, 330), box(-50, 350, 65, 510), box(0, 510, 95, 610), box(30, 365, 145, 510), box(40, 300, 220, 370), box(205, 290, 335, 400)],
+  20: [box(-190, 0, -95, 130), box(-115, 55, 60, 200), box(-85, 200, 25, 300), box(0, 100, 65, 210), box(-95, 0, 105, 85), box(80, 5, 300, 95)],
   13: [box(-255, 0, -120, 250), box(-50, 0, 145, 270), box(-145, 260, 40, 480), box(-90, 470, 25, 585), box(-55, 355, 55, 475), box(0, 440, 145, 515)],
 };
 const workerHurtByPose: Partial<Record<number, Box[]>> = {
@@ -118,7 +132,7 @@ export const walkHurtByFrame: Box[][] = [
   box(-65, 180 - drop, 65, 450 - drop), box(-45, 450 - drop, 50, 570 - drop),
 ]);
 export function strikeAt(kind: Attack, time: number): number {
-  if (kind === 'ram' || kind === 'counter') {
+  if (moves[kind].strikes) {
     const { cel, index } = celAt(kind, time);
     return cel.phase === 'active' ? moves[kind].cels.slice(0, index).filter(c => c.phase === 'active').length : -1;
   }
@@ -146,7 +160,7 @@ export function resetCels(): void {
 export function editCel(kind: Attack, index: number, patch: Partial<Pick<Cel, 'duration' | 'pose' | 'hit'>>): void {
   const cel = moves[kind]?.cels[index];
   if (!cel || (patch.duration !== undefined && (!Number.isFinite(patch.duration) || patch.duration < 1/120 || patch.duration > 2)) ||
-    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind) ? 11 : 19))) ||
+    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind) ? 11 : 20))) ||
     (patch.hit !== undefined && (cel.phase !== 'active' || patch.hit.length !== 1 || patch.hit.some(b =>
       ![b.left, b.right, b.bottom, b.top].every(Number.isFinite) || b.left < -600 || b.right > 600 || b.bottom < 0 || b.top > 800 || b.left >= b.right || b.bottom >= b.top)))) {
     throw new RangeError('Недопустимые параметры фазы.');

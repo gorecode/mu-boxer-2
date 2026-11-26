@@ -20,15 +20,15 @@ export async function loadAssets(): Promise<Assets> {
   if (!response.ok) throw new Error('Не загрузился список рисунков.');
   const manifest = await response.json() as Assets['manifest'];
   for (const name of ['boxer', 'worker', 'jab', 'walk', 'cross'] as const) {
-    if (!Array.isArray(manifest[name]) || manifest[name].length !== ({ boxer: 20, worker: 12, jab: 2, walk: 4, cross: 1 }[name]) || manifest[name].some(f =>
+    if (!Array.isArray(manifest[name]) || manifest[name].length !== ({ boxer: 21, worker: 12, jab: 2, walk: 4, cross: 1 }[name]) || manifest[name].some(f =>
       ![f.width, f.height, f.anchorX, f.anchorY, f.scale].every(Number.isFinite) || f.width <= 0 || f.height <= 0 || f.scale <= 0 || f.scale > 3)) {
       throw new Error('Повреждён список поз бойцов.');
     }
   }
-  const images = await Promise.all(['arena.webp', ...Array.from({ length: 20 }, (_, i) => `boxer-${i}.webp`),
+  const images = await Promise.all(['arena.webp', ...Array.from({ length: 21 }, (_, i) => `boxer-${i}.webp`),
     ...Array.from({ length: 12 }, (_, i) => `worker-${i}.webp`), ...Array.from({ length: 2 }, (_, i) => `jab-hybrid/jab-${i}.webp`),
     ...Array.from({ length: 4 }, (_, i) => `walk/walk-${i}.webp`), 'cross-hybrid/cross-0.webp'].map(path => loadImage(assetBase + path)));
-  return { arena: images[0], boxer: images.slice(1, 21), worker: images.slice(21, 33), jab: images.slice(33, 35), walk: images.slice(35, 39), cross: images.slice(39), manifest };
+  return { arena: images[0], boxer: images.slice(1, 22), worker: images.slice(22, 34), jab: images.slice(34, 36), walk: images.slice(36, 40), cross: images.slice(40), manifest };
 }
 export class FightRenderer {
   private ctx: CanvasRenderingContext2D;
@@ -158,15 +158,24 @@ export class FightRenderer {
     if (f.hurt > .2) c.filter = 'brightness(1.45) sepia(.22)';
     c.drawImage(image, -frame.anchorX, -frame.anchorY + breath, frame.width, frame.height);
     c.restore();
+    if (f.action?.kind === 'heelSlide' && index === 20 && !this.reducedMotion) {
+      c.save(); c.translate(f.x, 820); c.scale(f.facing, 1); c.fillStyle = '#b2967d'; c.globalAlpha = .32;
+      for (let i = 0; i < 7; i++) {
+        const drift = (f.action.time * 60 + i) % 7;
+        c.beginPath(); c.ellipse(-200 - i * 16, -4 - drift * 3, 10, 3, 0, 0, Math.PI * 2); c.fill();
+      }
+      c.restore();
+    }
     if (f.action && !this.reducedMotion) {
       const m = moves[f.action.kind], t = f.action.time;
       if (strikeAt(f.action.kind, t) >= 0) {
         c.save(); c.globalAlpha = .28 * (1 - (t - m.windup) / m.active);
         c.strokeStyle = '#ffd1aa'; c.lineWidth = worker ? 5 : 8;
-        const kick = f.action.kind === 'leadKick' || f.action.kind === 'rearKick';
-        const y = ground - f.y - (kick ? 350 : m.level === 'low' ? 115 : 405);
+        const kick = f.action.kind === 'leadKick' || f.action.kind === 'rearKick' || f.action.kind === 'doublePiston' || f.action.kind === 'heelSlide';
+        const hit = celAt(f.action.kind, t).cel.hit[0];
+        const y = ground - f.y - (kick ? (hit.bottom + hit.top) / 2 : m.level === 'low' ? 115 : 405);
         c.beginPath(); c.moveTo(f.x + f.facing * 90, y - 15);
-        if (kick) c.quadraticCurveTo(f.x + f.facing * m.range * .6, y, f.x + f.facing * (m.range - 65), y);
+        if (kick) c.quadraticCurveTo(f.x + f.facing * hit.right * .6, y, f.x + f.facing * hit.right, y);
         else if (f.action.kind === 'rising') c.quadraticCurveTo(f.x + f.facing * 115, ground - f.y - 430, f.x + f.facing * 126, ground - f.y - 520);
         else if (f.action.kind === 'overhand') c.quadraticCurveTo(f.x + f.facing * 200, y - 170, f.x + f.facing * m.range, y + 130);
         else c.quadraticCurveTo(f.x + f.facing * m.range * .8, y - (f.action.kind === 'backfist' ? 95 : 45), f.x + f.facing * m.range, y);
