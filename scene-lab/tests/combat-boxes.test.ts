@@ -73,7 +73,7 @@ test('changing an editor pose updates body boxes atomically; reset restores the 
   try {
     editCel('heavy', 1, { pose: 8 }); assert.ok(moves.heavy.cels[1].hurt.some(b => b.right === 305));
     const edited = structuredClone(moves.heavy.cels[1]);
-    assert.throws(() => editCel('heavy', 1, { pose: 20 }), RangeError); assert.deepEqual(moves.heavy.cels[1], edited);
+    assert.throws(() => editCel('heavy', 1, { pose: 21 }), RangeError); assert.deepEqual(moves.heavy.cels[1], edited);
   } finally { resetCels(); }
   assert.deepEqual(moves.heavy.cels[1], before);
   assert.equal(celAt('jab', .079).cel.phase, 'windup'); assert.equal(celAt('jab', .08).cel.phase, 'active');

@@ -1,0 +1,18 @@
+{
+  "pose": 20,
+  "source": "assets/prototypes/gameplay/kick-special-previews/frames/heel-slide.png",
+  "source_commit": "633cd547972788b450cb599f8dc56a72493d5c9f",
+  "source_sha256": "432a62d71d58e503d55ec20abece04df0a56e42efe0f52c00dc0959acc11cfe7",
+  "runtime_sha256": "da26c60adf3ce816a1a33b5fb48b60159bdabf35c2ee5eb7f6e2465be0e602a2",
+  "rgba_matches_preview": true,
+  "boot_roi": [
+    480,
+    465,
+    545,
+    558
+  ],
+  "visible_tip": 310.59,
+  "contact_padding": 21.410000000000025,
+  "visible_bottom": 3.57,
+  "visible_top": 99.96
+}

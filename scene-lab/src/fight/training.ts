@@ -29,7 +29,7 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
     phase.value = String(selected);
     const cel = moves[kind()].cels[index()];
     duration.value = String(Math.round(cel.duration * 1000)); pose.value = String(cel.pose);
-    pose.max = actor() === host.fight().worker ? '11' : '19';
+    pose.max = actor() === host.fight().worker ? '11' : '20';
     inputs.forEach((input, i) => { input.disabled = !cel.hit.length; input.value = String(cel.hit[0]?.[edges[i]] ?? 0); });
   }
   function refresh(): void {
