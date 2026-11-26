@@ -1,0 +1,197 @@
+{
+  "approved_lead_kick_sha256": {
+    "assets/prototypes/gameplay/kick-previews/frames/a-front-chamber.png": "a887b5da14a3a13e3339b65ad2c8b46109dd4f6181d0e88439a29d27f1555618",
+    "assets/prototypes/gameplay/kick-previews/frames/a-front-contact.png": "99f3230895c85529adec86c4b3b4fc91e87754ff984c098ef723ca02e4ca9f87",
+    "scene-lab/public/previews/kicks/a-front.gif": "20b9b308d75adf5c11f29c64a8d4ab9931de94f0fc7d4f0b745276f8afd38fa4",
+    "assets/prototypes/gameplay/kick-previews/frames/idle.png": "dd3b0eabf864cad5cdce89f2df0f102f30a3a03701afe39dbe061363d55ef1fb"
+  },
+  "striking_leg": "rear",
+  "support_leg": "lead",
+  "new_drawings_per_variant": 2,
+  "unique_drawings_per_variant": 3,
+  "durations_ms": [
+    560,
+    80,
+    120,
+    40,
+    800
+  ],
+  "schedule": [
+    "idle",
+    "chamber",
+    "contact",
+    "chamber",
+    "idle"
+  ],
+  "variants": {
+    "a-rear-front": {
+      "source_sha256": "2cef60e2a1febc00a5bef971220c66a24075674dc0eb79708e36b796ce1d8aab",
+      "striking_leg": "rear",
+      "support_leg": "lead",
+      "registration": {
+        "chamber": {
+          "scale": 0.5913978494623656,
+          "offset": [
+            98,
+            22
+          ],
+          "support_before": [
+            238,
+            530
+          ],
+          "support_after": [
+            336,
+            552
+          ],
+          "bounds": [
+            223,
+            41,
+            435,
+            552
+          ]
+        },
+        "contact": {
+          "scale": 0.5913978494623656,
+          "offset": [
+            163,
+            22
+          ],
+          "support_before": [
+            173,
+            530
+          ],
+          "support_after": [
+            336,
+            552
+          ],
+          "bounds": [
+            215,
+            41,
+            560,
+            552
+          ]
+        }
+      },
+      "frames_sha256": {
+        "chamber": "f94ee1bc688ff3eb5c173797e12e29ec0b034fc6a7edefc2edc3d3fac21fdc24",
+        "contact": "e1fa4f7d8dc4bb824ac9e36d83a85248f8866c30d830bfc8b7910f0006e7722c"
+      }
+    },
+    "b-rear-heel": {
+      "source_sha256": "3659834148714177b748e7e3b248db512f0d6a06b2198bc3415f2611218fcc4a",
+      "striking_leg": "rear",
+      "support_leg": "lead",
+      "registration": {
+        "chamber": {
+          "scale": 0.5913978494623656,
+          "offset": [
+            102,
+            29
+          ],
+          "support_before": [
+            234,
+            523
+          ],
+          "support_after": [
+            336,
+            552
+          ],
+          "bounds": [
+            205,
+            54,
+            433,
+            552
+          ]
+        },
+        "contact": {
+          "scale": 0.5913978494623656,
+          "offset": [
+            165,
+            29
+          ],
+          "support_before": [
+            171,
+            523
+          ],
+          "support_after": [
+            336,
+            552
+          ],
+          "bounds": [
+            204,
+            53,
+            570,
+            552
+          ]
+        }
+      },
+      "frames_sha256": {
+        "chamber": "7763e0dc69952c6727145481e8da3d0043c46ae1b3fd904a35e2d430709993e1",
+        "contact": "4170a5361e451da520b73b57fcbec27208eff3555f681cecd717395a040fb008"
+      }
+    },
+    "c-rear-round": {
+      "source_sha256": "cc402b6799d948e11dfe494ab2b814b1e97c03981f3d5b66a95fafe75fb54f1a",
+      "striking_leg": "rear",
+      "support_leg": "lead",
+      "registration": {
+        "chamber": {
+          "scale": 0.5907626208378088,
+          "offset": [
+            54,
+            25
+          ],
+          "support_before": [
+            282,
+            527
+          ],
+          "support_after": [
+            336,
+            552
+          ],
+          "bounds": [
+            190,
+            46,
+            394,
+            552
+          ]
+        },
+        "contact": {
+          "scale": 0.5907626208378088,
+          "offset": [
+            159,
+            25
+          ],
+          "support_before": [
+            177,
+            527
+          ],
+          "support_after": [
+            336,
+            552
+          ],
+          "bounds": [
+            212,
+            45,
+            598,
+            552
+          ]
+        }
+      },
+      "frames_sha256": {
+        "chamber": "b8397ecefe9b2b7ba32359eec135e212a555b499d68d79dc7cfc994a28ea271d",
+        "contact": "a737d583f96b35274c669ec98e27c107ce8a0fa12d3c9768a6e9877e51e3ad75"
+      }
+    }
+  },
+  "gif_sha256": {
+    "a-rear-front-slow.gif": "68bf5fa60ef3ed68d9e5d3613c61ea66b36810ec2d9d0c1105f8c002d9c9739c",
+    "a-rear-front.gif": "70c99dcc6f1d53fb579290ace99d7a968b69d9016e20fc93bed6f16054779a44",
+    "b-rear-heel-slow.gif": "f88bb8684f26e3467a0d28875f7201249b9c17cf1193aa9e22bf71132d59f4fa",
+    "b-rear-heel.gif": "989ac7ea0cc3daab31206fb8992ee9666497bae6c79392a980e733bb7354e70c",
+    "c-rear-round-slow.gif": "e56cb6c679200abde1103c962184e3f317049fdbace5ea0cddd4b69f5fa304ad",
+    "c-rear-round.gif": "527271a59b0921a054fdc4c02580770ec9358d6080ae3dce2549bcb6a4098f91",
+    "comparison-slow.gif": "80643ffeb74c764730f0d5706bf2d775680a9fc3074d4fe40dd4a4b5a6f311b0",
+    "comparison.gif": "90e790a476b1c0508ce895795f1f4ba7250188c14f206ce4a4f1a85c29a30d33"
+  }
+}
