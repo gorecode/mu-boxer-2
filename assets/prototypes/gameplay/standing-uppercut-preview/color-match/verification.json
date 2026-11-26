@@ -1,0 +1,12 @@
+{
+  "durations_ms": [
+    600,
+    140,
+    860
+  ],
+  "selected_motion": "body-turn/c-rising",
+  "source_sha256": "89f12ec6fe564032f7f3622843638e459ba952204c6380bfd8632402f8ef6274",
+  "contact_sha256": "f70587c80fbcf944f8b7f113fd95e795cd69c121307b13c383f1954100727082",
+  "palette_sha256": "15a04277d9e97251938bd119a59ccacf96ecd08ba41f877439f555c4e6b1f15e",
+  "gif_sha256": "d1c42ce48916b4bccf67ad5ea33ee9f82dbf69a89ce797f16ec167c2d1973d29"
+}
