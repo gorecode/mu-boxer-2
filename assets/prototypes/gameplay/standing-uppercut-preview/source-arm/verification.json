@@ -1,0 +1,25 @@
+{
+  "source_sha256": "4ecabf66657cf73ae3f86bf1eb70afb293cf5758dc23c0f671b96d2785dd614d",
+  "variants": {
+    "c1-compact": {
+      "gif_sha256": "e98813ad180c17d9b08b6fc8f9897ef0bea7115a813b71601f028d016b626795",
+      "elbow_angle": 99.57729240328261
+    },
+    "c2-balanced": {
+      "gif_sha256": "3b6d8fac2837b9d8816e049346734587ce4de1e46296b850cdae87b9c59018e5",
+      "elbow_angle": 106.93363794401311
+    },
+    "c3-high": {
+      "gif_sha256": "c5b84ec767bf97598f79dc823038fad263e33ba3c296a76fb5cd32c8b95e2fe9",
+      "elbow_angle": 106.56583715646795
+    }
+  },
+  "durations_ms": [
+    600,
+    40,
+    40,
+    120,
+    20,
+    700
+  ]
+}

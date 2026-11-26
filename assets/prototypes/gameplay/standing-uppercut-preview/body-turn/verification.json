@@ -1,0 +1,44 @@
+{
+  "durations_ms": [
+    600,
+    140,
+    860
+  ],
+  "canvas": [
+    500,
+    550
+  ],
+  "idle_sha256": "4ecabf66657cf73ae3f86bf1eb70afb293cf5758dc23c0f671b96d2785dd614d",
+  "variants": {
+    "a-shoulder": {
+      "offset": [
+        -5,
+        4
+      ],
+      "intent": "both feet planted",
+      "source_sha256": "ecbe636c31721b4584bebadb497f487bd6468d1ee9fa2b54791812b7166f2161",
+      "frame_sha256": "01144cf141b7dfd6667ca5b01faa4f3eeb5ceab8bdba3e036f050ba3f08c04bd",
+      "gif_sha256": "e3d5f9b88719b8646d422359f0f821c0a05ce63413e61fc08001c2dab1533fb0"
+    },
+    "b-transfer": {
+      "offset": [
+        -3,
+        9
+      ],
+      "intent": "weight transfer, small rear pivot",
+      "source_sha256": "5aceb4ab9bad27166699b98778e6345ddfa7862aa0c9a4773eb11dfcc407d013",
+      "frame_sha256": "769dc14b0ce1fe3cec6d4e3a3050df079e2ac3a7e5ceb088ba8835b46b953bae",
+      "gif_sha256": "1d462d53e5a166c0676bee9f417891e05771e954748521819047683f3d05c81f"
+    },
+    "c-rising": {
+      "offset": [
+        7,
+        10
+      ],
+      "intent": "rear heel raised, front foot planted",
+      "source_sha256": "64a902ab7572223c2d0148c506c36d44ee2c10ec0d7a677985f3a98da39080b8",
+      "frame_sha256": "89f12ec6fe564032f7f3622843638e459ba952204c6380bfd8632402f8ef6274",
+      "gif_sha256": "a32cffe6f4588b5e73065e16127d79f09ef68cd31be37668d10c2fbe98456670"
+    }
+  }
+}

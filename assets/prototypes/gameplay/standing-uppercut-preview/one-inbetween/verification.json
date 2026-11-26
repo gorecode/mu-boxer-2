@@ -1,0 +1,28 @@
+{
+  "durations_ms": [
+    560,
+    40,
+    140,
+    20,
+    840
+  ],
+  "schedule": [
+    "idle",
+    "intermediate",
+    "contact",
+    "intermediate",
+    "idle"
+  ],
+  "offset": [
+    7,
+    0
+  ],
+  "added_drawings": 1,
+  "source_sha256": "813d3c6e63f590d4330e02cc09638fb5ddcc30624fadd08f2bb47b467c407719",
+  "frames": {
+    "intermediate": "db17bdebdea043bf0bafb5aae5588560e603dd5cfd5cee4cfad9638b8a65f64f",
+    "idle": "7666207d9aabc4c30dbfbcaa87af32c9033343cd65c081b7798a80e6b3a41e7d",
+    "contact": "f70587c80fbcf944f8b7f113fd95e795cd69c121307b13c383f1954100727082"
+  },
+  "gif_sha256": "6c631d1090067d43ec6ffc2e0a432e226a14d6ae9362edf12589d9a9b1409fec"
+}

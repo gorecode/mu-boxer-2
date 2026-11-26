@@ -36,3 +36,9 @@ examples. This skill does not authorize publication or other external actions.
 
 For reference-preserving sprite animation from motion video, read and apply
 [video-reference-animation](.claude/skills/video-reference-animation/SKILL.md).
+
+For character sprite animation, pose revisions, in-betweens, walks, attacks, and GIF
+comparisons, read and apply
+[character-sprite-animation](.claude/skills/character-sprite-animation/SKILL.md).
+It records author-approved choices and rejected methods; for motion-video input,
+use it together with video-reference-animation.

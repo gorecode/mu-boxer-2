@@ -21,9 +21,11 @@ export function observeDirections(state: CommandState, input: Input, facing: num
   else if (modifier || state.heldModifier) { state.modifier = modifier ?? state.heldModifier; state.modifierUntil = now + .14; }
   state.heldModifier = input.block || forward ? null : modifier;
 }
-export function lightCommand(state: CommandState, input: Input, facing: number, now: number, grounded = true): 'light' | 'low' | 'ram' | 'counter' {
+export function lightCommand(state: CommandState, input: Input, facing: number, now: number, grounded = true): 'light' | 'low' | 'ram' | 'counter' | 'rising' {
   if (grounded && input.down) return 'low';
-  if (!grounded || input.block || input.up || input.left && input.right) return 'light';
+  if (!grounded || input.block) return 'light';
+  if (input.up || state.modifier === 'overhand' && now <= state.modifierUntil) return 'rising';
+  if (input.left && input.right) return 'light';
   const forward = facing === 1 ? input.right : input.left, back = facing === 1 ? input.left : input.right;
   const kind = !back && now - state.forwardDouble <= .25 && state.forwardDouble >= state.backDouble ? 'ram'
     : !forward && now - state.backDouble <= .25 && state.backDouble > state.forwardDouble ? 'counter' : null;

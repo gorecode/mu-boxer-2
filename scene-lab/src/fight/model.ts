@@ -9,7 +9,7 @@ export type Phase = 'menu' | 'countdown' | 'fighting' | 'ending' | 'paused' | Ou
 export const endingTiming = { fall: .7, ko: 1.1, fade: .55 } as const;
 export interface Ending { result: Outcome; reason: 'ko' | 'time'; stage: 'fall' | 'ko' | 'fade'; elapsed: number }
 export type Difficulty = 'warmup' | 'street';
-export interface Input { left: boolean; right: boolean; down: boolean; block: boolean; jump: boolean; light: boolean; heavy: boolean; up?: boolean; dodge?: boolean; long?: boolean; overhand?: boolean; backfist?: boolean; ram?: boolean; counter?: boolean; attackPresses?: ('light' | NonNullable<Input['attackPressed']>)[]; attackPressed?: 'cross' | 'jab' | 'heavy' | 'low' | 'upper' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' }
+export interface Input { left: boolean; right: boolean; down: boolean; block: boolean; jump: boolean; light: boolean; heavy: boolean; up?: boolean; dodge?: boolean; long?: boolean; overhand?: boolean; backfist?: boolean; ram?: boolean; counter?: boolean; attackPresses?: ('light' | NonNullable<Input['attackPressed']>)[]; attackPressed?: 'cross' | 'jab' | 'heavy' | 'low' | 'upper' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising' }
 export const idleInput = (): Input => ({ left: false, right: false, down: false, block: false, jump: false, light: false, heavy: false });
 export interface Fighter {
   x: number; y: number; vy: number; velocity: number; facing: 1 | -1;
@@ -146,13 +146,13 @@ function control(s: Fight, input: Input, dt: number): void {
       if (p.y === 0 && !p.action) {
         p.vy = 950; p.y = .1; p.crouch = false; emit(s, 'jump', 'player'); s.buffered = null;
       }
-    } else if (p.y === 0 || !['long', 'overhand', 'backfist', 'ram', 'counter'].includes(requested)) {
+    } else if (p.y === 0 || !['long', 'overhand', 'backfist', 'ram', 'counter', 'rising'].includes(requested)) {
       const a = p.action;
       const cancel = a?.result === 'hit' && (a.chain ?? 0) < 2 &&
         a.time <= moves[a.kind].windup + moves[a.kind].active + .12 && cancelTargets[a.kind]?.includes(requested);
       if (!a || cancel) {
         const chain = cancel && a ? (a.chain ?? 0) + 1 : 0;
-        const lunge = requested === 'upper' ? 0 : cancel && p.y === 0 && s.worker.y === 0 && (s.worker.x - p.x) * p.facing > 0
+        const lunge = requested === 'upper' || requested === 'rising' ? 0 : cancel && p.y === 0 && s.worker.y === 0 && (s.worker.x - p.x) * p.facing > 0
           ? clamp(Math.abs(s.worker.x - p.x) + Math.abs(s.worker.knockback) / 12 - moves[requested].range + 20, 24, 120)
           : requested === 'long' && p.y === 0 && (s.worker.x - p.x) * p.facing > 0
             ? clamp(Math.abs(s.worker.x - p.x) - 220, 0, 110)
@@ -169,6 +169,7 @@ function control(s: Fight, input: Input, dt: number): void {
       }
     }
   }
+  if (p.action?.kind === 'rising') p.crouch = false;
   if (p.action?.kind === 'ram' || p.action?.kind === 'counter') {
     p.crouch = false;
     const a = p.action, cels = moves[a.kind].cels;
