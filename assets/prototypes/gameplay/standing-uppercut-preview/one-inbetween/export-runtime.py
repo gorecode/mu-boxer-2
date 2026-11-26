@@ -24,7 +24,7 @@ for pose, name in [(14, 'intermediate'), (15, 'contact')]:
     tip = (max(x for x, y in fist) - 228) * 1.19
     records.append({'pose': pose, 'name': name, 'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
                     'runtime_sha256': hashlib.sha256(target.read_bytes()).hexdigest(), 'rgba_matches_preview': True,
-                    'visible_tip': tip, 'contact_padding': 150 - tip if pose == 15 else None})
+                    'visible_tip': tip, 'contact_padding': 175 - tip if pose == 15 else None})
 manifest_path.write_text(json.dumps(manifest, indent=2) + '\n')
 (root / 'runtime-assets.json').write_text(json.dumps({'source_commit': '5ebeecbe7145bf75ccd4bc9f533a95dafd38542d', 'frames': records}, indent=2) + '\n')
 print('Two runtime WebP sprites match the selected preview exactly:', records)

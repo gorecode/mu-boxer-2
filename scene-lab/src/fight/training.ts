@@ -1,5 +1,5 @@
 import { copyTraining, idleInput, moves, type Attack, type Fight } from './model.ts';
-import { celAt, editCel, resetCels, type Box } from './moves.ts';
+import { celAt, editCel, resetCels, risingHop, type Box } from './moves.ts';
 import { fighterGeometry } from './geometry.ts';
 
 interface Host { fight(): Fight; replace(s: Fight): void; reset(): void; clear(): void; draw(): void; step(): void }
@@ -55,6 +55,7 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
       Object.assign(f, { x: i ? 900 : 600, y: 0, vy: 0, facing: i ? -1 : 1, action: null, reaction: null, stun: 0, stop: 0, hurt: 0, invulnerable: 0, knockback: 0, velocity: 0, walk: null, dodge: 0, blocking: false, crouch: false });
     }
     actor().action = { kind: kind(), time: time + (kind() === 'spin' && index() === 1 ? m.active * .2 : Math.min(1/120, m.cels[index()].duration / 2)), connected: false };
+    if (kind() === 'rising') actor().y = risingHop(actor().action!.time);
     if (kind() === 'ram' && index() >= 2) Object.assign(actor().action!, { contacts: [0], connected: true, result: 'hit', opening: 'hit' });
     dummy.value = 'idle'; s.training.dummy = 'idle'; s.training.firstHit = false; s.training.gap = false;
     s.combo = 0; s.comboActive = false; s.hitstop = 0; s.events = [];
