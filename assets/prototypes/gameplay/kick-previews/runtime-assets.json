@@ -1,0 +1,64 @@
+{
+  "frames": [
+    {
+      "kind": "leadKick",
+      "pose": 16,
+      "key": "chamber",
+      "source_commit": "a95e18282615afbf730e2d03318ebf4e51790514",
+      "source": "assets/prototypes/gameplay/kick-previews/frames/a-front-chamber.png",
+      "source_sha256": "a887b5da14a3a13e3339b65ad2c8b46109dd4f6181d0e88439a29d27f1555618",
+      "runtime_sha256": "c2e6f46e3e26c4a7630d1f582f4bbae6b5fb18c539365a5ab3f5519b98ba16e6",
+      "rgba_matches_preview": true
+    },
+    {
+      "kind": "leadKick",
+      "pose": 17,
+      "key": "contact",
+      "source_commit": "a95e18282615afbf730e2d03318ebf4e51790514",
+      "source": "assets/prototypes/gameplay/kick-previews/frames/a-front-contact.png",
+      "source_sha256": "99f3230895c85529adec86c4b3b4fc91e87754ff984c098ef723ca02e4ca9f87",
+      "runtime_sha256": "b0e7780f16a88d20626d6d57d8c7ee1c74bc29f354634da0ad2b3c25b23f68ec",
+      "rgba_matches_preview": true,
+      "boot_roi": [
+        380,
+        190,
+        455,
+        335
+      ],
+      "visible_tip": 197.54,
+      "contact_padding": 20.460000000000008,
+      "visible_bottom": 298.69,
+      "visible_top": 411.74
+    },
+    {
+      "kind": "rearKick",
+      "pose": 18,
+      "key": "chamber",
+      "source_commit": "f33bf59ed563de1fdee8e5c80deaa45192be9276",
+      "source": "assets/prototypes/gameplay/kick-previews/rear/frames/a-rear-front-chamber.png",
+      "source_sha256": "f94ee1bc688ff3eb5c173797e12e29ec0b034fc6a7edefc2edc3d3fac21fdc24",
+      "runtime_sha256": "b83377d4f744260a3aaf1abbfd9f9eb943d3efd63b29d83a00f36ea211342e38",
+      "rgba_matches_preview": true
+    },
+    {
+      "kind": "rearKick",
+      "pose": 19,
+      "key": "contact",
+      "source_commit": "f33bf59ed563de1fdee8e5c80deaa45192be9276",
+      "source": "assets/prototypes/gameplay/kick-previews/rear/frames/a-rear-front-contact.png",
+      "source_sha256": "e1fa4f7d8dc4bb824ac9e36d83a85248f8866c30d830bfc8b7910f0006e7722c",
+      "runtime_sha256": "bd50e292b7f55ff1aa9f9dc9b578420c9b7ee16f7c83cb1e380ffb4718f8f959",
+      "rgba_matches_preview": true,
+      "boot_roi": [
+        500,
+        200,
+        580,
+        340
+      ],
+      "visible_tip": 346.28999999999996,
+      "contact_padding": 19.710000000000036,
+      "visible_bottom": 286.78999999999996,
+      "visible_top": 405.78999999999996
+    }
+  ]
+}

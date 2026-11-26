@@ -1,4 +1,4 @@
-export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising';
+export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising' | 'leadKick' | 'rearKick';
 export interface Box { left: number; bottom: number; right: number; top: number }
 export type CelPhase = 'windup' | 'active' | 'settle' | 'recovery';
 export interface Cel { phase: CelPhase; duration: number; pose: number; hurt: Box[]; hit: Box[] }
@@ -27,6 +27,8 @@ export const moves: Record<Attack, Move> = {
   heavy: move([.25, .12, .09, .19], [0, 12, 0, 0], [397, 525], false, { range: 243, damage: 20, level: 'mid', push: 60, hitstun: .42, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
   low: move([.17, .1, .09, .15], [5, 8, 5, 5], [153, 223], true, { range: 403, damage: 10, level: 'low', push: 25, hitstun: .38, stop: [.04, .065], reaction: 'light', lift: 0 }),
   upper: move([.2, .12, .09, 0.31], [5, 9, 9, 0], [210, 548], true, { range: 288, damage: 23, level: 'overhead', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
+  leadKick: move([.08, .12, .04, .20], [16, 17, 16, 0], [285, 420], false, { range: 283, damage: 14, level: 'mid', push: 45, hitstun: .34, stop: [.045, .07], reaction: 'heavy', lift: 0 }),
+  rearKick: move([.08, .12, .04, .32], [18, 19, 18, 0], [280, 418], false, { range: 431, damage: 20, level: 'mid', push: 95, hitstun: .42, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
   rising: sequence([
     cel('windup', .04, 0), cel('windup', .04, 14), cel('active', .14, 15, [box(55, 400, 175, 540)]),
     cel('settle', .02, 14), cel('recovery', .30, 0),
@@ -68,6 +70,10 @@ export const boxerHurtByPose: Partial<Record<number, Box[]>> = {
   12: [box(-245, 0, -120, 250), box(-50, 0, 145, 270), box(-160, 260, 50, 480), box(-100, 470, 10, 585), box(-100, 385, -20, 480), box(0, 435, 130, 525)],
   14: [box(-185, 0, -40, 270), box(-20, 0, 140, 270), box(-88, 270, 28, 480), box(-50, 470, 55, 585), box(15, 430, 60, 480), box(-10, 380, 75, 445), box(60, 400, 125, 520)],
   15: [box(-185, 0, -40, 270), box(-20, 0, 140, 270), box(-95, 270, 20, 480), box(-70, 470, 35, 585), box(0, 440, 55, 490), box(-10, 395, 75, 455), box(55, 415, 120, 540)],
+  16: [box(-195, 5, -90, 260), box(-160, 250, -75, 355), box(-190, 350, -65, 510), box(-120, 510, -30, 620), box(-110, 390, 20, 515), box(-95, 300, 60, 400), box(-30, 190, 55, 300)],
+  17: [box(-195, 5, -100, 270), box(-150, 270, -75, 360), box(-245, 345, -95, 505), box(-215, 505, -120, 610), box(-175, 365, -65, 510), box(-115, 320, 70, 395), box(60, 300, 190, 405)],
+  18: [box(30, 15, 130, 225), box(5, 225, 100, 330), box(-45, 350, 65, 510), box(10, 510, 100, 610), box(30, 365, 150, 510), box(35, 300, 185, 400), box(100, 190, 165, 315)],
+  19: [box(30, 15, 130, 225), box(5, 225, 100, 330), box(-50, 350, 65, 510), box(0, 510, 95, 610), box(30, 365, 145, 510), box(40, 300, 220, 370), box(205, 290, 335, 400)],
   13: [box(-255, 0, -120, 250), box(-50, 0, 145, 270), box(-145, 260, 40, 480), box(-90, 470, 25, 585), box(-55, 355, 55, 475), box(0, 440, 145, 515)],
 };
 const workerHurtByPose: Partial<Record<number, Box[]>> = {
@@ -140,7 +146,7 @@ export function resetCels(): void {
 export function editCel(kind: Attack, index: number, patch: Partial<Pick<Cel, 'duration' | 'pose' | 'hit'>>): void {
   const cel = moves[kind]?.cels[index];
   if (!cel || (patch.duration !== undefined && (!Number.isFinite(patch.duration) || patch.duration < 1/120 || patch.duration > 2)) ||
-    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind) ? 11 : 15))) ||
+    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind) ? 11 : 19))) ||
     (patch.hit !== undefined && (cel.phase !== 'active' || patch.hit.length !== 1 || patch.hit.some(b =>
       ![b.left, b.right, b.bottom, b.top].every(Number.isFinite) || b.left < -600 || b.right > 600 || b.bottom < 0 || b.top > 800 || b.left >= b.right || b.bottom >= b.top)))) {
     throw new RangeError('Недопустимые параметры фазы.');
