@@ -2,7 +2,7 @@ import { commandState, observeDirections, heavyCommand, lightCommand, type Comma
 import { fighterGeometry, overlaps } from './geometry.ts';
 import { canWalk, walkStride } from './boxer-animation.ts';
 
-import { moves, strikeAt, strikeMove, type Attack, type Move } from './moves.ts';
+import { moves, risingHop, strikeAt, strikeMove, type Attack, type Move } from './moves.ts';
 export { moves, type Attack, type Move } from './moves.ts';
 export type Outcome = 'win' | 'loss' | 'draw';
 export type Phase = 'menu' | 'countdown' | 'fighting' | 'ending' | 'paused' | Outcome;
@@ -58,7 +58,7 @@ function body(f: Fighter, dt: number, s: Fight, name: 'player' | 'worker'): bool
   f.guardDelay = Math.max(0, f.guardDelay - dt);
   if (f.guardDelay === 0 && !f.blocking && f.stun <= 0) f.guard = clamp(f.guard + dt * 27, 0, 100);
   f.dodge = Math.max(0, f.dodge - dt); f.dodgeCooldown = Math.max(0, f.dodgeCooldown - dt);
-  if (f.y > 0 || f.vy > 0) {
+  if (f.action?.kind !== 'rising' && (f.y > 0 || f.vy > 0)) {
     f.vy -= 1750 * dt; f.y = Math.max(0, f.y + f.vy * dt);
     if (f.y === 0) { f.vy = 0; emit(s, 'land', name); }
   }
@@ -69,6 +69,12 @@ function body(f: Fighter, dt: number, s: Fight, name: 'player' | 'worker'): bool
   if (f.stun <= 0 && f.y === 0) f.reaction = null;
   if (f.action) {
     f.action.time += dt;
+    if (f.action.kind === 'rising') {
+      const before = f.y;
+      f.y = risingHop(f.action.time); f.vy = 0;
+      if (before === 0 && f.y > 0) emit(s, 'jump', name);
+      if (before > 0 && f.y === 0) emit(s, 'land', name);
+    }
     const m = moves[f.action.kind];
     if (f.action.kind === 'ram' && !f.action.contacts?.includes(0) && f.action.time - dt >= m.cels[0].duration + m.cels[1].duration - 1e-9) {
       f.action.time = Math.max(f.action.time, m.windup + m.active + m.cels[5].duration);

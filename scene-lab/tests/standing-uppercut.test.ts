@@ -6,7 +6,7 @@ import { commandState, observeDirections, lightCommand, heavyCommand } from '../
 import { createFight, idleInput, stepFight, pauseFight, resumeFight, copyTraining, type Fight, type Input } from '../src/fight/model.ts';
 import { boxerPose } from '../src/fight/boxer-animation.ts';
 import { fighterGeometry } from '../src/fight/geometry.ts';
-import { moves, celAt, editCel, resetCels, boxerHurtByPose } from '../src/fight/moves.ts';
+import { moves, celAt, editCel, resetCels, boxerHurtByPose, risingHop } from '../src/fight/moves.ts';
 
 const dt = 1 / 120;
 const actionKind = (s: Fight) => s.player.action?.kind;
@@ -51,14 +51,14 @@ test('selected three drawings and per-key boxes follow exact phase boundaries wi
     f.facing = facing; f.x = 700; f.y = 30;
     f.action = { kind: 'rising', time: .08, connected: false };
     const g = fighterGeometry(f);
-    assert.deepEqual(g.hit, [{ left: 700 + (facing === 1 ? 55 : -150), right: 700 + (facing === 1 ? 150 : -55), bottom: 465, top: 570 }]);
+    assert.deepEqual(g.hit, [{ left: 700 + (facing === 1 ? 55 : -175), right: 700 + (facing === 1 ? 175 : -55), bottom: 430, top: 570 }]);
     assert.equal(g.hurt.length, 7);
   }
 });
 
 test('standing uppercut hits once at its edge, misses outside, can be blocked or ducked and launches airborne targets', () => {
   for (const facing of [1, -1] as const) for (const wall of [false, true]) {
-    for (const [distance, guard, duck, y, hp] of [[215,false,false,0,97],[215.1,false,false,0,120],[180,true,false,0,120],[180,false,true,0,120],[180,false,false,100,97],[180,false,false,600,120]] as const) {
+    for (const [distance, guard, duck, y, hp] of [[240,false,false,0,97],[240.1,false,false,0,120],[180,true,false,0,120],[180,false,true,0,120],[180,false,false,100,97],[180,false,false,600,120]] as const) {
       const s = ready(distance, facing, wall);
       s.worker.blocking = guard; s.worker.crouch = duck; s.worker.y = y;
       s.player.action = { kind: 'rising', time: .08 - dt, connected: false };
@@ -74,12 +74,15 @@ test('standing uppercut hits once at its edge, misses outside, can be blocked or
   }
 });
 
-test('actual up-light input stays planted, does not repeat on hold or consume punch alternation, even at walls', () => {
+test('actual up-light input hops vertically, does not repeat on hold or consume punch alternation, even at walls', () => {
   for (const facing of [1, -1] as const) for (const wall of [false, true]) {
     const s = ready(300, facing, wall), x = s.player.x; s.worker.stop = 0;
     stepFight(s, { ...idleInput(), up: true, light: true }, dt);
     assert.equal(s.player.action?.kind, 'rising'); assert.equal(s.player.action?.lunge, 0);
-    advance(s, .7, { up: true, light: true });
+    advance(s, .14, { up: true, light: true, left: facing === -1, right: facing === 1 });
+    assert.ok(s.player.y > 47.9 && s.player.y <= 48); assert.equal(s.player.x, x);
+    assert.equal(s.player.crouch, false); assert.equal(s.player.blocking, false);
+    advance(s, .56, { up: true, light: true });
     assert.equal(s.player.action, null); assert.equal(s.hits, 0); assert.equal(s.player.x, x); assert.equal(s.player.y, 0); assert.equal(s.player.vy, 0);
     assert.equal(s.lightHand, 'jab'); assert.equal(s.heavyHand, 'left');
     advance(s, .2); stepFight(s, { ...idleInput(), light: true }, dt); assert.equal(actionKind(s), 'jab');
@@ -88,6 +91,41 @@ test('actual up-light input stays planted, does not repeat on hold or consume pu
   stepFight(air, { ...idleInput(), attackPressed: 'rising' }, dt); advance(air, .15);
   assert.equal(air.player.action, null);
   const block = ready(500); advance(block, .2, { up: true, light: true, block: true }); assert.equal(block.player.action, null);
+});
+
+test('hop shares the action clock and boxes, lands on idle, and interruption resumes ordinary falling', () => {
+  assert.deepEqual([0, .04, .14, .24, .54].map(risingHop), [0, 0, 48, 0, 0]);
+  for (const time of [.08, .14, .219]) {
+    const s = ready(240);
+    s.player.action = { kind: 'rising', time: time - dt, connected: false };
+    stepFight(s, idleInput(), dt);
+    assert.equal(s.worker.hp, 97, `extended edge still hits during hop at ${time}`);
+    assert.ok(Math.abs(s.player.y - risingHop(time)) < 1e-8);
+    const height = s.player.y, clock = s.player.action!.time;
+    const g = fighterGeometry(s.player);
+    assert.equal(g.hit[0].bottom, 400 + height); assert.equal(g.hurt[0].bottom, height);
+    advance(s, .025); assert.equal(s.player.y, height); assert.equal(s.player.action?.time, clock);
+    pauseFight(s); advance(s, .2); assert.equal(s.player.y, height);
+    resumeFight(s); const saved = copyTraining(s); assert.equal(saved.player.y, height);
+    advance(saved, .6); assert.equal(saved.player.y, 0); assert.equal(saved.player.vy, 0);
+  }
+  const land = ready(500); stepFight(land, { ...idleInput(), up: true, light: true }, dt);
+  const events: string[] = [];
+  for (let i = 0; i < 30; i++) { stepFight(land, idleInput(), dt); events.push(...land.events.map(e => e.type)); }
+  assert.equal(land.player.y, 0); assert.equal(boxerPose(land.player), 0);
+  assert.equal(events.filter(e => e === 'jump').length, 1); assert.equal(events.filter(e => e === 'land').length, 1);
+  const interrupted = ready(180); interrupted.worker.stop = 0;
+  interrupted.player.action = { kind: 'rising', time: .06 - dt, connected: false };
+  interrupted.worker.action = { kind: 'sweep', time: moves.sweep.windup - dt, connected: false };
+  stepFight(interrupted, idleInput(), dt);
+  assert.equal(interrupted.player.action, null); assert.ok(interrupted.player.y > 0);
+  const height = interrupted.player.y; advance(interrupted, .025); assert.equal(interrupted.player.y, height);
+  advance(interrupted, .1);
+  assert.ok(interrupted.player.y < height); advance(interrupted, .3); assert.equal(interrupted.player.y, 0);
+  try {
+    editCel('rising', 2, { duration: .24 });
+    assert.equal(risingHop(.34), 0); assert.ok(Math.abs(risingHop(.19) - 48) < 1e-8);
+  } finally { resetCels(); }
 });
 
 test('pause, hitstop, snapshot, interruption and editor changes preserve the correct action state', () => {
@@ -119,5 +157,7 @@ test('runtime frame origins and hashes match the chosen preview; the contact box
   }
   assert.equal(audit.frames[0].source_sha256, 'db17bdebdea043bf0bafb5aae5588560e603dd5cfd5cee4cfad9638b8a65f64f');
   assert.equal(audit.frames[1].source_sha256, 'f70587c80fbcf944f8b7f113fd95e795cd69c121307b13c383f1954100727082');
-  assert.equal(audit.frames[1].contact_padding, 23.86);
+  assert.equal(audit.frames[1].contact_padding, 48.86);
+  assert.equal(moves.rising.range, 240);
+  assert.ok(Math.abs(moves.rising.cels[2].hit[0].right - audit.frames[1].visible_tip - audit.frames[1].contact_padding) < 1e-8);
 });

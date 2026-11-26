@@ -22,18 +22,19 @@ function command(s: Fight, kind: 'ram' | 'counter') {
   const toward = kind === 'ram' ? s.player.facing : -s.player.facing;
   const direction = toward === 1 ? 'right' : 'left';
   advance(s, .025, { [direction]: true }); advance(s, .025);
-  advance(s, .025, { [direction]: true }); advance(s, .025);
+  advance(s, .025, { [s.player.facing === 1 ? 'right' : 'left']: true }); advance(s, .025);
   advance(s, dt, { light: true });
   assert.equal(s.player.action?.kind, kind);
 }
 
-test('double-direction light commands mirror, accept a released direction, expire and consume only one command', () => {
+test('forward-forward and back-forward light commands mirror, accept release, expire and consume once', () => {
   for (const facing of [1, -1] as const) for (const kind of ['ram', 'counter'] as const) {
     const state = commandState(), direction = (kind === 'ram' ? facing : -facing) === 1 ? 'right' : 'left';
     const held = { ...idleInput(), [direction]: true };
     observeDirections(state, held, facing, 0); observeDirections(state, held, facing, .1);
     assert.equal(lightCommand(state, held, facing, .1), 'light');
-    observeDirections(state, idleInput(), facing, .12); observeDirections(state, held, facing, .28);
+    observeDirections(state, idleInput(), facing, .12);
+    observeDirections(state, { ...idleInput(), [facing === 1 ? 'right' : 'left']: true }, facing, .28);
     observeDirections(state, idleInput(), facing, .30);
     const saved = structuredClone(state);
     assert.equal(lightCommand(state, idleInput(), facing, .53), kind);
@@ -44,7 +45,32 @@ test('double-direction light commands mirror, accept a released direction, expir
     assert.equal(lightCommand(saved, { ...held, left: true, right: true }, facing, .3), 'light');
     observeDirections(saved, { ...idleInput(), block: true }, facing, .3);
     assert.equal(lightCommand(saved, idleInput(), facing, .31), 'light');
-    observeDirections(state, held, -facing, .55); assert.equal(state.backDouble, -Infinity); assert.equal(state.forwardDouble, -Infinity);
+    observeDirections(state, held, -facing, .55); assert.equal(state.backForward, -Infinity); assert.equal(state.forwardDouble, -Infinity);
+  }
+});
+
+test('counter requires back then forward: no old back-back binding, late sequence, stale repeat or conflicting input', () => {
+  for (const facing of [1, -1] as const) {
+    const back = { ...idleInput(), [facing === 1 ? 'left' : 'right']: true };
+    const forward = { ...idleInput(), [facing === 1 ? 'right' : 'left']: true };
+    const state = commandState();
+    observeDirections(state, back, facing, 0); observeDirections(state, idleInput(), facing, .05);
+    observeDirections(state, back, facing, .1); observeDirections(state, idleInput(), facing, .15);
+    assert.equal(lightCommand(state, idleInput(), facing, .15), 'light');
+    observeDirections(state, forward, facing, .2);
+    assert.equal(lightCommand(state, forward, facing, .2), 'counter');
+    assert.equal(lightCommand(state, forward, facing, .21), 'light');
+    observeDirections(state, idleInput(), facing, .25); observeDirections(state, forward, facing, .3);
+    assert.equal(lightCommand(state, forward, facing, .3), 'light');
+    const late = commandState(); observeDirections(late, back, facing, 0);
+    observeDirections(late, idleInput(), facing, .1); observeDirections(late, forward, facing, .280001);
+    assert.equal(lightCommand(late, forward, facing, .3), 'light');
+    for (const conflict of [{ block: true }, { down: true }, { up: true }, { left: true, right: true }]) {
+      const interrupted = commandState(); observeDirections(interrupted, back, facing, 0);
+      observeDirections(interrupted, { ...idleInput(), ...conflict }, facing, .05);
+      observeDirections(interrupted, forward, facing, .1);
+      assert.equal(lightCommand(interrupted, forward, facing, .1), 'light');
+    }
   }
 });
 

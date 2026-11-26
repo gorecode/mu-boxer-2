@@ -44,8 +44,8 @@ async function reset(page: Page, walk = 0, mirror = false) {
   await page.evaluate(() => { (window as Recorded).specialDraws!.length = 0; (window as Recorded).fallenDraws!.length = 0; });
 }
 async function perform(page: Page, kind: 'ram' | 'counter', touch = false, mirror = false) {
-  const forward = mirror ? 'left' : 'right', back = mirror ? 'right' : 'left', dir = kind === 'ram' ? forward : back;
-  for (let i = 0; i < 2; i++) {
+  const forward = mirror ? 'left' : 'right', back = mirror ? 'right' : 'left';
+  for (const dir of kind === 'ram' ? [forward, forward] : [back, forward]) {
     if (touch) await page.locator(`[data-input=${dir}]`).tap();
     else await page.keyboard.press(dir === 'right' ? 'd' : 'a');
     await page.clock.runFor(45);
@@ -115,13 +115,20 @@ test('holding, expired taps, pause and FF+K do not accidentally fire the new lig
   await page.clock.runFor(20); await expect(arena).toHaveAttribute('data-player-action', 'jab');
   await reset(page); await page.keyboard.press('d'); await page.clock.runFor(40); await page.keyboard.press('d'); await page.clock.runFor(300);
   await page.keyboard.press('j'); await page.clock.runFor(20); await expect(arena).toHaveAttribute('data-player-action', 'jab');
+  await reset(page); await page.keyboard.press('a'); await page.clock.runFor(40); await page.keyboard.press('a');
+  await page.keyboard.press('j'); await page.clock.runFor(20); await expect(arena).toHaveAttribute('data-player-action', 'jab');
+  await reset(page); await page.keyboard.press('a'); await page.clock.runFor(300); await page.keyboard.press('d');
+  await page.keyboard.press('j'); await page.clock.runFor(20); await expect(arena).toHaveAttribute('data-player-action', 'jab');
   await reset(page); await page.keyboard.press('a'); await page.keyboard.press('Escape'); await page.locator('#resume').click();
-  await page.keyboard.press('a'); await page.keyboard.press('j'); await page.clock.runFor(20); await expect(arena).toHaveAttribute('data-player-action', 'jab');
+  await page.keyboard.press('d'); await page.keyboard.press('j'); await page.clock.runFor(20); await expect(arena).toHaveAttribute('data-player-action', 'jab');
   await reset(page); await page.keyboard.press('d'); await page.keyboard.press('d'); await page.keyboard.press('k');
   await page.clock.runFor(20); await expect(arena).toHaveAttribute('data-player-action', 'long');
   await reset(page, 850); await page.keyboard.press('d'); await page.keyboard.press('d'); await page.keyboard.down('j');
   await page.clock.runFor(1600); await expect(arena).toHaveAttribute('data-player-action', '');
   await expect(page.locator('#worker-hp')).toHaveText('92 / 120'); await page.keyboard.up('j');
+  await reset(page); await page.keyboard.press('a'); await page.clock.runFor(45); await page.keyboard.down('d');
+  await page.keyboard.press('j'); await page.keyboard.up('d'); await page.clock.runFor(20);
+  await expect(arena).toHaveAttribute('data-player-action', 'counter');
 });
 
 test('guard holds both contacts; editor exposes both hitboxes, validates, resets and returns to a four-stage move', async ({ page }, info) => {

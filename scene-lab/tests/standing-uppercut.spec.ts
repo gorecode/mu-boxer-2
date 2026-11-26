@@ -28,7 +28,7 @@ async function punch(page: Page, up = 'ArrowUp') {
   await page.keyboard.down(up); await page.keyboard.press('j'); await page.keyboard.up(up);
 }
 
-test('W/ArrowUp plus J play the exact selected three drawings and keep the root planted', async ({ page }, info) => {
+test('W/ArrowUp plus J play the selected drawings with a vertical hop and no forward slide', async ({ page }, info) => {
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message)); await begin(page);
   for (const up of ['w', 'ArrowUp']) {
     await page.evaluate(() => { (window as Recorded).risingDraws!.length = 0; });
@@ -40,8 +40,13 @@ test('W/ArrowUp plus J play the exact selected three drawings and keep the root 
     const frames = await page.evaluate(() => (window as Recorded).risingDraws!);
     const sequence = frames.map(f => f.pose).filter((p, i, list) => i === 0 || p !== list[i - 1]);
     expect(sequence).toEqual([0, 14, 15, 14, 0]);
+    expect(Math.min(...frames.map(f => f.y))).toBeLessThan(773);
+    expect(frames.at(-1)!.y).toBe(820);
     for (const f of frames) {
-      expect(f.x).toBe(430); expect(f.y).toBe(820); expect(f.scale).toBeCloseTo(1.19, 6);
+      expect(f.x).toBe(430); expect(f.y).toBeGreaterThanOrEqual(772); expect(f.y).toBeLessThanOrEqual(820);
+      expect(f.scale).toBeCloseTo(1.19, 6);
+      if (f.pose === 0) expect(f.y).toBe(820);
+      if (f.time > .04 && f.time < .24) expect(f.y).toBeLessThan(820);
       if (f.pose === 14 || f.pose === 15) { expect(f.dx).toBe(-228); expect(f.dy).toBe(-525); }
       if (f.pose === 15) { expect(f.time).toBeGreaterThanOrEqual(.08 - 1e-8); expect(f.time).toBeLessThan(.22); }
     }
@@ -80,12 +85,14 @@ test('a real hit launches once; hitstop, pause and training save/load keep the c
   await page.locator('.arena-shell').screenshot({ path: info.outputPath('standing-uppercut-hitboxes.png') });
   await page.locator('#training-freeze').click(); await page.locator('#training-save').click();
   const time = await arena.getAttribute('data-player-action-time');
+  const height = await arena.getAttribute('data-player-y'); expect(Number(height)).toBeGreaterThan(0);
   const pixels = await arena.evaluate((c: HTMLCanvasElement) => c.toDataURL());
   await page.clock.runFor(250); expect(await arena.evaluate((c: HTMLCanvasElement) => c.toDataURL())).toBe(pixels);
   await page.locator('#training-freeze').click(); await page.clock.runFor(400);
   expect(Number(await arena.getAttribute('data-worker-y'))).toBeGreaterThan(0);
   await page.locator('#training-load').click(); await expect(arena).toHaveAttribute('data-player-action', 'rising');
   expect(await arena.getAttribute('data-player-action-time')).toBe(time);
+  expect(await arena.getAttribute('data-player-y')).toBe(height);
   await page.locator('#training-freeze').click(); await arena.focus(); await page.keyboard.press('Escape');
   await page.clock.runFor(200); expect(await arena.getAttribute('data-player-action-time')).toBe(time);
   await page.locator('#resume').click(); await page.clock.runFor(700);
@@ -93,7 +100,9 @@ test('a real hit launches once; hitstop, pause and training save/load keep the c
   await expect(page.locator('#edit-pose')).toHaveAttribute('max', '15');
   await page.locator('#edit-phase').selectOption('1'); await expect(page.locator('#edit-pose')).toHaveValue('14');
   await page.locator('#edit-phase').selectOption('2'); await expect(page.locator('#edit-pose')).toHaveValue('15');
-  await expect(page.locator('#edit-right')).toHaveValue('150');
+  await expect(page.locator('#edit-right')).toHaveValue('175');
+  await expect(page.locator('#edit-bottom')).toHaveValue('400');
+  expect(Number(await arena.getAttribute('data-player-y'))).toBeGreaterThan(30);
   await page.locator('#edit-attack').selectOption('poke'); await expect(page.locator('#edit-pose')).toHaveAttribute('max', '11');
 });
 

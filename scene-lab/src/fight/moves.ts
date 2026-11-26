@@ -28,9 +28,9 @@ export const moves: Record<Attack, Move> = {
   low: move([.17, .1, .09, .15], [5, 8, 5, 5], [153, 223], true, { range: 403, damage: 10, level: 'low', push: 25, hitstun: .38, stop: [.04, .065], reaction: 'light', lift: 0 }),
   upper: move([.2, .12, .09, 0.31], [5, 9, 9, 0], [210, 548], true, { range: 288, damage: 23, level: 'overhead', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
   rising: sequence([
-    cel('windup', .04, 0), cel('windup', .04, 14), cel('active', .14, 15, [box(55, 435, 150, 540)]),
+    cel('windup', .04, 0), cel('windup', .04, 14), cel('active', .14, 15, [box(55, 400, 175, 540)]),
     cel('settle', .02, 14), cel('recovery', .30, 0),
-  ], { range: 215, damage: 23, level: 'high', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
+  ], { range: 240, damage: 23, level: 'high', push: 160, hitstun: .6, stop: [.07, .10], reaction: 'launch', lift: 620 }),
   long: move([.23, .09, .1, .27], [0, 2, 0, 0], [435, 493], false, { range: 338, damage: 14, level: 'mid', push: 45, hitstun: .36, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
   overhand: move([.38, .12, .12, .34], [4, 3, 0, 0], [205, 490], false, { range: 310, damage: 22, level: 'overhead', push: 45, hitstun: .65, stop: [.075, .10], reaction: 'down', lift: 0 }),
   backfist: move([.2, .1, .1, .32], [0, 3, 0, 0], [397, 469], false, { range: 310, damage: 18, level: 'high', push: 85, hitstun: .4, stop: [.065, .09], reaction: 'heavy', lift: 0 }),
@@ -53,6 +53,13 @@ export const moves: Record<Attack, Move> = {
   spin: move([.65, .9, .16, .65], [3, 4, 1, 7], [125, 400], false, { range: 320, damage: 16, level: 'mid', push: 35, hitstun: .25, stop: [.035, .055], reaction: 'light', lift: 0 }),
   overhead: move([.6, .12, .09, .41], [3, 8, 8, 7], [0, 490], false, { range: 421, damage: 22, level: 'overhead', push: 65, hitstun: .5, stop: [.075, .1], reaction: 'heavy', lift: 0 }),
 };
+export function risingHop(time: number): number {
+  const start = moves.rising.cels[0].duration;
+  const end = moves.rising.cels.slice(0, -1).reduce((sum, c) => sum + c.duration, 0);
+  if (time <= start || time >= end - 1e-9) return 0;
+  const u = (time - start) / (end - start);
+  return 48 * 4 * u * (1 - u);
+}
 export const boxerHurtByPose: Partial<Record<number, Box[]>> = {
   2: [box(-175, 0, -55, 220), box(45, 0, 170, 220), box(-80, 180, 55, 455), box(-10, 480, 60, 565), box(35, 430, 240, 480)],
   3: [box(-65, 0, 90, 180), box(-60, 180, 90, 450), box(15, 465, 95, 550), box(45, 410, 215, 450)],
