@@ -1,0 +1,12 @@
+[
+  {
+    "gif": "comparison",
+    "distinctBrowserFrames": 14,
+    "loaded": true
+  },
+  {
+    "gif": "comparison-slow",
+    "distinctBrowserFrames": 16,
+    "loaded": true
+  }
+]

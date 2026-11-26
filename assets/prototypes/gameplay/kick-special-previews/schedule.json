@@ -1,0 +1,1806 @@
+{
+  "double-piston": [
+    {
+      "time_ms": 0,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 40,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 80,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 120,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 160,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 200,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 240,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 280,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 320,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 360,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 400,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 440,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 480,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 520,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 560,
+      "hero": "lead-up",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 600,
+      "hero": "lead-up",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 640,
+      "hero": "lead-hit",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": 0,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Первый контакт · короткий стоп"
+    },
+    {
+      "time_ms": 680,
+      "hero": "lead-hit",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": 40,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Первый контакт · короткий стоп"
+    },
+    {
+      "time_ms": 720,
+      "hero": "lead-hit",
+      "x": 500,
+      "wx": 776.6666666666666,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": 80,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Первый контакт · короткий стоп"
+    },
+    {
+      "time_ms": 760,
+      "hero": "lead-up",
+      "x": 500,
+      "wx": 806.6666666666666,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 800,
+      "hero": "idle",
+      "x": 500,
+      "wx": 830.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 840,
+      "hero": "rear-up",
+      "x": 500,
+      "wx": 846.6666666666666,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 880,
+      "hero": "rear-up",
+      "x": 500,
+      "wx": 856.6666666666666,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 920,
+      "hero": "rear-hit",
+      "x": 500,
+      "wx": 860.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": 0,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Второй контакт · сильный толчок"
+    },
+    {
+      "time_ms": 960,
+      "hero": "rear-hit",
+      "x": 500,
+      "wx": 860.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": 40,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Второй контакт · сильный толчок"
+    },
+    {
+      "time_ms": 1000,
+      "hero": "rear-hit",
+      "x": 500,
+      "wx": 860.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": 80,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Второй контакт · сильный толчок"
+    },
+    {
+      "time_ms": 1040,
+      "hero": "rear-hit",
+      "x": 500,
+      "wx": 913.0612244897959,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": 120,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Второй контакт · сильный толчок"
+    },
+    {
+      "time_ms": 1080,
+      "hero": "rear-up",
+      "x": 500,
+      "wx": 957.9591836734694,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1120,
+      "hero": "idle",
+      "x": 500,
+      "wx": 994.6938775510205,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1160,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1023.2653061224489,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1200,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1043.6734693877552,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1240,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1055.9183673469388,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1280,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1320,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1360,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1400,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1440,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "hurt",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1480,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1520,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1560,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1600,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1640,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1680,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1720,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1760,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1800,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1840,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1880,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1920,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 1960,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 2000,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 2040,
+      "hero": "idle",
+      "x": 500,
+      "wx": 1060.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        840,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 2080,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 2120,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 2160,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 2200,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 2240,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 2280,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 2320,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    },
+    {
+      "time_ms": 2360,
+      "hero": "idle",
+      "x": 500,
+      "wx": 740.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        690,
+        485
+      ],
+      "label": "Передняя → задняя нога"
+    }
+  ],
+  "heel-slide": [
+    {
+      "time_ms": 0,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 40,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 80,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 120,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 160,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 200,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 240,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 280,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 320,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 360,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 400,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 440,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 480,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 520,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 560,
+      "hero": "crouch",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 600,
+      "hero": "crouch",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 640,
+      "hero": "slide",
+      "x": 380.0,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 680,
+      "hero": "slide",
+      "x": 437.59999999999997,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 720,
+      "hero": "slide",
+      "x": 482.4,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 760,
+      "hero": "slide",
+      "x": 514.4,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 800,
+      "hero": "slide",
+      "x": 533.6,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 840,
+      "hero": "slide",
+      "x": 540.0,
+      "wx": 1000.0,
+      "worker": "hurt",
+      "lift": 0.0,
+      "tilt": 0,
+      "spark": 0,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Пятка по голеням → подсечка"
+    },
+    {
+      "time_ms": 880,
+      "hero": "slide",
+      "x": 540.0,
+      "wx": 1000.0,
+      "worker": "hurt",
+      "lift": 0.0,
+      "tilt": 0,
+      "spark": 40,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Пятка по голеням → подсечка"
+    },
+    {
+      "time_ms": 920,
+      "hero": "slide",
+      "x": 558.3333333333333,
+      "wx": 1020.9,
+      "worker": "hurt",
+      "lift": 34.44150891285808,
+      "tilt": 10.625,
+      "spark": 80,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Пятка по голеням → подсечка"
+    },
+    {
+      "time_ms": 960,
+      "hero": "slide",
+      "x": 573.3333333333333,
+      "wx": 1039.6,
+      "worker": "hurt",
+      "lift": 63.63961030678927,
+      "tilt": 21.25,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Пятка по голеням → подсечка"
+    },
+    {
+      "time_ms": 1000,
+      "hero": "slide",
+      "x": 585.0,
+      "wx": 1056.1,
+      "worker": "hurt",
+      "lift": 83.1491579260158,
+      "tilt": 31.875,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Пятка по голеням → подсечка"
+    },
+    {
+      "time_ms": 1040,
+      "hero": "slide",
+      "x": 593.3333333333333,
+      "wx": 1070.4,
+      "worker": "hurt",
+      "lift": 90.0,
+      "tilt": 42.5,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Пятка по голеням → подсечка"
+    },
+    {
+      "time_ms": 1080,
+      "hero": "slide",
+      "x": 598.3333333333334,
+      "wx": 1082.5,
+      "worker": "hurt",
+      "lift": 83.1491579260158,
+      "tilt": 53.125,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Пятка по голеням → подсечка"
+    },
+    {
+      "time_ms": 1120,
+      "hero": "crouch",
+      "x": 600,
+      "wx": 1092.4,
+      "worker": "hurt",
+      "lift": 63.63961030678928,
+      "tilt": 63.75,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Пятка по голеням → подсечка"
+    },
+    {
+      "time_ms": 1160,
+      "hero": "crouch",
+      "x": 600,
+      "wx": 1100.1,
+      "worker": "hurt",
+      "lift": 34.44150891285809,
+      "tilt": 74.375,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Пятка по голеням → подсечка"
+    },
+    {
+      "time_ms": 1200,
+      "hero": "crouch",
+      "x": 600,
+      "wx": 1105.6,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1240,
+      "hero": "crouch",
+      "x": 600,
+      "wx": 1108.9,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1280,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1320,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1360,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1400,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1440,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1480,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1520,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1560,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1600,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1640,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1680,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1720,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1760,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1800,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1840,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1880,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1920,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 1960,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 2000,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 2040,
+      "hero": "idle",
+      "x": 600,
+      "wx": 1110.0,
+      "worker": "down",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 2080,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 2120,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 2160,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 2200,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 2240,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 2280,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 2320,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    },
+    {
+      "time_ms": 2360,
+      "hero": "idle",
+      "x": 380,
+      "wx": 1000.0,
+      "worker": "worker",
+      "lift": 0,
+      "tilt": 0,
+      "spark": -1,
+      "contact": [
+        850,
+        790
+      ],
+      "label": "Низкий вход · скольжение · возврат"
+    }
+  ]
+}
