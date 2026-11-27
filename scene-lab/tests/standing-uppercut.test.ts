@@ -140,7 +140,7 @@ test('pause, hitstop, snapshot, interruption and editor changes preserve the cor
   try {
     editCel('rising', 2, { pose: 14 }); assert.deepEqual(moves.rising.cels[2].hurt, boxerHurtByPose[14]);
     editCel('rising', 2, { pose: 15 });
-    assert.throws(() => editCel('rising', 2, { pose: 25 }), RangeError);
+    assert.throws(() => editCel('rising', 2, { pose: 26 }), RangeError);
     assert.throws(() => editCel('poke', 1, { pose: 14 }), RangeError);
   } finally { resetCels(); }
 });
@@ -148,7 +148,7 @@ test('pause, hitstop, snapshot, interruption and editor changes preserve the cor
 test('runtime frame origins and hashes match the chosen preview; the contact box extends beyond the fist', () => {
   const audit = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/standing-uppercut-preview/one-inbetween/runtime-assets.json', import.meta.url), 'utf8'));
   const manifest = JSON.parse(readFileSync(new URL('../public/art/fight/manifest.json', import.meta.url), 'utf8'));
-  assert.equal(manifest.boxer.length, 25); assert.equal(audit.frames.length, 2);
+  assert.equal(manifest.boxer.length, 26); assert.equal(audit.frames.length, 2);
   for (const frame of audit.frames) {
     const bytes = readFileSync(new URL(`../public/art/fight/boxer-${frame.pose}.webp`, import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex'), frame.runtime_sha256);

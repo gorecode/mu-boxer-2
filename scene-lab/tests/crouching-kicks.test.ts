@@ -110,7 +110,7 @@ test('block, air and stun expire buffered kicks; pause/load and hitstop preserve
 test('editor accepts new poses, rejects out-of-range poses, and restores selected cels', () => {
   try {
     editCel('crouchKick', 1, { pose: 24 }); assert.deepEqual(moves.crouchKick.cels[1].hurt, boxerHurtByPose[24]);
-    for (const pose of [-1, 25, .5, NaN]) assert.throws(() => editCel('crouchKick', 1, { pose }), RangeError);
+    for (const pose of [-1, 26, .5, NaN]) assert.throws(() => editCel('crouchKick', 1, { pose }), RangeError);
     assert.throws(() => editCel('sweep', 1, { pose: 24 }), RangeError);
   } finally { resetCels(); }
   assert.deepEqual(moves.crouchKick.cels.map(c => c.pose), [21, 22, 21, 5]);
@@ -120,7 +120,7 @@ test('editor accepts new poses, rejects out-of-range poses, and restores selecte
 test('four runtime files retain the approved PNG registration and recorded hashes', () => {
   const records = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/crouching-kick-previews/runtime-assets.json', import.meta.url), 'utf8'));
   const manifest = JSON.parse(readFileSync(new URL('../public/art/fight/manifest.json', import.meta.url), 'utf8'));
-  assert.equal(records.length, 4); assert.equal(manifest.boxer.length, 25);
+  assert.equal(records.length, 4); assert.equal(manifest.boxer.length, 26);
   for (const [i, record] of records.entries()) {
     const bytes = readFileSync(new URL(`../public/art/fight/boxer-${21 + i}.webp`, import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex'), record.runtime_sha256);

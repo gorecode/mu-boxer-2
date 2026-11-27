@@ -58,7 +58,7 @@ test('touch shortcuts deal low damage once, low guard blocks, and editor preview
     await page.clock.runFor(100); await expect(page.locator('#worker-hp')).toHaveText(hp);
     await page.clock.runFor(1200); await expect(page.locator('#worker-hp')).toHaveText(hp);
     await page.locator('#edit-attack').selectOption(kind); await page.locator('#edit-phase').selectOption('1');
-    await expect(page.locator('#edit-pose')).toHaveValue(pose); await expect(page.locator('#edit-pose')).toHaveAttribute('max', '24');
+    await expect(page.locator('#edit-pose')).toHaveValue(pose); await expect(page.locator('#edit-pose')).toHaveAttribute('max', '25');
     await page.locator('.arena-shell').screenshot({ path: info.outputPath(`${kind}-editor.png`) });
     await page.locator('#arena').focus(); await page.keyboard.press('r'); await page.clock.runFor(1800);
     await page.locator('#training-dummy').selectOption('guard'); await page.locator('#arena').focus();
