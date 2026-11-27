@@ -42,3 +42,11 @@ comparisons, read and apply
 [character-sprite-animation](.claude/skills/character-sprite-animation/SKILL.md).
 It records author-approved choices and rejected methods; for motion-video input,
 use it together with video-reference-animation.
+
+For swarm task specifications, use
+[factory-lead](.claude/skills/factory-lead/SKILL.md); this role only writes specs
+and task breakdowns, without PR audits or implementation. For an explicitly
+requested worker iteration or loop, use
+[agent-task](.claude/skills/agent-task/SKILL.md) or
+[agent-task-loop](.claude/skills/agent-task-loop/SKILL.md).
+Queue ownership, issue access and setup: [docs/AGENT_FACTORY.md](docs/AGENT_FACTORY.md).
