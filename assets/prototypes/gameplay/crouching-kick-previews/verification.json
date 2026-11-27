@@ -1,0 +1,139 @@
+{
+  "master_sha256": "fd4f51b1d006fca0243c2cc7ae912432b466c85d732a2471cd98da4d1a6ab89f",
+  "schedule_ms": [
+    560,
+    80,
+    120,
+    40,
+    800
+  ],
+  "variants": {
+    "a-straight": {
+      "source_sha256": "da1dc4d041cc89fdb126bed1ee3365bbd4efd27c90dbb636a7d87f90a47f8828",
+      "registration": [
+        {
+          "scale": 0.44,
+          "offset": [
+            77,
+            65
+          ],
+          "bounds": [
+            107,
+            136,
+            322,
+            485
+          ],
+          "sole_target": [
+            145,
+            485
+          ]
+        },
+        {
+          "scale": 0.44,
+          "offset": [
+            55,
+            66
+          ],
+          "bounds": [
+            102,
+            142,
+            440,
+            486
+          ],
+          "sole_target": [
+            145,
+            485
+          ]
+        }
+      ]
+    },
+    "b-side": {
+      "source_sha256": "39f6e2e98822dd14648165f54237d63f3164f69da93a31142bbe18f42c63c11c",
+      "registration": [
+        {
+          "scale": 0.42,
+          "offset": [
+            67,
+            77
+          ],
+          "bounds": [
+            105,
+            109,
+            290,
+            485
+          ],
+          "sole_target": [
+            145,
+            485
+          ]
+        },
+        {
+          "scale": 0.42,
+          "offset": [
+            86,
+            78
+          ],
+          "bounds": [
+            97,
+            121,
+            459,
+            485
+          ],
+          "sole_target": [
+            145,
+            485
+          ]
+        }
+      ]
+    },
+    "c-sweep": {
+      "source_sha256": "da1ae94d071d4ce31639727a890fc9324638a037c1d173596f477ee6ebaeb339",
+      "registration": [
+        {
+          "scale": 0.44,
+          "offset": [
+            122,
+            78
+          ],
+          "bounds": [
+            133,
+            192,
+            380,
+            489
+          ],
+          "sole_target": [
+            320,
+            485
+          ]
+        },
+        {
+          "scale": 0.44,
+          "offset": [
+            148,
+            77
+          ],
+          "bounds": [
+            162,
+            208,
+            544,
+            485
+          ],
+          "sole_target": [
+            320,
+            485
+          ]
+        }
+      ]
+    }
+  },
+  "outputs": {
+    "a-straight-slow.gif": "1fe1c3ce08c9c337696912c75e6241afa174d7b60c030cd056728a5c7e40e8c6",
+    "c-sweep.gif": "dc9b9635362b4b8e29537d8cd4b625512a81ed10baad9c45f17baf180730b5d5",
+    "c-sweep-slow.gif": "fec44a6b5e3b311b6f37dbc3e9b87830100ab0c315528bbb8677dd87a3757eea",
+    "b-side.gif": "07dad2bd01a7b30466d4d938900459e8579db4749bf393e5d6384215587bbf4a",
+    "comparison-slow.gif": "ee31335f6c4bf3fd3dc3e1e77fac8e829c11f8b1b08d3962d1664898790746cd",
+    "b-side-slow.gif": "db4dae4a34982b7cfa9b6645ebc41d14b7cb448168b95ae59523be4b5ab2613b",
+    "a-straight.gif": "f5093e6dc35699e646b6dcf2a525e18dcf6f14a1729ce6b2c01dd49a32df7f80",
+    "comparison.gif": "ab7a61a4e1fbd7c3de2660ff1d8097cd19022415764d4e2fe68a61abf0f1a1ba"
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "source": "assets/prototypes/gameplay/crouching-kick-previews/frames/a-straight-chamber.png",
+    "source_sha256": "62c948f9d1ef8f869b1a5fdf7ffd6050f7183f049739393001f6265f26459039",
+    "runtime": "scene-lab/public/art/fight/boxer-21.webp",
+    "runtime_sha256": "7e50a5751f545f478a97d0eb61a4a295f71cacb3d3d9ac7c4164ae9e086418f2"
+  },
+  {
+    "source": "assets/prototypes/gameplay/crouching-kick-previews/frames/a-straight-contact.png",
+    "source_sha256": "5d582413c8c4cebef3f7ce4df8ee99c6677abfaeb7ee0f4964180d9a9a876fd5",
+    "runtime": "scene-lab/public/art/fight/boxer-22.webp",
+    "runtime_sha256": "2e02bac3292ee6329e5bd50443e65d63f0514f2b083da029dfb569606292b91d"
+  },
+  {
+    "source": "assets/prototypes/gameplay/crouching-kick-previews/frames/c-sweep-chamber.png",
+    "source_sha256": "77f7d0ff148b44839033bef1da26660ce397b8116548692baa7f21e260e78bfd",
+    "runtime": "scene-lab/public/art/fight/boxer-23.webp",
+    "runtime_sha256": "364b700c84243557ab4d5f0b3780a2b2c7fce9234a4c6f85bfa7b275d8656df7"
+  },
+  {
+    "source": "assets/prototypes/gameplay/crouching-kick-previews/frames/c-sweep-contact.png",
+    "source_sha256": "dce15654c2d8940bf43f2e4dafe67b866d300f9a03e90ddc5b8fd93badb8a211",
+    "runtime": "scene-lab/public/art/fight/boxer-24.webp",
+    "runtime_sha256": "3079a260edc3c3ed4b6c5781c52a05a02bbbab75d86d2b632eb3f9441fc45c4a"
+  }
+]
