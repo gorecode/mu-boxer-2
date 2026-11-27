@@ -176,6 +176,13 @@
       "scale": 1.19
     },
     {
+      "width": 500,
+      "height": 550,
+      "anchorX": 228,
+      "anchorY": 525,
+      "scale": 1.19
+    },
+    {
       "width": 840,
       "height": 550,
       "anchorX": 380,

@@ -1,0 +1,82 @@
+{
+  "source_hashes": {
+    "scene-lab/public/art/fight/boxer-0.webp": "4ecabf66657cf73ae3f86bf1eb70afb293cf5758dc23c0f671b96d2785dd614d",
+    "scene-lab/public/art/fight/boxer-4.webp": "9b950c86aaddb699c79ff6c17da8c35c1220e83d554df940a367718c29523f4e",
+    "scene-lab/public/art/fight/boxer-5.webp": "fd4f51b1d006fca0243c2cc7ae912432b466c85d732a2471cd98da4d1a6ab89f",
+    "scene-lab/public/art/fight/arena.webp": "dc544e1f3dfea53ba5283c7c447ea3f592b3ca3124f94879f9cd3a2a411f1896"
+  },
+  "schedule": [
+    "idle",
+    "crouch",
+    "guard",
+    "crouch",
+    "idle"
+  ],
+  "durations_ms": [
+    520,
+    120,
+    960,
+    120,
+    520
+  ],
+  "anchor": [
+    228,
+    525
+  ],
+  "variants": {
+    "a-shell": {
+      "source_sha256": "1d2741654738ee04419e8277bc6a7c9a861493ad61ce0a1035e01d6364b94692",
+      "raw_size": [
+        1019,
+        1544
+      ],
+      "uniform_scale": 0.25,
+      "source_anchor": [
+        130,
+        380
+      ],
+      "opaque_bounds": [
+        99,
+        146,
+        352,
+        524
+      ]
+    },
+    "b-cross": {
+      "source_sha256": "33ca450aa0c3ded2b797f4668be6d41a9393e43dd448cd325a7504d91b757dc5",
+      "raw_size": [
+        1019,
+        1544
+      ],
+      "uniform_scale": 0.25,
+      "source_anchor": [
+        130,
+        387
+      ],
+      "opaque_bounds": [
+        98,
+        139,
+        353,
+        524
+      ]
+    },
+    "c-shoulder": {
+      "source_sha256": "0b45441faf654e8df215f6b7c8cc2ac1f27bb780096f2c8303f302d52bdde1fb",
+      "raw_size": [
+        1020,
+        1542
+      ],
+      "uniform_scale": 0.25,
+      "source_anchor": [
+        130,
+        386
+      ],
+      "opaque_bounds": [
+        100,
+        142,
+        351,
+        524
+      ]
+    }
+  }
+}

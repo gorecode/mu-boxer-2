@@ -8,9 +8,9 @@ project = root.parents[3]
 public = project / 'scene-lab/public/art/fight'
 manifest_path = public / 'manifest.json'
 manifest = json.loads(manifest_path.read_text())
-assert len(manifest['boxer']) in (25, 27)
+assert len(manifest['boxer']) in (26, 28)
 records = []
-for index, name in enumerate(['a0', 'a1'], 25):
+for index, name in enumerate(['a0', 'a1'], 26):
     source = root / f'frames/{name}.png'
     target = public / f'boxer-{index}.webp'
     image = Image.open(source).convert('RGBA')

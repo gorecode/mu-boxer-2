@@ -21,7 +21,7 @@ export function walkFrame(f: Fighter): number | null {
 
 export function boxerPose(f: Fighter): number {
   if (f.hp === 0 || f.reaction === 'down') return 11;
-  if (f.reaction === 'guard') return f.crouch ? 5 : 4;
+  if (f.reaction === 'guard') return f.crouch ? 25 : 4;
   if (f.reaction || f.hurt > 0) return 6;
   if (f.action) {
     const cel = celAt(f.action.kind, f.action.time).cel;
@@ -29,7 +29,7 @@ export function boxerPose(f: Fighter): number {
     return cel.phase === 'recovery' && cel.pose === 0 && f.crouch ? 5 : cel.pose;
   }
   if (f.dodge > 0) return 1;
-  if (f.blocking) return f.crouch ? 5 : 4;
+  if (f.blocking) return f.crouch ? 25 : 4;
   if (f.crouch) return 5;
   if (f.y > 0) return 7;
   return 0;

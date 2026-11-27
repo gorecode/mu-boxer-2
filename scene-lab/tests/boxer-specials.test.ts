@@ -204,7 +204,7 @@ test('multi-stage editor changes remain atomic and reset restores every stage wi
     assert.equal(celAt('counter', .5).cel.pose, 13);
     const edited = structuredClone(moves.counter.cels);
     assert.throws(() => editCel('counter', 10, { duration: .1 }), RangeError);
-    assert.throws(() => editCel('counter', 7, { pose: 27 }), RangeError); assert.deepEqual(moves.counter.cels, edited);
+    assert.throws(() => editCel('counter', 7, { pose: 28 }), RangeError); assert.deepEqual(moves.counter.cels, edited);
   } finally { resetCels(); }
   assert.deepEqual(moves.counter.cels, before); resetCels(); assert.deepEqual(moves.counter.cels, before);
 });

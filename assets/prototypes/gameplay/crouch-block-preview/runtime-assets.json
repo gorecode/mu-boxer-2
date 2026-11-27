@@ -1,0 +1,16 @@
+{
+  "pose": 25,
+  "source": "assets/prototypes/gameplay/crouch-block-preview/frames/a-shell.png",
+  "source_commit": "5d8268b",
+  "source_sha256": "6c58adc1a299b94046c0fecd9db5a5e402b9b5a0e92737a06d47a694e31c098c",
+  "runtime": "scene-lab/public/art/fight/boxer-25.webp",
+  "runtime_sha256": "195c74d2ca8c9ceef8a4edf22dc7401a93f6f5aa1ee125b98ad7bda8491e62a6",
+  "rgba_matches_preview": true,
+  "frame": {
+    "width": 500,
+    "height": 550,
+    "anchorX": 228,
+    "anchorY": 525,
+    "scale": 1.19
+  }
+}

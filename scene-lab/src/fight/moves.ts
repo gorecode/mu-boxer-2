@@ -32,7 +32,7 @@ export const moves: Record<Attack, Move> = {
   crouchKick: move([.08, .12, .04, .20], [21, 22, 21, 5], [60, 170], true,
     { range: 321, damage: 12, level: 'low', push: 35, hitstun: .34, stop: [.045, .07], reaction: 'light', lift: 0 }),
   crouchSweep: sequence([
-    cel('windup', .05, 23), cel('windup', .06, 25), cel('windup', .04, 26),
+    cel('windup', .05, 23), cel('windup', .06, 26), cel('windup', .04, 27),
     cel('active', .10, 24, [box(55, 5, 379, 95)]), cel('settle', .06, 23), cel('recovery', .31, 5),
   ], { range: 444, damage: 17, level: 'low', push: 65, hitstun: .65, stop: [.055, .085], reaction: 'down', lift: 0 }),
   doublePiston: sequence([
@@ -82,6 +82,7 @@ export function heelSlideOffset(time: number): number {
   return 160 * ease(start, start + cels[1].duration * 5 / 12) + 60 * ease(start + cels[1].duration / 2, end);
 }
 export const boxerHurtByPose: Partial<Record<number, Box[]>> = {
+  25: crouching,
   2: [box(-175, 0, -55, 220), box(45, 0, 170, 220), box(-80, 180, 55, 455), box(-10, 480, 60, 565), box(35, 430, 240, 480)],
   3: [box(-65, 0, 90, 180), box(-60, 180, 90, 450), box(15, 465, 95, 550), box(45, 410, 215, 450)],
   8: [box(-100, 0, 80, 110), box(-100, 100, 50, 275), box(20, 285, 100, 355), box(50, 160, 305, 210)],
@@ -97,8 +98,8 @@ export const boxerHurtByPose: Partial<Record<number, Box[]>> = {
   22: [box(-165, 0, -60, 150), box(-145, 145, 15, 300), box(-45, 290, 60, 415), box(-30, 65, 170, 160), box(170, 65, 240, 170)],
   23: [box(-65, 0, 155, 140), box(-60, 100, 135, 230), box(35, 225, 120, 335), box(-85, 0, -30, 155)],
   24: [box(-40, 0, 155, 130), box(-35, 100, 130, 230), box(35, 225, 130, 335), box(-85, 0, -30, 155), box(90, 15, 300, 105), box(300, 10, 365, 95)],
-  25: [box(-195, 0, -85, 100), box(-80, 0, 120, 140), box(-150, 130, 75, 270), box(-35, 265, 70, 360), box(-85, 0, -30, 155)],
-  26: [box(-430, 0, -330, 115), box(-340, 40, -100, 150), box(-130, 0, 45, 160), box(-230, 150, -30, 280), box(-165, 270, -65, 360), box(-45, 0, 45, 170)],
+  26: [box(-195, 0, -85, 100), box(-80, 0, 120, 140), box(-150, 130, 75, 270), box(-35, 265, 70, 360), box(-85, 0, -30, 155)],
+  27: [box(-430, 0, -330, 115), box(-340, 40, -100, 150), box(-130, 0, 45, 160), box(-230, 150, -30, 280), box(-165, 270, -65, 360), box(-45, 0, 45, 170)],
   20: [box(-190, 0, -95, 130), box(-115, 55, 60, 200), box(-85, 200, 25, 300), box(0, 100, 65, 210), box(-95, 0, 105, 85), box(80, 5, 300, 95)],
   13: [box(-255, 0, -120, 250), box(-50, 0, 145, 270), box(-145, 260, 40, 480), box(-90, 470, 25, 585), box(-55, 355, 55, 475), box(0, 440, 145, 515)],
 };
@@ -172,7 +173,7 @@ export function resetCels(): void {
 export function editCel(kind: Attack, index: number, patch: Partial<Pick<Cel, 'duration' | 'pose' | 'hit'>>): void {
   const cel = moves[kind]?.cels[index];
   if (!cel || (patch.duration !== undefined && (!Number.isFinite(patch.duration) || patch.duration < 1/120 || patch.duration > 2)) ||
-    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind) ? 11 : 26))) ||
+    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind) ? 11 : 27))) ||
     (patch.hit !== undefined && (cel.phase !== 'active' || patch.hit.length !== 1 || patch.hit.some(b =>
       ![b.left, b.right, b.bottom, b.top].every(Number.isFinite) || b.left < -600 || b.right > 600 || b.bottom < 0 || b.top > 800 || b.left >= b.right || b.bottom >= b.top)))) {
     throw new RangeError('Недопустимые параметры фазы.');

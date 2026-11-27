@@ -9,7 +9,7 @@ source = root / 'frames/heel-slide.png'
 target = project / 'scene-lab/public/art/fight/boxer-20.webp'
 manifest_path = target.with_name('manifest.json')
 manifest = json.loads(manifest_path.read_text())
-assert len(manifest['boxer']) in (20, 21)
+assert len(manifest['boxer']) in (20, 21, 25, 26, 28)
 original = Image.open(source).convert('RGBA')
 original.save(target, lossless=True, exact=True, method=6)
 decoded = Image.open(target).convert('RGBA')

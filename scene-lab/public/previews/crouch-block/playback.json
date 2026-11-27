@@ -1,0 +1,40 @@
+{
+  "method": "Real Chrome GIF playback, sequential screenshots; not continuous human video observation",
+  "samples": [
+    {
+      "requestedMs": 100,
+      "observedMs": 202,
+      "path": "/tmp/crouch-block-playback-100.png"
+    },
+    {
+      "requestedMs": 550,
+      "observedMs": 671,
+      "path": "/tmp/crouch-block-playback-550.png"
+    },
+    {
+      "requestedMs": 900,
+      "observedMs": 1023,
+      "path": "/tmp/crouch-block-playback-900.png"
+    },
+    {
+      "requestedMs": 1650,
+      "observedMs": 1741,
+      "path": "/tmp/crouch-block-playback-1650.png"
+    },
+    {
+      "requestedMs": 1950,
+      "observedMs": 2033,
+      "path": "/tmp/crouch-block-playback-1950.png"
+    },
+    {
+      "requestedMs": 2400,
+      "observedMs": 2480,
+      "path": "/tmp/crouch-block-playback-2400.png"
+    },
+    {
+      "requestedMs": 2900,
+      "observedMs": 3015,
+      "path": "/tmp/crouch-block-playback-2900.png"
+    }
+  ]
+}
