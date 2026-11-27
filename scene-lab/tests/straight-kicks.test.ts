@@ -42,11 +42,11 @@ test('both kicks play selected preparation/contact/quick return at exact phase b
   }
 });
 
-test('actual kick inputs stand from crouch, stay planted at walls, never autorepeat or consume punch hands', () => {
+test('standing kick inputs stay planted at walls, never autorepeat or consume punch hands', () => {
   for (const kind of kicks) for (const facing of [1, -1] as const) for (const wall of [false, true]) {
     const s = ready(600, facing, wall), x = s.player.x;
     s.player.crouch = true;
-    const input = { ...idleInput(), [kind]: true, down: true, left: facing === -1, right: facing === 1 };
+    const input = { ...idleInput(), [kind]: true, down: false, left: facing === -1, right: facing === 1 };
     stepFight(s, input, dt); assert.equal(kindOf(s), kind); assert.equal(s.player.crouch, false);
     advance(s, .3, input); assert.equal(s.player.x, x); assert.equal(s.player.y, 0);
     advance(s, .7, { [kind]: true }); assert.equal(s.player.action, null); assert.equal(s.player.x, x);
@@ -117,7 +117,7 @@ test('new editor poses update hurt zones atomically, reject invalid data and res
   try {
     editCel('leadKick', 1, { pose: 19 }); assert.deepEqual(moves.leadKick.cels[1].hurt, boxerHurtByPose[19]);
     const saved = structuredClone(moves.leadKick.cels[1]);
-    for (const pose of [-1, 21, .5, NaN]) assert.throws(() => editCel('leadKick', 1, { pose }), RangeError);
+    for (const pose of [-1, 25, .5, NaN]) assert.throws(() => editCel('leadKick', 1, { pose }), RangeError);
     assert.throws(() => editCel('poke', 1, { pose: 16 }), RangeError);
     assert.throws(() => editCel('rearKick', 2, { hit: [{ left: 55, bottom: 280, right: 366, top: 418 }] }), RangeError);
     assert.deepEqual(moves.leadKick.cels[1], saved);
@@ -129,7 +129,7 @@ test('new editor poses update hurt zones atomically, reject invalid data and res
 test('runtime hashes, registration and measured boot margins match the two author-approved previews', () => {
   const audit = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/kick-previews/runtime-assets.json', import.meta.url), 'utf8'));
   const manifest = JSON.parse(readFileSync(new URL('../public/art/fight/manifest.json', import.meta.url), 'utf8'));
-  assert.equal(audit.frames.length, 4); assert.equal(manifest.boxer.length, 21);
+  assert.equal(audit.frames.length, 4); assert.equal(manifest.boxer.length, 25);
   for (const f of audit.frames) {
     const bytes = readFileSync(new URL(`../public/art/fight/boxer-${f.pose}.webp`, import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex'), f.runtime_sha256);

@@ -98,7 +98,7 @@ test('pause, hitstop and training snapshots preserve current and next hands; edi
 test('runtime contacts and origins match the selected left and right B preview export', () => {
   const audit = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/heavy-hooks/runtime-assets.json', import.meta.url), 'utf8'));
   const manifest = JSON.parse(readFileSync(new URL('../public/art/fight/manifest.json', import.meta.url), 'utf8'));
-  assert.equal(audit.frames.length, 2); assert.equal(manifest.boxer.length, 21);
+  assert.equal(audit.frames.length, 2); assert.equal(manifest.boxer.length, 25);
   for (const frame of audit.frames) {
     const bytes = readFileSync(new URL(`../public/art/fight/boxer-${frame.pose}.webp`, import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex'), frame.runtime_sha256);

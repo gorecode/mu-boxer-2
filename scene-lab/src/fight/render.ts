@@ -20,15 +20,15 @@ export async function loadAssets(): Promise<Assets> {
   if (!response.ok) throw new Error('Не загрузился список рисунков.');
   const manifest = await response.json() as Assets['manifest'];
   for (const name of ['boxer', 'worker', 'jab', 'walk', 'cross'] as const) {
-    if (!Array.isArray(manifest[name]) || manifest[name].length !== ({ boxer: 21, worker: 12, jab: 2, walk: 4, cross: 1 }[name]) || manifest[name].some(f =>
+    if (!Array.isArray(manifest[name]) || manifest[name].length !== ({ boxer: 25, worker: 12, jab: 2, walk: 4, cross: 1 }[name]) || manifest[name].some(f =>
       ![f.width, f.height, f.anchorX, f.anchorY, f.scale].every(Number.isFinite) || f.width <= 0 || f.height <= 0 || f.scale <= 0 || f.scale > 3)) {
       throw new Error('Повреждён список поз бойцов.');
     }
   }
-  const images = await Promise.all(['arena.webp', ...Array.from({ length: 21 }, (_, i) => `boxer-${i}.webp`),
+  const images = await Promise.all(['arena.webp', ...Array.from({ length: 25 }, (_, i) => `boxer-${i}.webp`),
     ...Array.from({ length: 12 }, (_, i) => `worker-${i}.webp`), ...Array.from({ length: 2 }, (_, i) => `jab-hybrid/jab-${i}.webp`),
     ...Array.from({ length: 4 }, (_, i) => `walk/walk-${i}.webp`), 'cross-hybrid/cross-0.webp'].map(path => loadImage(assetBase + path)));
-  return { arena: images[0], boxer: images.slice(1, 22), worker: images.slice(22, 34), jab: images.slice(34, 36), walk: images.slice(36, 40), cross: images.slice(40), manifest };
+  return { arena: images[0], boxer: images.slice(1, 26), worker: images.slice(26, 38), jab: images.slice(38, 40), walk: images.slice(40, 44), cross: images.slice(44), manifest };
 }
 export class FightRenderer {
   private ctx: CanvasRenderingContext2D;
@@ -171,7 +171,7 @@ export class FightRenderer {
       if (strikeAt(f.action.kind, t) >= 0) {
         c.save(); c.globalAlpha = .28 * (1 - (t - m.windup) / m.active);
         c.strokeStyle = '#ffd1aa'; c.lineWidth = worker ? 5 : 8;
-        const kick = f.action.kind === 'leadKick' || f.action.kind === 'rearKick' || f.action.kind === 'doublePiston' || f.action.kind === 'heelSlide';
+        const kick = f.action.kind === 'leadKick' || f.action.kind === 'rearKick' || f.action.kind === 'doublePiston' || f.action.kind === 'heelSlide' || f.action.kind === 'crouchKick' || f.action.kind === 'crouchSweep';
         const hit = celAt(f.action.kind, t).cel.hit[0];
         const y = ground - f.y - (kick ? (hit.bottom + hit.top) / 2 : m.level === 'low' ? 115 : 405);
         c.beginPath(); c.moveTo(f.x + f.facing * 90, y - 15);

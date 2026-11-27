@@ -59,11 +59,11 @@ function directions(): void { observeDirections(commands, heldInput(), fight.pla
 function queueAttack(action: Button): void {
   directions();
   if (action === 'dodge') pendingDodge = true;
-  if (action === 'leadKick') {
-    if (pendingAttacks.length < 3) pendingAttacks.push(kickCommand(commands, heldInput(), fight.player.facing, performance.now() / 1000, fight.player.y === 0));
+  if (action === 'leadKick' || action === 'rearKick') {
+    if (pendingAttacks.length < 3) pendingAttacks.push(kickCommand(commands, heldInput(), fight.player.facing, performance.now() / 1000, fight.player.y === 0, action === 'rearKick'));
     return;
   }
-  if (action === 'long' || action === 'overhand' || action === 'backfist' || action === 'ram' || action === 'counter' || action === 'rearKick' || action === 'doublePiston' || action === 'heelSlide') { if (pendingAttacks.length < 3) pendingAttacks.push(action); return; }
+  if (action === 'long' || action === 'overhand' || action === 'backfist' || action === 'ram' || action === 'counter' || action === 'crouchKick' || action === 'crouchSweep' || action === 'doublePiston' || action === 'heelSlide') { if (pendingAttacks.length < 3) pendingAttacks.push(action); return; }
   if (action !== 'light' && action !== 'heavy') return;
   const held = heldInput();
   if (pendingAttacks.length >= 3) return;
@@ -126,7 +126,7 @@ function update(): void {
   }
   guardStatus.dataset.state = guardState;
   if (guardStatus.textContent !== guardText) guardStatus.textContent = guardText;
-  const names = { jab: 'ДЖЕБ', cross: 'ВТОРОЙ ЛЁГКИЙ', heavy: 'ТЯЖЁЛЫЙ', low: 'ПО НОГАМ', upper: 'АППЕРКОТ', rising: 'АППЕРКОТ СТОЯ', leadKick: 'ПРЯМОЙ ПЕРЕДНЕЙ НОГОЙ', rearKick: 'ПРЯМОЙ ЗАДНЕЙ НОГОЙ', doublePiston: 'ДВОЙНОЙ ПОРШЕНЬ', heelSlide: 'ПОДКАТ ПЯТКОЙ', long: 'ДЛИННЫЙ ПРЯМОЙ', overhand: 'СВЕРХУ', backfist: 'БЭКФИСТ', ram: 'ТАРАННЫЙ ПРЯМОЙ', counter: 'ПОДШАГ → ДВОЙКА', poke: 'ТЫЧОК', sweep: 'ПОДСЕЧКА', overhead: 'СВЕРХУ', thrust: 'ВЫПАД', spin: 'ВЕРТУШКА' };
+  const names = { jab: 'ДЖЕБ', cross: 'ВТОРОЙ ЛЁГКИЙ', heavy: 'ТЯЖЁЛЫЙ', low: 'ПО НОГАМ', upper: 'АППЕРКОТ', rising: 'АППЕРКОТ СТОЯ', leadKick: 'ПРЯМОЙ ПЕРЕДНЕЙ НОГОЙ', rearKick: 'ПРЯМОЙ ЗАДНЕЙ НОГОЙ', doublePiston: 'ДВОЙНОЙ ПОРШЕНЬ', heelSlide: 'ПОДКАТ ПЯТКОЙ', crouchKick: 'ПРЯМОЙ ИЗ ПРИСЕДА', crouchSweep: 'ПОДСЕЧКА С ОПОРОЙ', long: 'ДЛИННЫЙ ПРЯМОЙ', overhand: 'СВЕРХУ', backfist: 'БЭКФИСТ', ram: 'ТАРАННЫЙ ПРЯМОЙ', counter: 'ПОДШАГ → ДВОЙКА', poke: 'ТЫЧОК', sweep: 'ПОДСЕЧКА', overhead: 'СВЕРХУ', thrust: 'ВЫПАД', spin: 'ВЕРТУШКА' };
   const technique = fight.player.action?.kind === 'heavy' ? fight.player.action.hand === 'right' ? 'ПРАВЫЙ БОКОВОЙ' : 'ЛЕВЫЙ БОКОВОЙ'
     : fight.player.action ? names[fight.player.action.kind] : 'СТОЙКА';
   element('player-technique').textContent = `ПРИЁМ: ${technique}${fight.comboQueue.length ? ' → ' + fight.comboQueue.map(kind => names[kind]).join(' → ') : ''}`;

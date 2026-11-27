@@ -146,6 +146,34 @@
       "anchorX": 268,
       "anchorY": 556,
       "scale": 1.19
+    },
+    {
+      "width": 640,
+      "height": 550,
+      "anchorX": 240,
+      "anchorY": 485,
+      "scale": 1.19
+    },
+    {
+      "width": 640,
+      "height": 550,
+      "anchorX": 240,
+      "anchorY": 485,
+      "scale": 1.19
+    },
+    {
+      "width": 640,
+      "height": 550,
+      "anchorX": 240,
+      "anchorY": 485,
+      "scale": 1.19
+    },
+    {
+      "width": 640,
+      "height": 550,
+      "anchorX": 240,
+      "anchorY": 485,
+      "scale": 1.19
     }
   ],
   "worker": [

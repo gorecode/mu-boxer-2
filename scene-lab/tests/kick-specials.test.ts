@@ -46,7 +46,7 @@ test('kick motions mirror, accept release at the buffer boundary, expire and con
     assert.equal(kickCommand(expired, idleInput(), facing, .53001), 'leadKick');
     assert.equal(kickCommand(expired, idleInput(), facing, .3, false), 'leadKick');
     for (const conflict of [{ block: true }, { down: true }, { up: true }, { left: true, right: true }]) {
-      assert.equal(kickCommand(expired, { ...idleInput(), ...conflict }, facing, .3), 'leadKick');
+      assert.equal(kickCommand(expired, { ...idleInput(), ...conflict }, facing, .3), 'down' in conflict ? 'crouchKick' : 'leadKick');
       const interrupted = structuredClone(expired);
       observeDirections(interrupted, { ...idleInput(), ...conflict }, facing, .31);
       assert.equal(kickCommand(interrupted, idleInput(), facing, .32), 'leadKick');
@@ -225,7 +225,7 @@ test('new editor key retains its hurt zones, validates max pose and resets witho
     editCel('heelSlide', 1, { pose: 20, duration: .6 }); assert.deepEqual(moves.heelSlide.cels[1].hurt, boxerHurtByPose[20]);
     assert.equal(heelSlideOffset(.68), 220);
     assert.equal(celAt('doublePiston', .36).cel.pose, 19);
-    assert.throws(() => editCel('heelSlide', 1, { pose: 21 }), RangeError);
+    assert.throws(() => editCel('heelSlide', 1, { pose: 25 }), RangeError);
     assert.throws(() => editCel('heelSlide', 2, { hit: [{ left: 55, right: 332, bottom: 0, top: 104 }] }), RangeError);
     assert.throws(() => editCel('poke', 1, { pose: 20 }), RangeError);
   } finally { resetCels(); }

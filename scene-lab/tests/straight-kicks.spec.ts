@@ -90,7 +90,7 @@ test('touch kicks and editor keys work in training; both keyboard keys work in a
   for (const [kind, contact] of [['leadKick','17'],['rearKick','19']] as const) {
     await page.locator('#edit-attack').selectOption(kind); await page.locator('#edit-phase').selectOption('1');
     await expect(page.locator('#edit-pose')).toHaveValue(contact);
-    await expect(page.locator('#edit-pose')).toHaveAttribute('max', '20');
+    await expect(page.locator('#edit-pose')).toHaveAttribute('max', '24');
     await expect(page.locator('#hitboxes')).toBeChecked();
     const measured = await page.evaluate(async pose => {
       const root = new URL('./art/fight/', location.href), manifest = await fetch(new URL('manifest.json', root)).then(r => r.json());

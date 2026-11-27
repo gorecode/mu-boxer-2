@@ -32,7 +32,7 @@ test('cel duration, pose and collision share one source, including active bounda
 test('editor rejects invalid duration, pose, phase and rectangles atomically', () => {
   const before = JSON.stringify(moves.jab.cels);
   for (const duration of [NaN, Infinity, 0, 1/121, 2.01]) assert.throws(() => editCel('jab', 0, { duration, pose: 2 }), RangeError);
-  for (const pose of [-1, 21, .5, NaN]) assert.throws(() => editCel('jab', 1, { pose }), RangeError);
+  for (const pose of [-1, 25, .5, NaN]) assert.throws(() => editCel('jab', 1, { pose }), RangeError);
   assert.throws(() => editCel('poke', 1, { pose: 12 }), RangeError);
   assert.throws(() => editCel('jab', 7, { pose: 0 }), RangeError);
   for (const b of [{ left: 20, right: 10, bottom: 0, top: 10 }, { left: -601, right: 10, bottom: 0, top: 10 }, { left: 0, right: 10, bottom: 20, top: 10 }, { left: 0, right: 10, bottom: 0, top: 801 }]) assert.throws(() => editCel('jab', 1, { hit: [b] }), RangeError);

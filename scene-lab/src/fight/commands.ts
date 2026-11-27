@@ -45,9 +45,11 @@ export function heavyCommand(state: CommandState, input: Input, facing: number, 
   }
   return (facing === 1 ? input.left && !input.right : input.right && !input.left) ? 'backfist' : 'heavy';
 }
-export function kickCommand(state: CommandState, input: Input, facing: number, now: number, grounded = true): 'leadKick' | 'doublePiston' | 'heelSlide' {
+export function kickCommand(state: CommandState, input: Input, facing: number, now: number, grounded = true, rear = false): 'leadKick' | 'rearKick' | 'doublePiston' | 'heelSlide' | 'crouchKick' | 'crouchSweep' {
+  const back = facing === 1 ? input.left && !input.right : input.right && !input.left;
+  if (grounded && input.down && !rear) return back ? 'crouchSweep' : 'crouchKick';
+  if (rear) return 'rearKick';
   if (!grounded || input.block || input.down || input.up || input.left && input.right) return 'leadKick';
-  const back = facing === 1 ? input.left : input.right;
   const kind = !back && now - state.backForward <= .25 && state.backForward >= state.forwardDouble ? 'heelSlide'
     : !back && now - state.forwardDouble <= .25 ? 'doublePiston' : null;
   if (!kind) return 'leadKick';

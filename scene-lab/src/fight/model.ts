@@ -9,7 +9,7 @@ export type Phase = 'menu' | 'countdown' | 'fighting' | 'ending' | 'paused' | Ou
 export const endingTiming = { fall: .7, ko: 1.1, fade: .55 } as const;
 export interface Ending { result: Outcome; reason: 'ko' | 'time'; stage: 'fall' | 'ko' | 'fade'; elapsed: number }
 export type Difficulty = 'warmup' | 'street';
-export interface Input { left: boolean; right: boolean; down: boolean; block: boolean; jump: boolean; light: boolean; heavy: boolean; up?: boolean; dodge?: boolean; long?: boolean; overhand?: boolean; backfist?: boolean; ram?: boolean; counter?: boolean; leadKick?: boolean; rearKick?: boolean; doublePiston?: boolean; heelSlide?: boolean; attackPresses?: ('light' | NonNullable<Input['attackPressed']>)[]; attackPressed?: 'cross' | 'jab' | 'heavy' | 'low' | 'upper' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising' | 'leadKick' | 'rearKick' | 'doublePiston' | 'heelSlide' }
+export interface Input { left: boolean; right: boolean; down: boolean; block: boolean; jump: boolean; light: boolean; heavy: boolean; up?: boolean; dodge?: boolean; long?: boolean; overhand?: boolean; backfist?: boolean; ram?: boolean; counter?: boolean; leadKick?: boolean; rearKick?: boolean; doublePiston?: boolean; heelSlide?: boolean; crouchKick?: boolean; crouchSweep?: boolean; attackPresses?: ('light' | NonNullable<Input['attackPressed']>)[]; attackPressed?: 'cross' | 'jab' | 'heavy' | 'low' | 'upper' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising' | 'leadKick' | 'rearKick' | 'doublePiston' | 'heelSlide' | 'crouchKick' | 'crouchSweep' }
 export const idleInput = (): Input => ({ left: false, right: false, down: false, block: false, jump: false, light: false, heavy: false });
 export interface Fighter {
   x: number; y: number; vy: number; velocity: number; facing: 1 | -1;
@@ -126,7 +126,8 @@ function readInput(s: Fight, input: Input, dt: number): void {
   }
   if (input.heavy && !s.held.heavy) kind = heavyCommand(s.commands, { ...input, down: crouch }, s.player.facing, s.time, s.player.y === 0);
   if (input.leadKick && !s.held.leadKick) kind = kickCommand(s.commands, input, s.player.facing, s.time, s.player.y === 0);
-  for (const move of ['long', 'overhand', 'backfist', 'ram', 'counter', 'rearKick', 'doublePiston', 'heelSlide'] as const) if (input[move] && !s.held[move]) kind = move;
+  if (input.rearKick && !s.held.rearKick) kind = kickCommand(s.commands, input, s.player.facing, s.time, s.player.y === 0, true);
+  for (const move of ['long', 'overhand', 'backfist', 'ram', 'counter', 'doublePiston', 'heelSlide', 'crouchKick', 'crouchSweep'] as const) if (input[move] && !s.held[move]) kind = move;
   if (input.attackPressed) kind = input.attackPressed;
   if (input.dodge && !s.held.dodge) kind = 'dodge';
   const presses = input.attackPresses?.slice(0, 3);
@@ -153,7 +154,7 @@ function control(s: Fight, input: Input, dt: number): void {
       if (p.y === 0 && !p.action) {
         p.vy = 950; p.y = .1; p.crouch = false; emit(s, 'jump', 'player'); s.buffered = null;
       }
-    } else if (p.y === 0 || !['long', 'overhand', 'backfist', 'ram', 'counter', 'rising', 'leadKick', 'rearKick', 'doublePiston', 'heelSlide'].includes(requested)) {
+    } else if (p.y === 0 || !['long', 'overhand', 'backfist', 'ram', 'counter', 'rising', 'leadKick', 'rearKick', 'doublePiston', 'heelSlide', 'crouchKick', 'crouchSweep'].includes(requested)) {
       const a = p.action;
       const cancel = a?.result === 'hit' && (a.chain ?? 0) < 2 &&
         a.time <= moves[a.kind].windup + moves[a.kind].active + .12 && cancelTargets[a.kind]?.includes(requested);
@@ -177,6 +178,7 @@ function control(s: Fight, input: Input, dt: number): void {
     }
   }
   if (p.action?.kind === 'rising' || p.action?.kind === 'leadKick' || p.action?.kind === 'rearKick' || p.action?.kind === 'doublePiston') p.crouch = false;
+  if (p.action?.kind === 'crouchKick' || p.action?.kind === 'crouchSweep') p.crouch = true;
   if (p.action?.kind === 'heelSlide') {
     const time = p.action.time;
     p.crouch = celAt('heelSlide', time).cel.pose !== 0;
