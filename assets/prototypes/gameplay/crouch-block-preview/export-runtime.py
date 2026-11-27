@@ -9,7 +9,7 @@ source = root / 'frames/a-shell.png'
 target = project / 'scene-lab/public/art/fight/boxer-25.webp'
 manifest_path = target.with_name('manifest.json')
 manifest = json.loads(manifest_path.read_text())
-assert len(manifest['boxer']) in (25, 26)
+assert len(manifest['boxer']) in (25, 26, 28)
 original = Image.open(source).convert('RGBA')
 assert original.size == (500, 550)
 assert original.getchannel('A').point(lambda a: 255 if a >= 128 else 0).getbbox()[3] == 524

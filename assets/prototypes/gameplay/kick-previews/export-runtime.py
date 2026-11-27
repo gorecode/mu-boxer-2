@@ -8,7 +8,7 @@ project = root.parents[3]
 public = project / 'scene-lab/public/art/fight'
 manifest_path = public / 'manifest.json'
 manifest = json.loads(manifest_path.read_text())
-assert len(manifest['boxer']) in (16, 20, 21, 25, 26)
+assert len(manifest['boxer']) in (16, 20, 21, 25, 26, 28)
 records = []
 for kind, first, folder, name, commit, boot, edge in [
     ('leadKick', 16, root, 'a-front', 'a95e18282615afbf730e2d03318ebf4e51790514', (380, 190, 455, 335), 218),
@@ -45,7 +45,7 @@ for kind, first, folder, name, commit, boot, edge in [
                           visible_bottom=(frame['anchorY'] - max(y for _, y in pixels)) * frame['scale'],
                           visible_top=(frame['anchorY'] - min(y for _, y in pixels)) * frame['scale'])
         records.append(record)
-assert len(manifest['boxer']) in (20, 21, 25, 26)
+assert len(manifest['boxer']) in (20, 21, 25, 26, 28)
 manifest_path.write_text(json.dumps(manifest, indent=2) + '\n')
 (root / 'runtime-assets.json').write_text(json.dumps({'frames': records}, indent=2) + '\n')
 print('Four lossless runtime kick cels match the selected PNGs exactly; boot padding12..24 world pixels')

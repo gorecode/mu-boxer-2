@@ -96,7 +96,7 @@ for (const kind of ['doublePiston', 'heelSlide'] as const) {
     await expect(page.locator('#edit-phase option')).toHaveCount(kind === 'doublePiston' ? 8 : 4);
     await page.locator('#edit-phase').selectOption('1');
     await expect(page.locator('#edit-pose')).toHaveValue(kind === 'doublePiston' ? '17' : '20');
-    await expect(page.locator('#edit-pose')).toHaveAttribute('max', '25');
+    await expect(page.locator('#edit-pose')).toHaveAttribute('max', '27');
     await expect(page.locator('#edit-right')).toHaveValue(kind === 'doublePiston' ? '218' : '332');
     if (kind === 'doublePiston') {
       await page.locator('#edit-phase').selectOption('5'); await expect(page.locator('#edit-pose')).toHaveValue('19');

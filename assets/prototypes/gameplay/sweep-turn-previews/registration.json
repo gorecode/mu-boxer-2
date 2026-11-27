@@ -1,0 +1,8 @@
+{
+  "a0": {"source":"a-windup", "cell":0, "scale":0.5, "palm":[350,825]},
+  "a1": {"source":"a-windup", "cell":1, "scale":0.5, "palm":[780,825]},
+  "b0": {"source":"b-follow", "cell":0, "scale":0.52, "palm":[480,830]},
+  "b1": {"source":"b-follow", "cell":1, "scale":0.52, "palm":[482,830]},
+  "c0": {"source":"c-circle", "cell":0, "scale":0.55, "palm":[660,785]},
+  "c1": {"source":"c-circle", "cell":1, "scale":0.55, "palm":[167,785]}
+}

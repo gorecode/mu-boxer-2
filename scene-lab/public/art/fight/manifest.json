@@ -181,6 +181,20 @@
       "anchorX": 228,
       "anchorY": 525,
       "scale": 1.19
+    },
+    {
+      "width": 840,
+      "height": 550,
+      "anchorX": 380,
+      "anchorY": 485,
+      "scale": 1.19
+    },
+    {
+      "width": 840,
+      "height": 550,
+      "anchorX": 380,
+      "anchorY": 485,
+      "scale": 1.19
     }
   ],
   "worker": [

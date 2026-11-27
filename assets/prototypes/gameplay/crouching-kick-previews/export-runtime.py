@@ -8,7 +8,7 @@ project = root.parents[3]
 public = project / 'scene-lab/public/art/fight'
 manifest_path = public / 'manifest.json'
 manifest = json.loads(manifest_path.read_text())
-assert len(manifest['boxer']) in (21, 25, 26)
+assert len(manifest['boxer']) in (21, 25, 26, 28)
 records = []
 for name, first in [('a-straight', 21), ('c-sweep', 23)]:
     for i, key in enumerate(['chamber', 'contact']):

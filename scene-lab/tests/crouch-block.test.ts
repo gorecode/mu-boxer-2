@@ -67,13 +67,13 @@ test('overhead and guard break replace low guard with hurt; attacks and air cann
   s.player.hp = 0; s.player.reaction = 'guard'; assert.equal(boxerPose(s.player), 11);
 });
 
-test('editor accepts guard at last valid pose, rejects the next pose and resets', () => {
+test('editor accepts guard pose, rejects out-of-range poses and resets', () => {
   const before = structuredClone(moves.jab.cels);
   try {
     editCel('jab', 0, { pose: 25 });
     assert.equal(moves.jab.cels[0].pose, 25);
     assert.deepEqual(moves.jab.cels[0].hurt, crouching);
-    assert.throws(() => editCel('jab', 0, { pose: 26 }), RangeError);
+    assert.throws(() => editCel('jab', 0, { pose: 28 }), RangeError);
     assert.equal(moves.jab.cels[0].pose, 25);
   } finally { resetCels(); }
   assert.deepEqual(moves.jab.cels, before);
@@ -82,7 +82,7 @@ test('editor accepts guard at last valid pose, rejects the next pose and resets'
 test('runtime guard hash and origin match the approved registered A drawing', () => {
   const audit = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/crouch-block-preview/runtime-assets.json', import.meta.url), 'utf8'));
   const manifest = JSON.parse(readFileSync(new URL('../public/art/fight/manifest.json', import.meta.url), 'utf8'));
-  assert.equal(manifest.boxer.length, 26); assert.equal(audit.pose, 25); assert.equal(audit.rgba_matches_preview, true);
+  assert.equal(manifest.boxer.length, 28); assert.equal(audit.pose, 25); assert.equal(audit.rgba_matches_preview, true);
   assert.deepEqual(manifest.boxer[25], { width: 500, height: 550, anchorX: 228, anchorY: 525, scale: 1.19 });
   const bytes = readFileSync(new URL('../public/art/fight/boxer-25.webp', import.meta.url));
   assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');

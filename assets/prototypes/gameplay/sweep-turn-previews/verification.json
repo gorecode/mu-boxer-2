@@ -1,0 +1,244 @@
+{
+  "original_sha256": {
+    "idle": "22f93cb6b2deee0de12d8b1f267431c13a8606cc73d91b3b5e8682dcd9ce44b4",
+    "prep": "77f7d0ff148b44839033bef1da26660ce397b8116548692baa7f21e260e78bfd",
+    "hit": "dce15654c2d8940bf43f2e4dafe67b866d300f9a03e90ddc5b8fd93badb8a211"
+  },
+  "registration": {
+    "a0": {
+      "source": "a-windup",
+      "cell": 0,
+      "scale": 0.5,
+      "palm": [
+        350,
+        825
+      ],
+      "offset": [
+        200,
+        72
+      ],
+      "bounds": [
+        217,
+        184,
+        481,
+        486
+      ],
+      "source_sha256": "04d93a5e88a87ac186fd62d40230b0fed423d1eb303b1c325dd0eb12d46541b7"
+    },
+    "a1": {
+      "source": "a-windup",
+      "cell": 1,
+      "scale": 0.5,
+      "palm": [
+        780,
+        825
+      ],
+      "offset": [
+        -15,
+        72
+      ],
+      "bounds": [
+        17,
+        186,
+        417,
+        485
+      ],
+      "source_sha256": "04d93a5e88a87ac186fd62d40230b0fed423d1eb303b1c325dd0eb12d46541b7"
+    },
+    "b0": {
+      "source": "b-follow",
+      "cell": 0,
+      "scale": 0.52,
+      "palm": [
+        480,
+        830
+      ],
+      "offset": [
+        125,
+        53
+      ],
+      "bounds": [
+        181,
+        197,
+        480,
+        487
+      ],
+      "source_sha256": "0651e0b0b93f06a70611192612500a0d3439aad4892e1018a2805218040a6df2"
+    },
+    "b1": {
+      "source": "b-follow",
+      "cell": 1,
+      "scale": 0.52,
+      "palm": [
+        482,
+        830
+      ],
+      "offset": [
+        124,
+        53
+      ],
+      "bounds": [
+        187,
+        197,
+        416,
+        487
+      ],
+      "source_sha256": "0651e0b0b93f06a70611192612500a0d3439aad4892e1018a2805218040a6df2"
+    },
+    "c0": {
+      "source": "c-circle",
+      "cell": 0,
+      "scale": 0.55,
+      "palm": [
+        660,
+        785
+      ],
+      "offset": [
+        12,
+        53
+      ],
+      "bounds": [
+        36,
+        204,
+        413,
+        486
+      ],
+      "source_sha256": "546bf9e82f22808ca789d40052d13ba6d244446fe73d495c6856b756a47a3b6f"
+    },
+    "c1": {
+      "source": "c-circle",
+      "cell": 1,
+      "scale": 0.55,
+      "palm": [
+        167,
+        785
+      ],
+      "offset": [
+        283,
+        53
+      ],
+      "bounds": [
+        335,
+        203,
+        680,
+        487
+      ],
+      "source_sha256": "546bf9e82f22808ca789d40052d13ba6d244446fe73d495c6856b756a47a3b6f"
+    }
+  },
+  "variants": [
+    {
+      "id": "old",
+      "schedule": [
+        "idle",
+        "prep",
+        "hit",
+        "prep",
+        "idle"
+      ],
+      "times_ms": [
+        560,
+        80,
+        120,
+        40,
+        800
+      ]
+    },
+    {
+      "id": "a-windup",
+      "schedule": [
+        "idle",
+        "prep",
+        "a0",
+        "a1",
+        "hit",
+        "prep",
+        "idle"
+      ],
+      "times_ms": [
+        560,
+        40,
+        50,
+        50,
+        120,
+        40,
+        740
+      ]
+    },
+    {
+      "id": "b-follow",
+      "schedule": [
+        "idle",
+        "prep",
+        "hit",
+        "b0",
+        "b1",
+        "prep",
+        "idle"
+      ],
+      "times_ms": [
+        560,
+        80,
+        120,
+        50,
+        50,
+        40,
+        700
+      ]
+    },
+    {
+      "id": "c-circle",
+      "schedule": [
+        "idle",
+        "prep",
+        "c0",
+        "c1",
+        "hit",
+        "prep",
+        "idle"
+      ],
+      "times_ms": [
+        560,
+        40,
+        80,
+        40,
+        120,
+        40,
+        720
+      ]
+    },
+    {
+      "id": "a-integrated",
+      "schedule": [
+        "idle",
+        "prep",
+        "a0",
+        "a1",
+        "hit",
+        "prep",
+        "idle"
+      ],
+      "times_ms": [
+        560,
+        50,
+        60,
+        40,
+        100,
+        60,
+        730
+      ]
+    }
+  ],
+  "outputs": {
+    "a-integrated-slow.gif": "f1e6ffc8728db4c0bf1fdbdbc6c5aca0a827c2d7fa1ba008ebc5013838b8a812",
+    "a-windup.gif": "b4e2ccdc539ccacf68bfe8ed659d683a8667e8fc36a8a05182b867fbf67a9b14",
+    "b-follow.gif": "23970581e3aedd61e447051c243eb1dfb35403d6e924827cf3aeb0d11b94bc51",
+    "old-slow.gif": "15c5dbdf261a4692a6f03c6d444b1d18baaf92d4631d6cdae1be19fac7447fc5",
+    "a-integrated.gif": "cf5a91bf7e85a6657f42a9e6af306e068a08aca1634e9bb8b2be61e7e4530186",
+    "c-circle-slow.gif": "b4d9b6877ba4822d8a740aa099f2268134cb69c371042261c15c7c8057c3844c",
+    "c-circle.gif": "88a4629bb46c1d973c2e39236e53f1ee0bf2f0e1b90f50660f0e45a74f93041f",
+    "a-windup-slow.gif": "59b7de3348b9b70c7ab515c5482283ccf7be27deb9ebc052f8324c22c4597eac",
+    "b-follow-slow.gif": "4ce05763ae2d2df90b57e6103b9334c279ae5d0e78d452430c16aefb6be14d8e",
+    "old.gif": "0dca65824dc932705e4c8d854df7b80da4455e6d344e617c7b7329293a16b6d5"
+  }
+}

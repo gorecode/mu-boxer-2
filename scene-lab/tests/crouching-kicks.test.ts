@@ -34,10 +34,13 @@ test('crouched N and back N select crouched kicks before standing moves and moti
   }
 });
 
-test('chosen keys have exact preview timing, crouched recovery, mirrored hit zones and no return damage', () => {
+test('chosen keys have exact timing, crouched recovery, mirrored hit zones and no return damage', () => {
   for (const kind of kicks) for (const facing of [1, -1] as const) {
     const f = ready(240, facing).player, first = kind === 'crouchKick' ? 21 : 23;
-    for (const [time, pose, active] of [[0, first, false], [.079999, first, false], [.08, first + 1, true], [.199999, first + 1, true], [.2, first, false], [.239999, first, false], [.24, 5, false]] as const) {
+    const samples = kind === 'crouchKick'
+      ? [[0, first, false], [.079999, first, false], [.08, 22, true], [.199999, 22, true], [.2, first, false], [.239999, first, false], [.24, 5, false]] as const
+      : [[0, 23, false], [.049999, 23, false], [.05, 26, false], [.109999, 26, false], [.11, 27, false], [.149999, 27, false], [.15, 24, true], [.249999, 24, true], [.25, 23, false], [.309999, 23, false], [.31, 5, false], [.619999, 5, false]] as const;
+    for (const [time, pose, active] of samples) {
       f.action = { kind, time, connected: false };
       assert.equal(boxerPose(f), pose);
       assert.equal(fighterGeometry(f).hit.length, active ? 1 : 0);
@@ -47,7 +50,7 @@ test('chosen keys have exact preview timing, crouched recovery, mirrored hit zon
         assert.equal(facing === 1 ? hit.right - f.x : f.x - hit.left, kind === 'crouchKick' ? 256 : 379);
       }
     }
-    const hit = moves[kind].cels[1].hit[0], tip = kind === 'crouchKick' ? 236.81 : 360.57;
+    const hit = moves[kind].cels.find(c => c.phase === 'active')!.hit[0], tip = kind === 'crouchKick' ? 236.81 : 360.57;
     assert.ok(hit.right - tip >= 12 && hit.right - tip <= 24);
   }
 });
@@ -74,7 +77,7 @@ test('low contacts hit once at reach, miss outside/behind/in air, and need a low
     const s = ready(mode === 'outside' ? edge + .01 : mode === 'behind' ? -edge : edge, facing);
     if (mode.endsWith('block')) { s.worker.blocking = true; s.worker.crouch = mode === 'low-block'; }
     if (mode === 'air') s.worker.y = 500;
-    s.player.action = { kind, time: .08 - dt, connected: false };
+    s.player.action = { kind, time: moves[kind].windup - dt, connected: false };
     stepFight(s, idleInput(), dt);
     const hit = mode === 'edge' || mode === 'high-block';
     assert.equal(s.worker.hp, hit ? 120 - moves[kind].damage : 120, `${kind}/${mode}/${facing}`);
@@ -93,7 +96,7 @@ test('block, air and stun expire buffered kicks; pause/load and hitstop preserve
       advance(s, .25, { [kind]: true, block: mode === 'block' });
       assert.equal(s.player.action, null); assert.equal(s.buffered, null);
     }
-    const s = ready(); s.player.action = { kind, time: .08 - dt, connected: false };
+    const s = ready(); s.player.action = { kind, time: moves[kind].windup - dt, connected: false };
     stepFight(s, idleInput(), dt); const time = s.player.action!.time;
     assert.equal(s.player.action?.result, 'hit');
     advance(s, .025); assert.equal(s.player.action?.time, time);
@@ -110,20 +113,43 @@ test('block, air and stun expire buffered kicks; pause/load and hitstop preserve
 test('editor accepts new poses, rejects out-of-range poses, and restores selected cels', () => {
   try {
     editCel('crouchKick', 1, { pose: 24 }); assert.deepEqual(moves.crouchKick.cels[1].hurt, boxerHurtByPose[24]);
-    for (const pose of [-1, 26, .5, NaN]) assert.throws(() => editCel('crouchKick', 1, { pose }), RangeError);
+    editCel('crouchSweep', 1, { pose: 26 }); assert.deepEqual(moves.crouchSweep.cels[1].hurt, boxerHurtByPose[26]);
+    for (const pose of [-1, 28, .5, NaN]) assert.throws(() => editCel('crouchKick', 1, { pose }), RangeError);
     assert.throws(() => editCel('sweep', 1, { pose: 24 }), RangeError);
   } finally { resetCels(); }
   assert.deepEqual(moves.crouchKick.cels.map(c => c.pose), [21, 22, 21, 5]);
-  assert.deepEqual(moves.crouchSweep.cels.map(c => c.pose), [23, 24, 23, 5]);
+  assert.deepEqual(moves.crouchSweep.cels.map(c => c.pose), [23, 26, 27, 24, 23, 5]);
+  assert.deepEqual(moves.crouchSweep.cels.map(c => c.duration), [.05, .06, .04, .10, .06, .31]);
+  assert.ok(Math.abs(moves.crouchSweep.windup + moves.crouchSweep.active + moves.crouchSweep.recovery - .62) < 1e-9);
 });
 
 test('four runtime files retain the approved PNG registration and recorded hashes', () => {
   const records = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/crouching-kick-previews/runtime-assets.json', import.meta.url), 'utf8'));
   const manifest = JSON.parse(readFileSync(new URL('../public/art/fight/manifest.json', import.meta.url), 'utf8'));
-  assert.equal(records.length, 4); assert.equal(manifest.boxer.length, 26);
+  assert.equal(records.length, 4); assert.equal(manifest.boxer.length, 28);
   for (const [i, record] of records.entries()) {
     const bytes = readFileSync(new URL(`../public/art/fight/boxer-${21 + i}.webp`, import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex'), record.runtime_sha256);
     assert.deepEqual(manifest.boxer[21 + i], { width: 640, height: 550, anchorX: 240, anchorY: 485, scale: 1.19 });
+  }
+});
+
+test('selected rear views retain exact runtime hashes, registration and non-damaging windup', () => {
+  const records = JSON.parse(readFileSync(new URL('../../assets/prototypes/gameplay/sweep-turn-previews/runtime-assets.json', import.meta.url), 'utf8'));
+  const manifest = JSON.parse(readFileSync(new URL('../public/art/fight/manifest.json', import.meta.url), 'utf8'));
+  assert.equal(records.length, 2);
+  for (const [i, record] of records.entries()) {
+    const bytes = readFileSync(new URL(`../public/art/fight/boxer-${26 + i}.webp`, import.meta.url));
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), record.runtime_sha256);
+    assert.deepEqual(manifest.boxer[26 + i], { width: 840, height: 550, anchorX: 380, anchorY: 485, scale: 1.19 });
+  }
+  for (const facing of [1, -1] as const) {
+    const s = ready(240, facing), x = s.player.x;
+    stepFight(s, { ...idleInput(), crouchSweep: true }, dt);
+    advance(s, 16 * dt);
+    assert.equal(s.worker.hp, 120); assert.equal(s.player.x, x);
+    assert.equal(boxerPose(s.player), 27);
+    advance(s, 2 * dt); assert.equal(s.worker.hp, 103); assert.equal(boxerPose(s.player), 24);
+    advance(s, 1); assert.equal(s.worker.hp, 103); assert.equal(s.player.action, null);
   }
 });
