@@ -54,7 +54,7 @@ test('cel editor changes real poses and contact, validates inputs, drags zones a
   const original = await arena.evaluate((c: HTMLCanvasElement) => c.toDataURL());
   await page.locator('#edit-pose').fill('7'); await page.locator('#edit-pose').press('Tab');
   expect(await arena.evaluate((c: HTMLCanvasElement) => c.toDataURL())).not.toBe(original);
-  await page.locator('#edit-pose').fill('25'); await page.locator('#edit-pose').press('Tab');
+  await page.locator('#edit-pose').fill('27'); await page.locator('#edit-pose').press('Tab');
   await expect(page.locator('#training-status')).toContainText('Недопустимые'); await expect(page.locator('#edit-pose')).toHaveValue('7');
   await page.locator('#edit-phase').selectOption('0'); await page.locator('#edit-duration').fill('0'); await page.locator('#edit-duration').press('Tab');
   await expect(page.locator('#edit-duration')).toHaveValue('80');

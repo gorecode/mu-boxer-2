@@ -1,0 +1,7 @@
+{
+  "browser": "Chrome",
+  "frames": 24,
+  "interval_ms": 70,
+  "video_directory": "/tmp/sweep-turn-playback",
+  "scope": "Actual GIF browser playback captured; artistic judgment based on sampled frames"
+}

@@ -32,17 +32,17 @@ test('crouched N and back N render the selected cels with fixed root and quick c
     await page.evaluate(() => { (window as Recorded).crouchDraws = []; });
     await page.keyboard.down('s');
     if (kind === 'crouchSweep') await page.keyboard.down('a');
-    await page.keyboard.down(key); await page.clock.runFor(100);
+    await page.keyboard.down(key); await page.clock.runFor(kind === 'crouchSweep' ? 180 : 100);
     await expect(arena).toHaveAttribute('data-player-action', kind);
     await page.keyboard.up('s');
     if (kind === 'crouchSweep') await page.keyboard.up('a');
     await page.locator('.arena-shell').screenshot({ path: info.outputPath(`${kind}-contact.png`) });
     await page.clock.runFor(1000); await expect(arena).toHaveAttribute('data-player-action', '');
     const frames = await page.evaluate(() => (window as Recorded).crouchDraws!);
-    expect(frames.map(f => f.pose).filter((p, i, all) => i === 0 || p !== all[i - 1])).toEqual([first, first + 1, first, 5]);
+    expect(frames.map(f => f.pose).filter((p, i, all) => i === 0 || p !== all[i - 1])).toEqual(kind === 'crouchSweep' ? [23, 25, 26, 24, 23, 5] : [first, first + 1, first, 5]);
     for (const f of frames) {
       expect(f.x).toBe(430); expect(f.scale).toBeCloseTo(1.19, 6);
-      if (f.pose !== 5) { expect(f.dx).toBe(-240); expect(f.dy).toBe(-485); }
+      if (f.pose !== 5) { expect(f.dx).toBe(f.pose >= 25 ? -380 : -240); expect(f.dy).toBe(-485); }
     }
     await page.keyboard.up(key);
   }
@@ -55,10 +55,10 @@ test('touch shortcuts deal low damage once, low guard blocks, and editor preview
     await page.keyboard.down('d'); await page.clock.runFor(1550); await page.keyboard.up('d');
     const button = page.locator(`[data-input=${kind}]`);
     if (info.project.name === 'mobile') await button.tap(); else await button.click();
-    await page.clock.runFor(100); await expect(page.locator('#worker-hp')).toHaveText(hp);
+    await page.clock.runFor(kind === 'crouchSweep' ? 200 : 100); await expect(page.locator('#worker-hp')).toHaveText(hp);
     await page.clock.runFor(1200); await expect(page.locator('#worker-hp')).toHaveText(hp);
-    await page.locator('#edit-attack').selectOption(kind); await page.locator('#edit-phase').selectOption('1');
-    await expect(page.locator('#edit-pose')).toHaveValue(pose); await expect(page.locator('#edit-pose')).toHaveAttribute('max', '24');
+    await page.locator('#edit-attack').selectOption(kind); await page.locator('#edit-phase').selectOption(kind === 'crouchSweep' ? '3' : '1');
+    await expect(page.locator('#edit-pose')).toHaveValue(pose); await expect(page.locator('#edit-pose')).toHaveAttribute('max', '26');
     await page.locator('.arena-shell').screenshot({ path: info.outputPath(`${kind}-editor.png`) });
     await page.locator('#arena').focus(); await page.keyboard.press('r'); await page.clock.runFor(1800);
     await page.locator('#training-dummy').selectOption('guard'); await page.locator('#arena').focus();
@@ -71,9 +71,9 @@ test('touch shortcuts deal low damage once, low guard blocks, and editor preview
 
 test('missing crouch contact blocks startup and retry reloads it', async ({ page }) => {
   let missing = true;
-  await page.route('**/art/fight/boxer-24.webp', route => missing ? route.abort() : route.continue());
+  await page.route('**/art/fight/boxer-26.webp', route => missing ? route.abort() : route.continue());
   await page.goto('./fight.html');
-  await expect(page.locator('#load-status')).toContainText('boxer-24.webp');
+  await expect(page.locator('#load-status')).toContainText('boxer-26.webp');
   await expect(page.locator('#arena')).toHaveAttribute('data-loaded', 'false');
   await expect(page.locator('#start')).toHaveText('ПОВТОРИТЬ ЗАГРУЗКУ');
   missing = false; await page.locator('#start').click();

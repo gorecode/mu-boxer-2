@@ -225,7 +225,7 @@ test('new editor key retains its hurt zones, validates max pose and resets witho
     editCel('heelSlide', 1, { pose: 20, duration: .6 }); assert.deepEqual(moves.heelSlide.cels[1].hurt, boxerHurtByPose[20]);
     assert.equal(heelSlideOffset(.68), 220);
     assert.equal(celAt('doublePiston', .36).cel.pose, 19);
-    assert.throws(() => editCel('heelSlide', 1, { pose: 25 }), RangeError);
+    assert.throws(() => editCel('heelSlide', 1, { pose: 27 }), RangeError);
     assert.throws(() => editCel('heelSlide', 2, { hit: [{ left: 55, right: 332, bottom: 0, top: 104 }] }), RangeError);
     assert.throws(() => editCel('poke', 1, { pose: 20 }), RangeError);
   } finally { resetCels(); }

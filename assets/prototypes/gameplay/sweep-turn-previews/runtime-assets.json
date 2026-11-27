@@ -1,0 +1,14 @@
+[
+  {
+    "source": "assets/prototypes/gameplay/sweep-turn-previews/frames/a0.png",
+    "source_sha256": "339753df98f3ca287e30d08553db96171952e3c062a7007d72d75d913226dbfa",
+    "runtime": "scene-lab/public/art/fight/boxer-25.webp",
+    "runtime_sha256": "3dad68c9e849942914d41b79ae49a861e624258d6c13842773c21bd42f09ff08"
+  },
+  {
+    "source": "assets/prototypes/gameplay/sweep-turn-previews/frames/a1.png",
+    "source_sha256": "dfa600a2d766713ca28558de496a7f4af0a5d0ca250b13c6ed4e41744b0810cd",
+    "runtime": "scene-lab/public/art/fight/boxer-26.webp",
+    "runtime_sha256": "ac4c2521800bee98a52dfdd3af59f1a82e6ff26f85d7756ea62437122182e714"
+  }
+]
