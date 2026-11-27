@@ -53,3 +53,10 @@ git lfs pull
 решить доступ к LFS: repository secrets в такие PR не передаются.
 
 Основной workflow также публикует успешный `main` в GitHub Pages.
+
+## Задачи для роя агентов
+
+`factory-lead` готовит ТЗ и декомпозицию; `agent-task <имя>` выполняет одну задачу,
+`agent-task-loop <имя>` разбирает очередь в цикле. Навыки доступны Claude и Codex.
+Запуск, захват задач, доступ к issues и срок ограничения GitHub описаны
+в [памятке фабрики](docs/AGENT_FACTORY.md).
