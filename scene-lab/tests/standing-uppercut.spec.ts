@@ -97,7 +97,7 @@ test('a real hit launches once; hitstop, pause and training save/load keep the c
   await page.clock.runFor(200); expect(await arena.getAttribute('data-player-action-time')).toBe(time);
   await page.locator('#resume').click(); await page.clock.runFor(700);
   await page.locator('#edit-attack').selectOption('rising'); await expect(page.locator('#edit-phase option')).toHaveCount(5);
-  await expect(page.locator('#edit-pose')).toHaveAttribute('max', '24');
+  await expect(page.locator('#edit-pose')).toHaveAttribute('max', '25');
   await page.locator('#edit-phase').selectOption('1'); await expect(page.locator('#edit-pose')).toHaveValue('14');
   await page.locator('#edit-phase').selectOption('2'); await expect(page.locator('#edit-pose')).toHaveValue('15');
   await expect(page.locator('#edit-right')).toHaveValue('175');

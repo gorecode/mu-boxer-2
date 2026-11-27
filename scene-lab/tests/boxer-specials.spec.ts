@@ -145,7 +145,7 @@ test('guard holds both contacts; editor exposes both hitboxes, validates, resets
   await expect(page.locator('#edit-pose')).toHaveValue('12'); await expect(page.locator('#edit-right')).toHaveValue('178');
   await page.locator('.arena-shell').screenshot({ path: info.outputPath('counter-second-hitbox.png') });
   await page.locator('#edit-duration').fill('200'); await page.locator('#edit-duration').press('Tab');
-  await page.locator('#edit-pose').fill('25'); await page.locator('#edit-pose').press('Tab');
+  await page.locator('#edit-pose').fill('26'); await page.locator('#edit-pose').press('Tab');
   await expect(page.locator('#training-status')).toContainText('Недопустимые'); await expect(page.locator('#edit-pose')).toHaveValue('12');
   await page.locator('#edit-defaults').click(); await expect(page.locator('#edit-duration')).toHaveValue('120');
   await page.locator('#edit-attack').selectOption('ram'); await expect(page.locator('#edit-phase option')).toHaveCount(7);

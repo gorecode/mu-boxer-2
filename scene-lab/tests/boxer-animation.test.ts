@@ -46,7 +46,7 @@ test('walking falls back to original stance while dodge and airborne poses stay 
 test('hurt, block and defeat override the attack and edited cel poses remain visible', () => {
   const f = createFight().player; f.action = { kind: 'jab', time: moves.jab.windup, connected: false };
   f.reaction = 'guard'; assert.equal(boxerPose(f), 4);
-  f.crouch = true; assert.equal(boxerPose(f), 5);
+  f.crouch = true; assert.equal(boxerPose(f), 25);
   f.reaction = 'heavy'; assert.equal(boxerPose(f), 6);
   f.hp = 0; assert.equal(boxerPose(f), 11);
   f.hp = 100; f.reaction = null; f.crouch = false;
