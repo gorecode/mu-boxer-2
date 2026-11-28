@@ -1,0 +1,110 @@
+{
+  "scope": "unapproved visual previews only; not gameplay",
+  "dt_ms": 40,
+  "length_ms": 2800,
+  "sources": {
+    "worker-0": {
+      "path": "scene-lab/public/art/fight/worker-0.webp",
+      "sha256": "b0db4eb58a12047833da6b58cc68325b88c4a805f729aea2f86b93733bedf05f"
+    },
+    "worker-3": {
+      "path": "scene-lab/public/art/fight/worker-3.webp",
+      "sha256": "c444c8022caa7a6a1c15113ee34069920ea210c806fed25f0cdc5390812ede97"
+    },
+    "worker-5": {
+      "path": "scene-lab/public/art/fight/worker-5.webp",
+      "sha256": "a880d3e68921f884486fd38722c2cffaddb161dac591c401490ceaba7c97e1ab"
+    },
+    "worker-7": {
+      "path": "scene-lab/public/art/fight/worker-7.webp",
+      "sha256": "adcbf1f12a2b01ea4f3bd9d9b4fdb04c179f83ed6893832c07a5bd166e48e775"
+    },
+    "worker-8": {
+      "path": "scene-lab/public/art/fight/worker-8.webp",
+      "sha256": "b8436422de467e2b2e86f5056065aa068869e3131ebcf6f74cc1058565599678"
+    },
+    "worker-9": {
+      "path": "scene-lab/public/art/fight/worker-9.webp",
+      "sha256": "a81e083bc1a046be3b173bf2acf9b06d9ce19915a247abdee62ba626b4c8c2e2"
+    },
+    "boxer-0": {
+      "path": "scene-lab/public/art/fight/boxer-0.webp",
+      "sha256": "4ecabf66657cf73ae3f86bf1eb70afb293cf5758dc23c0f671b96d2785dd614d"
+    },
+    "boxer-4": {
+      "path": "scene-lab/public/art/fight/boxer-4.webp",
+      "sha256": "9b950c86aaddb699c79ff6c17da8c35c1220e83d554df940a367718c29523f4e"
+    },
+    "boxer-6": {
+      "path": "scene-lab/public/art/fight/boxer-6.webp",
+      "sha256": "4a5f88e9d17a5c439a0336f80a81d6313ed10919322346581c6f6092709ec7f1"
+    },
+    "boxer-25": {
+      "path": "scene-lab/public/art/fight/boxer-25.webp",
+      "sha256": "195c74d2ca8c9ceef8a4edf22dc7401a93f6f5aa1ee125b98ad7bda8491e62a6"
+    },
+    "shove-source": {
+      "path": "assets/prototypes/gameplay/worker-move-previews/source/shove-contact-generated.png",
+      "sha256": "d2c48635ece2bd6bab58c8a43026e0bc337f74af85ebc829937c3e194be0606b"
+    },
+    "arena": {
+      "path": "scene-lab/public/art/fight/arena.webp",
+      "sha256": "dc544e1f3dfea53ba5283c7c447ea3f592b3ca3124f94879f9cd3a2a411f1896"
+    },
+    "manifest": {
+      "path": "scene-lab/public/art/fight/manifest.json",
+      "sha256": "cd8e49e43e3d62c967444d0fec79ca46938f29937fd5cbb7a60d2aa76af901fe"
+    }
+  },
+  "shove_registration": {
+    "uniform_source_scale": 0.3,
+    "source_root_x": 177,
+    "offset": [
+      51,
+      87
+    ],
+    "anchor": [
+      228,
+      525
+    ],
+    "world_scale": 1.22,
+    "opaque_bounds": [
+      52,
+      103,
+      354,
+      524
+    ]
+  },
+  "gifs": {
+    "shaft-shove.gif": {
+      "records": 20,
+      "duration_ms": 2800,
+      "sha256": "95c34b0a749d3d2a2606afe2f16528ad16c0673629fdf33780acd27b5445420a"
+    },
+    "shaft-shove-slow.gif": {
+      "records": 20,
+      "duration_ms": 11200,
+      "sha256": "fec1cf99bf5ce01d14ff5cbd3b12f7b1c4f2462d91c997dd6bff7cda44300da9"
+    },
+    "low-high.gif": {
+      "records": 20,
+      "duration_ms": 2800,
+      "sha256": "f3082c027b11d3f5df9da922ebc449508f15ccbe46770251e621de601af29049"
+    },
+    "low-high-slow.gif": {
+      "records": 20,
+      "duration_ms": 11200,
+      "sha256": "a740d1aeda9cd2a5914b573879b573dd2ee6c60bd4b311d3ced61843e52a6802"
+    },
+    "comparison.gif": {
+      "records": 28,
+      "duration_ms": 2800,
+      "sha256": "22d63f801b2c15e8597a5129a0582ae29d626815a7ef20e48d2af7f4b57433de"
+    },
+    "comparison-slow.gif": {
+      "records": 28,
+      "duration_ms": 11200,
+      "sha256": "2c5ef02d6109c9d239d37fe7f0763901db472184dc72d938522fd7f01d842ecb"
+    }
+  }
+}

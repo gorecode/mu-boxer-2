@@ -1,0 +1,1966 @@
+{
+  "shaft-shove": [
+    {
+      "time_ms": 0,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 40,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 80,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 120,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 160,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 200,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 240,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 280,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 320,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 360,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 400,
+      "worker": "worker-5",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Лопата поперёк корпуса · подготовка отбоя"
+    },
+    {
+      "time_ms": 440,
+      "worker": "worker-5",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Лопата поперёк корпуса · подготовка отбоя"
+    },
+    {
+      "time_ms": 480,
+      "worker": "worker-5",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Лопата поперёк корпуса · подготовка отбоя"
+    },
+    {
+      "time_ms": 520,
+      "worker": "worker-5",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Лопата поперёк корпуса · подготовка отбоя"
+    },
+    {
+      "time_ms": 560,
+      "worker": "worker-5",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Короткий ответ из защиты"
+    },
+    {
+      "time_ms": 600,
+      "worker": "worker-5",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Короткий ответ из защиты"
+    },
+    {
+      "time_ms": 640,
+      "worker": "shove",
+      "boxer": "boxer-6",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": 0,
+      "contact": [
+        842,
+        445
+      ],
+      "blocked": false,
+      "label": "Древком в корпус → отталкивание"
+    },
+    {
+      "time_ms": 680,
+      "worker": "shove",
+      "boxer": "boxer-6",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": 40,
+      "contact": [
+        842,
+        445
+      ],
+      "blocked": false,
+      "label": "Древком в корпус → отталкивание"
+    },
+    {
+      "time_ms": 720,
+      "worker": "shove",
+      "boxer": "boxer-6",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": 80,
+      "contact": [
+        842,
+        445
+      ],
+      "blocked": false,
+      "label": "Древком в корпус → отталкивание"
+    },
+    {
+      "time_ms": 760,
+      "worker": "shove",
+      "boxer": "boxer-6",
+      "wx": 960,
+      "bx": 696.9387755102041,
+      "spark": 120,
+      "contact": [
+        842,
+        445
+      ],
+      "blocked": false,
+      "label": "Древком в корпус → отталкивание"
+    },
+    {
+      "time_ms": 800,
+      "worker": "worker-5",
+      "boxer": "boxer-6",
+      "wx": 960,
+      "bx": 652.0408163265306,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Боксёр отодвинут · Рабочий возвращает защиту"
+    },
+    {
+      "time_ms": 840,
+      "worker": "worker-5",
+      "boxer": "boxer-6",
+      "wx": 960,
+      "bx": 615.3061224489795,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Боксёр отодвинут · Рабочий возвращает защиту"
+    },
+    {
+      "time_ms": 880,
+      "worker": "worker-0",
+      "boxer": "boxer-6",
+      "wx": 960,
+      "bx": 586.7346938775511,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 920,
+      "worker": "worker-0",
+      "boxer": "boxer-6",
+      "wx": 960,
+      "bx": 566.3265306122448,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 960,
+      "worker": "worker-0",
+      "boxer": "boxer-6",
+      "wx": 960,
+      "bx": 554.0816326530612,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1000,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1040,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1080,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1120,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1160,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1200,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1240,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1280,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1320,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1360,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1400,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1440,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1480,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1520,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1560,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1600,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1640,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1680,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1720,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1760,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1800,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1840,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1880,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1920,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 1960,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 2000,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 2040,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 2080,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 2120,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 2160,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 2200,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 550.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Дистанция восстановлена · без падения"
+    },
+    {
+      "time_ms": 2240,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2280,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2320,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2360,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2400,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2440,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2480,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2520,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2560,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2600,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2640,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2680,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2720,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2760,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 960,
+      "bx": 750.0,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    }
+  ],
+  "low-high": [
+    {
+      "time_ms": 0,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 40,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 80,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 120,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 160,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 200,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 240,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 280,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 320,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 360,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 400,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 440,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 480,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 520,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 560,
+      "worker": "worker-7",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Подготовка низкого удара · нижний блок"
+    },
+    {
+      "time_ms": 600,
+      "worker": "worker-7",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Подготовка низкого удара · нижний блок"
+    },
+    {
+      "time_ms": 640,
+      "worker": "worker-7",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Подготовка низкого удара · нижний блок"
+    },
+    {
+      "time_ms": 680,
+      "worker": "worker-7",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Подготовка низкого удара · нижний блок"
+    },
+    {
+      "time_ms": 720,
+      "worker": "worker-7",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Подготовка низкого удара · нижний блок"
+    },
+    {
+      "time_ms": 760,
+      "worker": "worker-7",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Подготовка низкого удара · нижний блок"
+    },
+    {
+      "time_ms": 800,
+      "worker": "worker-7",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Подготовка низкого удара · нижний блок"
+    },
+    {
+      "time_ms": 840,
+      "worker": "worker-7",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Подготовка низкого удара · нижний блок"
+    },
+    {
+      "time_ms": 880,
+      "worker": "worker-9",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": 0,
+      "contact": [
+        755,
+        760
+      ],
+      "blocked": true,
+      "label": "Первый контакт · низкий блок"
+    },
+    {
+      "time_ms": 920,
+      "worker": "worker-9",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": 40,
+      "contact": [
+        755,
+        760
+      ],
+      "blocked": true,
+      "label": "Первый контакт · низкий блок"
+    },
+    {
+      "time_ms": 960,
+      "worker": "worker-9",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": 80,
+      "contact": [
+        755,
+        760
+      ],
+      "blocked": true,
+      "label": "Первый контакт · низкий блок"
+    },
+    {
+      "time_ms": 1000,
+      "worker": "worker-9",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": 120,
+      "contact": [
+        755,
+        760
+      ],
+      "blocked": true,
+      "label": "Первый контакт · низкий блок"
+    },
+    {
+      "time_ms": 1040,
+      "worker": "worker-7",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Раздельные удары · лопата начинает подниматься"
+    },
+    {
+      "time_ms": 1080,
+      "worker": "worker-7",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Раздельные удары · лопата начинает подниматься"
+    },
+    {
+      "time_ms": 1120,
+      "worker": "worker-3",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Читаемый верхний замах · встаём в блок"
+    },
+    {
+      "time_ms": 1160,
+      "worker": "worker-3",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Читаемый верхний замах · встаём в блок"
+    },
+    {
+      "time_ms": 1200,
+      "worker": "worker-3",
+      "boxer": "boxer-25",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Читаемый верхний замах · встаём в блок"
+    },
+    {
+      "time_ms": 1240,
+      "worker": "worker-3",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Читаемый верхний замах · встаём в блок"
+    },
+    {
+      "time_ms": 1280,
+      "worker": "worker-3",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Читаемый верхний замах · встаём в блок"
+    },
+    {
+      "time_ms": 1320,
+      "worker": "worker-3",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Читаемый верхний замах · встаём в блок"
+    },
+    {
+      "time_ms": 1360,
+      "worker": "worker-3",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Читаемый верхний замах · встаём в блок"
+    },
+    {
+      "time_ms": 1400,
+      "worker": "worker-8",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": 0,
+      "contact": [
+        790,
+        350
+      ],
+      "blocked": true,
+      "label": "Второй контакт · верхний блок"
+    },
+    {
+      "time_ms": 1440,
+      "worker": "worker-8",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": 40,
+      "contact": [
+        790,
+        350
+      ],
+      "blocked": true,
+      "label": "Второй контакт · верхний блок"
+    },
+    {
+      "time_ms": 1480,
+      "worker": "worker-8",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": 80,
+      "contact": [
+        790,
+        350
+      ],
+      "blocked": true,
+      "label": "Второй контакт · верхний блок"
+    },
+    {
+      "time_ms": 1520,
+      "worker": "worker-8",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": 120,
+      "contact": [
+        790,
+        350
+      ],
+      "blocked": true,
+      "label": "Второй контакт · верхний блок"
+    },
+    {
+      "time_ms": 1560,
+      "worker": "worker-7",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Окончание связки · окно для ответа"
+    },
+    {
+      "time_ms": 1600,
+      "worker": "worker-7",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Окончание связки · окно для ответа"
+    },
+    {
+      "time_ms": 1640,
+      "worker": "worker-7",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Окончание связки · окно для ответа"
+    },
+    {
+      "time_ms": 1680,
+      "worker": "worker-7",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Окончание связки · окно для ответа"
+    },
+    {
+      "time_ms": 1720,
+      "worker": "worker-0",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Связка завершена · окно для ответа"
+    },
+    {
+      "time_ms": 1760,
+      "worker": "worker-0",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Связка завершена · окно для ответа"
+    },
+    {
+      "time_ms": 1800,
+      "worker": "worker-0",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Связка завершена · окно для ответа"
+    },
+    {
+      "time_ms": 1840,
+      "worker": "worker-0",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Связка завершена · окно для ответа"
+    },
+    {
+      "time_ms": 1880,
+      "worker": "worker-0",
+      "boxer": "boxer-4",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Связка завершена · окно для ответа"
+    },
+    {
+      "time_ms": 1920,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Оба удара заблокированы · низ → верх"
+    },
+    {
+      "time_ms": 1960,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Оба удара заблокированы · низ → верх"
+    },
+    {
+      "time_ms": 2000,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Оба удара заблокированы · низ → верх"
+    },
+    {
+      "time_ms": 2040,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Оба удара заблокированы · низ → верх"
+    },
+    {
+      "time_ms": 2080,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Оба удара заблокированы · низ → верх"
+    },
+    {
+      "time_ms": 2120,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Оба удара заблокированы · низ → верх"
+    },
+    {
+      "time_ms": 2160,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Оба удара заблокированы · низ → верх"
+    },
+    {
+      "time_ms": 2200,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Оба удара заблокированы · низ → верх"
+    },
+    {
+      "time_ms": 2240,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2280,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2320,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2360,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2400,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2440,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2480,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2520,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2560,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2600,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2640,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2680,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2720,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    },
+    {
+      "time_ms": 2760,
+      "worker": "worker-0",
+      "boxer": "boxer-0",
+      "wx": 1060,
+      "bx": 710,
+      "spark": -1,
+      "contact": [
+        880,
+        440
+      ],
+      "blocked": false,
+      "label": "Рабочий держит дистанцию"
+    }
+  ]
+}
