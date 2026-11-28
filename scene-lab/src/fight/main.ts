@@ -126,7 +126,7 @@ function update(): void {
   }
   guardStatus.dataset.state = guardState;
   if (guardStatus.textContent !== guardText) guardStatus.textContent = guardText;
-  const names = { jab: 'ДЖЕБ', cross: 'ВТОРОЙ ЛЁГКИЙ', heavy: 'ТЯЖЁЛЫЙ', low: 'ПО НОГАМ', upper: 'АППЕРКОТ', rising: 'АППЕРКОТ СТОЯ', leadKick: 'ПРЯМОЙ ПЕРЕДНЕЙ НОГОЙ', rearKick: 'ПРЯМОЙ ЗАДНЕЙ НОГОЙ', doublePiston: 'ДВОЙНОЙ ПОРШЕНЬ', heelSlide: 'ПОДКАТ ПЯТКОЙ', crouchKick: 'ПРЯМОЙ ИЗ ПРИСЕДА', crouchSweep: 'ПОДСЕЧКА С ОПОРОЙ', long: 'ДЛИННЫЙ ПРЯМОЙ', overhand: 'СВЕРХУ', backfist: 'БЭКФИСТ', ram: 'ТАРАННЫЙ ПРЯМОЙ', counter: 'ПОДШАГ → ДВОЙКА', poke: 'ТЫЧОК', sweep: 'ПОДСЕЧКА', overhead: 'СВЕРХУ', thrust: 'ВЫПАД', spin: 'ВЕРТУШКА' };
+  const names = { jab: 'ДЖЕБ', cross: 'ВТОРОЙ ЛЁГКИЙ', heavy: 'ТЯЖЁЛЫЙ', low: 'ПО НОГАМ', upper: 'АППЕРКОТ', rising: 'АППЕРКОТ СТОЯ', leadKick: 'ПРЯМОЙ ПЕРЕДНЕЙ НОГОЙ', rearKick: 'ПРЯМОЙ ЗАДНЕЙ НОГОЙ', doublePiston: 'ДВОЙНОЙ ПОРШЕНЬ', heelSlide: 'ПОДКАТ ПЯТКОЙ', crouchKick: 'ПРЯМОЙ ИЗ ПРИСЕДА', crouchSweep: 'ПОДСЕЧКА С ОПОРОЙ', long: 'ДЛИННЫЙ ПРЯМОЙ', overhand: 'СВЕРХУ', backfist: 'БЭКФИСТ', ram: 'ТАРАННЫЙ ПРЯМОЙ', counter: 'ПОДШАГ → ДВОЙКА', poke: 'ТЫЧОК', sweep: 'ПОДСЕЧКА', overhead: 'СВЕРХУ', thrust: 'ВЫПАД', spin: 'ВЕРТУШКА', shove: 'ОТБОЙ ДРЕВКОМ', lowHigh: 'ПОДСЕЧКА → СВЕРХУ' };
   const technique = fight.player.action?.kind === 'heavy' ? fight.player.action.hand === 'right' ? 'ПРАВЫЙ БОКОВОЙ' : 'ЛЕВЫЙ БОКОВОЙ'
     : fight.player.action ? names[fight.player.action.kind] : 'СТОЙКА';
   element('player-technique').textContent = `ПРИЁМ: ${technique}${fight.comboQueue.length ? ' → ' + fight.comboQueue.map(kind => names[kind]).join(' → ') : ''}`;
@@ -169,7 +169,9 @@ function update(): void {
   if (attack) {
     const m = celAt(attack.kind, attack.time).cel.phase;
     if (m === 'settle' || m === 'recovery') hint = 'ВОЗВРАЩАЕТ ЛОПАТУ — ОКНО ДЛЯ ОТВЕТА';
-    else hint = attack.kind === 'sweep' ? 'ЛОПАТА НИЗКО — НИЗКИЙ БЛОК ИЛИ ОТОЙДИ'
+    else hint = attack.kind === 'shove' ? 'ОТБОЙ ДРЕВКОМ — БЛОК ИЛИ ВЫЙДИ ИЗ ТЕСНОТЫ'
+      : attack.kind === 'lowHigh' ? celAt(attack.kind, attack.time).index < 3 ? 'СВЯЗКА: СНАЧАЛА НИЗ — НИЗКИЙ БЛОК' : 'СВЯЗКА: ТЕПЕРЬ СВЕРХУ — ВСТАНЬ В БЛОК'
+      : attack.kind === 'sweep' ? 'ЛОПАТА НИЗКО — НИЗКИЙ БЛОК ИЛИ ОТОЙДИ'
       : attack.kind === 'overhead' ? 'УДАР СВЕРХУ — БЛОК СТОЯ ИЛИ ОТСТУПИ'
       : attack.kind === 'spin' ? 'ВЕРТУШКА — ДВА УДАРА. БЛОК И ОТВЕТ ПОСЛЕ ОСТАНОВКИ'
       : attack.kind === 'thrust' ? 'ДАЛЬНИЙ ВЫПАД — ОТСТУПИ ИЛИ ПОСТАВЬ БЛОК' : 'ТЫЧОК — ПРИСЯДЬ ИЛИ ПОСТАВЬ БЛОК';

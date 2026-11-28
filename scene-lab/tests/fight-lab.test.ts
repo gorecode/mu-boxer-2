@@ -33,7 +33,7 @@ test('editor rejects invalid duration, pose, phase and rectangles atomically', (
   const before = JSON.stringify(moves.jab.cels);
   for (const duration of [NaN, Infinity, 0, 1/121, 2.01]) assert.throws(() => editCel('jab', 0, { duration, pose: 2 }), RangeError);
   for (const pose of [-1, 28, .5, NaN]) assert.throws(() => editCel('jab', 1, { pose }), RangeError);
-  assert.throws(() => editCel('poke', 1, { pose: 12 }), RangeError);
+  assert.throws(() => editCel('poke', 1, { pose: 13 }), RangeError);
   assert.throws(() => editCel('jab', 7, { pose: 0 }), RangeError);
   for (const b of [{ left: 20, right: 10, bottom: 0, top: 10 }, { left: -601, right: 10, bottom: 0, top: 10 }, { left: 0, right: 10, bottom: 20, top: 10 }, { left: 0, right: 10, bottom: 0, top: 801 }]) assert.throws(() => editCel('jab', 1, { hit: [b] }), RangeError);
   assert.throws(() => editCel('jab', 0, { hit: [] }), RangeError);
@@ -102,7 +102,7 @@ test('CPU acts on a previous observation rather than the current attack and stay
   advance(s, .18); advance(copy, .18); assert.equal(s.worker.blocking, true); assert.deepEqual(s, copy);
   assert.equal(s.brain.intent, 'guard');
   const mistake = ready(); mistake.training.enabled = false; mistake.aiWait = 999; mistake.worker.invulnerable = 99;
-  Object.assign(mistake.brain, { timer: 0, decisions: 6, observedDistance: 200, observedAttack: 'heavy', recovering: false });
+  Object.assign(mistake.brain, { timer: 0, decisions: 4, observedDistance: 200, observedAttack: 'heavy', recovering: false });
   mistake.player.action = { kind: 'heavy', time: .1, connected: false };
   stepFight(mistake, idleInput(), 1/120); assert.equal(mistake.brain.intent, 'retreat');
   mistake.brain.timer = 0; stepFight(mistake, idleInput(), 1/120); assert.equal(mistake.brain.intent, 'guard');
