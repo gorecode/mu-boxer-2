@@ -103,7 +103,7 @@ test('a real hit launches once; hitstop, pause and training save/load keep the c
   await expect(page.locator('#edit-right')).toHaveValue('175');
   await expect(page.locator('#edit-bottom')).toHaveValue('400');
   expect(Number(await arena.getAttribute('data-player-y'))).toBeGreaterThan(30);
-  await page.locator('#edit-attack').selectOption('poke'); await expect(page.locator('#edit-pose')).toHaveAttribute('max', '11');
+  await page.locator('#edit-attack').selectOption('poke'); await expect(page.locator('#edit-pose')).toHaveAttribute('max', '12');
 });
 
 test('up+J also works in a regular fight and missing new art reports a retryable error', async ({ page }) => {

@@ -281,6 +281,13 @@
       "anchorX": 358,
       "anchorY": 211,
       "scale": 0.88
+    },
+    {
+      "width": 500,
+      "height": 550,
+      "anchorX": 228,
+      "anchorY": 525,
+      "scale": 1.22
     }
   ],
   "jab": [

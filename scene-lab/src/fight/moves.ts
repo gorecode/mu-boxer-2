@@ -1,8 +1,9 @@
-export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising' | 'leadKick' | 'rearKick' | 'doublePiston' | 'heelSlide' | 'crouchKick' | 'crouchSweep';
+export type Attack = 'jab' | 'cross' | 'heavy' | 'low' | 'upper' | 'poke' | 'sweep' | 'overhead' | 'thrust' | 'spin' | 'shove' | 'lowHigh' | 'long' | 'overhand' | 'backfist' | 'ram' | 'counter' | 'rising' | 'leadKick' | 'rearKick' | 'doublePiston' | 'heelSlide' | 'crouchKick' | 'crouchSweep';
+export const workerAttacks: Attack[] = ['poke', 'sweep', 'overhead', 'thrust', 'spin', 'shove', 'lowHigh'];
 export interface Box { left: number; bottom: number; right: number; top: number }
 export type CelPhase = 'windup' | 'active' | 'settle' | 'recovery';
 export interface Cel { phase: CelPhase; duration: number; pose: number; hurt: Box[]; hit: Box[] }
-export interface Move { cels: Cel[]; readonly windup: number; readonly active: number; readonly recovery: number; readonly range: number; damage: number; level: 'high' | 'mid' | 'low' | 'overhead'; push: number; hitstun: number; stop: [number, number]; reaction: 'light' | 'heavy' | 'launch' | 'down'; lift: number; strikes?: Partial<Pick<Move, 'damage' | 'push' | 'hitstun' | 'stop' | 'reaction' | 'lift'>>[] }
+export interface Move { cels: Cel[]; readonly windup: number; readonly active: number; readonly recovery: number; readonly range: number; damage: number; level: 'high' | 'mid' | 'low' | 'overhead'; push: number; hitstun: number; stop: [number, number]; reaction: 'light' | 'heavy' | 'launch' | 'down'; lift: number; strikes?: Partial<Pick<Move, 'damage' | 'level' | 'push' | 'hitstun' | 'stop' | 'reaction' | 'lift'>>[] }
 const box = (left: number, bottom: number, right: number, top: number): Box => ({ left, bottom, right, top });
 export const standing = [box(-65, 0, 65, 180), box(-65, 180, 65, 450), box(-45, 450, 50, 570)];
 export const crouching = [box(-65, 0, 65, 155), box(-55, 155, 75, 265)];
@@ -68,6 +69,14 @@ export const moves: Record<Attack, Move> = {
   thrust: move([.42, .13, .12, .65], [1, 2, 2, 7], [290, 420], false, { range: 340, damage: 14, level: 'mid', push: 55, hitstun: .38, stop: [.05, .075], reaction: 'heavy', lift: 0 }),
   spin: move([.65, .9, .16, .65], [3, 4, 1, 7], [125, 400], false, { range: 320, damage: 16, level: 'mid', push: 35, hitstun: .25, stop: [.035, .055], reaction: 'light', lift: 0 }),
   overhead: move([.6, .12, .09, .41], [3, 8, 8, 7], [0, 490], false, { range: 421, damage: 22, level: 'overhead', push: 65, hitstun: .5, stop: [.075, .1], reaction: 'heavy', lift: 0 }),
+  shove: move([.24, .16, .08, .20], [5, 12, 5, 0], [230, 440], false,
+    { range: 215, damage: 8, level: 'mid', push: 200, hitstun: .38, stop: [.065, .08], reaction: 'heavy', lift: 0 }),
+  lowHigh: sequence([
+    cel('windup', .32, 7), cel('active', .16, 9, [box(55, 0, 432, 65)]),
+    cel('settle', .08, 7), cel('windup', .28, 3), cel('active', .16, 8, [box(55, 0, 356, 490)]),
+    cel('settle', .16, 7), cel('recovery', .28, 0),
+  ], { range: 497, damage: 8, level: 'low', push: 12, hitstun: .26, stop: [.04, .06], reaction: 'light', lift: 0,
+    strikes: [{}, { damage: 16, level: 'overhead', push: 75, hitstun: .45, stop: [.065, .085], reaction: 'heavy' }] }),
 };
 export function risingHop(time: number): number {
   const start = moves.rising.cels[0].duration;
@@ -104,6 +113,7 @@ export const boxerHurtByPose: Partial<Record<number, Box[]>> = {
   13: [box(-255, 0, -120, 250), box(-50, 0, 145, 270), box(-145, 260, 40, 480), box(-90, 470, 25, 585), box(-55, 355, 55, 475), box(0, 440, 145, 515)],
 };
 const workerHurtByPose: Partial<Record<number, Box[]>> = {
+  12: [box(-105, 0, 100, 165), box(-70, 160, 65, 385), box(-10, 385, 65, 520), box(45, 285, 130, 420)],
   2: [...standing, box(55, 335, 165, 400)],
   4: [box(-65, 0, 65, 180), box(-60, 180, 85, 405), box(-40, 405, 65, 480)],
   7: [box(-70, 0, 80, 150), box(-35, 140, 70, 340), box(45, 340, 110, 425)],
@@ -111,7 +121,7 @@ const workerHurtByPose: Partial<Record<number, Box[]>> = {
   9: [box(-140, 0, 120, 135), box(-20, 135, 185, 270), box(175, 270, 245, 335)],
 };
 function hurtForPose(kind: string, pose: number): Box[] {
-  const worker = ['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind);
+  const worker = workerAttacks.includes(kind as Attack);
   return (worker ? workerHurtByPose : boxerHurtByPose)[pose] ?? (!worker && pose === 5 ? crouching : standing);
 }
 for (const [kind, m] of Object.entries(moves)) {
@@ -173,7 +183,7 @@ export function resetCels(): void {
 export function editCel(kind: Attack, index: number, patch: Partial<Pick<Cel, 'duration' | 'pose' | 'hit'>>): void {
   const cel = moves[kind]?.cels[index];
   if (!cel || (patch.duration !== undefined && (!Number.isFinite(patch.duration) || patch.duration < 1/120 || patch.duration > 2)) ||
-    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind) ? 11 : 27))) ||
+    (patch.pose !== undefined && (!Number.isInteger(patch.pose) || patch.pose < 0 || patch.pose > (workerAttacks.includes(kind) ? 12 : 27))) ||
     (patch.hit !== undefined && (cel.phase !== 'active' || patch.hit.length !== 1 || patch.hit.some(b =>
       ![b.left, b.right, b.bottom, b.top].every(Number.isFinite) || b.left < -600 || b.right > 600 || b.bottom < 0 || b.top > 800 || b.left >= b.right || b.bottom >= b.top)))) {
     throw new RangeError('Недопустимые параметры фазы.');

@@ -112,7 +112,7 @@ test('phase-two pressure shortens pauses, fatigue lengthens them, without changi
     stepFight(s, idleInput(), dt); assert.equal(s.worker.action?.kind, 'poke'); waits.push(s.aiWait);
     assert.equal(s.worker.action!.time, 0);
   }
-  assert.deepEqual(waits, [.7, .3, 1.4]);
+  assert.deepEqual(waits, [.32, .18, .65]);
   const hit = ready(200); hit.worker.hp = 80; stepFight(hit, idleInput(), dt);
   stepFight(hit, { ...idleInput(), attackPressed: 'jab' }, dt); advance(hit, .15);
   assert.ok(hit.worker.stun > 0); const before = hit.brain.stageTime; advance(hit, .1);

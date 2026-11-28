@@ -1,5 +1,5 @@
 import { boxerPose, jabFrame, crossFrame, walkFrame } from './boxer-animation.ts';
-import { celAt, strikeAt } from './moves.ts';
+import { celAt, strikeAt, strikeMove } from './moves.ts';
 import { fighterGeometry } from './geometry.ts';
 import { endingTiming, moves, type Fight, type Fighter, type FightEvent } from './model.ts';
 
@@ -20,15 +20,15 @@ export async function loadAssets(): Promise<Assets> {
   if (!response.ok) throw new Error('Не загрузился список рисунков.');
   const manifest = await response.json() as Assets['manifest'];
   for (const name of ['boxer', 'worker', 'jab', 'walk', 'cross'] as const) {
-    if (!Array.isArray(manifest[name]) || manifest[name].length !== ({ boxer: 28, worker: 12, jab: 2, walk: 4, cross: 1 }[name]) || manifest[name].some(f =>
+    if (!Array.isArray(manifest[name]) || manifest[name].length !== ({ boxer: 28, worker: 13, jab: 2, walk: 4, cross: 1 }[name]) || manifest[name].some(f =>
       ![f.width, f.height, f.anchorX, f.anchorY, f.scale].every(Number.isFinite) || f.width <= 0 || f.height <= 0 || f.scale <= 0 || f.scale > 3)) {
       throw new Error('Повреждён список поз бойцов.');
     }
   }
   const images = await Promise.all(['arena.webp', ...Array.from({ length: 28 }, (_, i) => `boxer-${i}.webp`),
-    ...Array.from({ length: 12 }, (_, i) => `worker-${i}.webp`), ...Array.from({ length: 2 }, (_, i) => `jab-hybrid/jab-${i}.webp`),
+    ...Array.from({ length: 13 }, (_, i) => `worker-${i}.webp`), ...Array.from({ length: 2 }, (_, i) => `jab-hybrid/jab-${i}.webp`),
     ...Array.from({ length: 4 }, (_, i) => `walk/walk-${i}.webp`), 'cross-hybrid/cross-0.webp'].map(path => loadImage(assetBase + path)));
-  return { arena: images[0], boxer: images.slice(1, 29), worker: images.slice(29, 41), jab: images.slice(41, 43), walk: images.slice(43, 47), cross: images.slice(47), manifest };
+  return { arena: images[0], boxer: images.slice(1, 29), worker: images.slice(29, 42), jab: images.slice(42, 44), walk: images.slice(44, 48), cross: images.slice(48), manifest };
 }
 export class FightRenderer {
   private ctx: CanvasRenderingContext2D;
@@ -142,7 +142,7 @@ export class FightRenderer {
     }
     if (!this.reducedMotion) {
       let offset = 0, tilt = 0;
-      if (worker && f.action) {
+      if (worker && f.action && f.action.kind !== 'shove' && f.action.kind !== 'lowHigh') {
         const m = moves[f.action.kind], t = f.action.time;
         offset = t < m.windup ? -8 * Math.sin(t / m.windup * Math.PI / 2)
           : 10 * Math.max(0, 1 - (t - m.windup) / (m.active + m.recovery));
@@ -173,7 +173,8 @@ export class FightRenderer {
         c.strokeStyle = '#ffd1aa'; c.lineWidth = worker ? 5 : 8;
         const kick = f.action.kind === 'leadKick' || f.action.kind === 'rearKick' || f.action.kind === 'doublePiston' || f.action.kind === 'heelSlide' || f.action.kind === 'crouchKick' || f.action.kind === 'crouchSweep';
         const hit = celAt(f.action.kind, t).cel.hit[0];
-        const y = ground - f.y - (kick ? (hit.bottom + hit.top) / 2 : m.level === 'low' ? 115 : 405);
+        const level = strikeMove(f.action.kind, strikeAt(f.action.kind, t)).level;
+        const y = ground - f.y - (kick ? (hit.bottom + hit.top) / 2 : level === 'low' ? 115 : 405);
         c.beginPath(); c.moveTo(f.x + f.facing * 90, y - 15);
         if (kick) c.quadraticCurveTo(f.x + f.facing * hit.right * .6, y, f.x + f.facing * hit.right, y);
         else if (f.action.kind === 'rising') c.quadraticCurveTo(f.x + f.facing * 115, ground - f.y - 430, f.x + f.facing * 126, ground - f.y - 520);
@@ -186,10 +187,11 @@ export class FightRenderer {
   private workerCue(s: Fight): void {
     const f = s.worker, a = f.action, c = this.ctx;
     if (!a || f.hp <= 0 || f.reaction) return;
-    const winding = a.time < moves[a.kind].windup;
-    if (!['thrust', 'sweep', 'spin', 'overhead'].includes(a.kind)) return;
+    const { cel, index } = celAt(a.kind, a.time), winding = cel.phase === 'windup';
+    if (!['thrust', 'sweep', 'spin', 'overhead', 'shove', 'lowHigh'].includes(a.kind)) return;
     c.save(); c.translate(f.x, 820 - f.y); c.scale(f.facing, 1);
-    const height = a.kind === 'sweep' ? -65 : a.kind === 'overhead' ? -525 : -330;
+    const height = a.kind === 'sweep' || a.kind === 'lowHigh' && index < 3 ? -65
+      : a.kind === 'overhead' || a.kind === 'lowHigh' ? -525 : -330;
     c.strokeStyle = winding ? '#ffe0a6' : '#edb892'; c.lineWidth = winding ? 4 : 3;
     if (a.kind === 'spin') {
       c.globalAlpha = winding ? .8 : .45;

@@ -1,0 +1,42 @@
+{
+  "source": "assets/prototypes/gameplay/worker-move-previews/frames/shove-contact.png",
+  "source_sha256": "525694815e9854a7365f17b8b6c0271277de3ee8652c9e32291a31e019639358",
+  "runtime": "scene-lab/public/art/fight/worker-12.webp",
+  "runtime_sha256": "96a87495d4b494ec00f58700c06c34917d7dd37f159439f43a67495015785f93",
+  "registration": {
+    "width": 500,
+    "height": 550,
+    "anchorX": 228,
+    "anchorY": 525,
+    "scale": 1.22
+  },
+  "opaque_bounds": [
+    52,
+    103,
+    354,
+    524
+  ],
+  "unchanged_worker_sha256": {
+    "worker-0.webp": "b0db4eb58a12047833da6b58cc68325b88c4a805f729aea2f86b93733bedf05f",
+    "worker-9.webp": "a81e083bc1a046be3b173bf2acf9b06d9ce19915a247abdee62ba626b4c8c2e2",
+    "worker-4.webp": "40259295fa2e8034184dc0c42284c56138456e52e01fb816a706c159c68aca76",
+    "worker-10.webp": "8c6293573a72b31c66e0773f9ac1292dc2b5d8b8a448a9c81279a28e3a667b97",
+    "worker-3.webp": "c444c8022caa7a6a1c15113ee34069920ea210c806fed25f0cdc5390812ede97",
+    "worker-2.webp": "27b7e169cd17a1fb5b0a91dfc787358d0741b32405f91a984b4d425cebf8befc",
+    "worker-6.webp": "293f24f45131dbe5412376b0c54b2b5393572d0367b1fbe4347181802c4f989b",
+    "worker-5.webp": "a880d3e68921f884486fd38722c2cffaddb161dac591c401490ceaba7c97e1ab",
+    "worker-7.webp": "adcbf1f12a2b01ea4f3bd9d9b4fdb04c179f83ed6893832c07a5bd166e48e775",
+    "worker-8.webp": "b8436422de467e2b2e86f5056065aa068869e3131ebcf6f74cc1058565599678",
+    "worker-1.webp": "3f98846c7db23e549b6a829906e077ef613d4c04d8f192fd012d098cb1ad84f8",
+    "worker-11.webp": "2c478c008d5b02e96308cb4b89cc1eeb818f5cee98e7805866b94d2e7613cdaa"
+  },
+  "low_high_existing_poses": [
+    7,
+    9,
+    7,
+    3,
+    8,
+    7,
+    0
+  ]
+}

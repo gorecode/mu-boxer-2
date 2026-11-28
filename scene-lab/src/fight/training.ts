@@ -1,5 +1,5 @@
 import { copyTraining, idleInput, moves, type Attack, type Fight } from './model.ts';
-import { celAt, editCel, resetCels, risingHop, type Box } from './moves.ts';
+import { celAt, editCel, resetCels, risingHop, workerAttacks, type Box } from './moves.ts';
 import { fighterGeometry } from './geometry.ts';
 
 interface Host { fight(): Fight; replace(s: Fight): void; reset(): void; clear(): void; draw(): void; step(): void }
@@ -17,7 +17,7 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
   let drag: { id: number; index: number; x: number; y: number; box: Box } | null = null;
   const kind = () => attack.value as Attack;
   const index = () => Number(phase.value);
-  const actor = () => ['poke', 'sweep', 'overhead', 'thrust', 'spin'].includes(kind()) ? host.fight().worker : host.fight().player;
+  const actor = () => workerAttacks.includes(kind()) ? host.fight().worker : host.fight().player;
   const active = () => mode.checked && host.fight().phase === 'fighting';
   function fields(): void {
     const selected = Math.min(index(), moves[kind()].cels.length - 1);
@@ -29,7 +29,7 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
     phase.value = String(selected);
     const cel = moves[kind()].cels[index()];
     duration.value = String(Math.round(cel.duration * 1000)); pose.value = String(cel.pose);
-    pose.max = actor() === host.fight().worker ? '11' : '27';
+    pose.max = actor() === host.fight().worker ? '12' : '27';
     inputs.forEach((input, i) => { input.disabled = !cel.hit.length; input.value = String(cel.hit[0]?.[edges[i]] ?? 0); });
   }
   function refresh(): void {
@@ -52,7 +52,7 @@ export function mountTraining(canvas: HTMLCanvasElement, host: Host) {
     stop();
     const s = host.fight(), m = moves[kind()], time = m.cels.slice(0, index()).reduce((n, c) => n + c.duration, 0);
     for (const [i, f] of [s.player, s.worker].entries()) {
-      Object.assign(f, { x: i ? 900 : 600, y: 0, vy: 0, facing: i ? -1 : 1, action: null, reaction: null, stun: 0, stop: 0, hurt: 0, invulnerable: 0, knockback: 0, velocity: 0, walk: null, dodge: 0, blocking: false, crouch: false });
+      Object.assign(f, { x: i ? 900 : kind() === 'shove' ? 700 : 600, y: 0, vy: 0, facing: i ? -1 : 1, action: null, reaction: null, stun: 0, stop: 0, hurt: 0, invulnerable: 0, knockback: 0, velocity: 0, walk: null, dodge: 0, blocking: false, crouch: false });
     }
     actor().action = { kind: kind(), time: time + (kind() === 'spin' && index() === 1 ? m.active * .2 : Math.min(1/120, m.cels[index()].duration / 2)), connected: false };
     if (kind() === 'rising') actor().y = risingHop(actor().action!.time);

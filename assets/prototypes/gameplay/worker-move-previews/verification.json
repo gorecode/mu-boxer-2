@@ -53,7 +53,7 @@
     },
     "manifest": {
       "path": "scene-lab/public/art/fight/manifest.json",
-      "sha256": "cd8e49e43e3d62c967444d0fec79ca46938f29937fd5cbb7a60d2aa76af901fe"
+      "sha256": "604bd4be9b7646c77550c0b3b9713bf1029277f62c6c86f13f2beef74050be80"
     }
   },
   "shove_registration": {

@@ -66,7 +66,7 @@ test('uppercut carries the airborne victim substantially farther, mirrors and st
     assert.equal(wall.worker.x, facing === 1 ? 1385 : 215); assert.equal(wall.hits, 1);
   }
 });
-test('defensive worker holds ground, blocks repeated jabs with shovel and can answer before the next jab', () => {
+test('worker blocks repeated jabs, answers before the next jab and advances from long range', () => {
   for (const facing of [1, -1] as const) for (const wall of [false, true]) {
     const s = ready(facing);
     if (wall) { s.worker.x = facing === 1 ? 1385 : 215; s.player.x = s.worker.x - facing * 220; }
@@ -82,7 +82,7 @@ test('defensive worker holds ground, blocks repeated jabs with shovel and can an
     assert.ok(s.worker.hp > 40, 'jabs must not lock out every phase');
     const far = ready(facing); far.training.dummy = 'cpu'; far.player.x = far.worker.x - facing * 600;
     far.brain.observedDistance = 600; const x = far.worker.x; advance(far, .8);
-    assert.equal(far.worker.x, x); assert.equal(far.worker.action, null);
+    assert.ok((x - far.worker.x) * facing > 20); assert.equal(far.worker.action, null);
   }
 });
 test('far spin closes into punching distance and damages a stationary player; blocking still works', () => {
